@@ -11,8 +11,8 @@ import {
 import { verifyPassword } from "@/lib/auth";
 
 // Environment variables for Cloudflare D1
-const CF_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID || "52f76df902421a88a4a54e48bcee0321";
-const CF_DATABASE_ID = process.env.CLOUDFLARE_D1_DATABASE_ID || "29fc183a-7dbd-4763-acd1-686d01886113";
+const CF_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID || "b7ea767effeb7ee6eaa71e34a83c0a37";
+const CF_DATABASE_ID = process.env.CLOUDFLARE_D1_DATABASE_ID || "60411239-7a4e-40ce-9f08-8d4377697fe4";
 const CF_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN || "";
 
 const isCloudflareD1Configured = true;
