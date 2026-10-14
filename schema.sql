@@ -1,4 +1,3 @@
--- Bảng Dự Án (Projects)
 CREATE TABLE IF NOT EXISTS projects (
   id TEXT PRIMARY KEY,
   title TEXT NOT NULL,
@@ -11,14 +10,13 @@ CREATE TABLE IF NOT EXISTS projects (
   value TEXT,
   scale TEXT,
   thumbnail TEXT,
-  gallery TEXT, -- JSON array of URLs
+  gallery TEXT,
   description TEXT,
-  highlights TEXT, -- JSON array
+  highlights TEXT,
   featured INTEGER DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Bảng Tin Tức (News)
 CREATE TABLE IF NOT EXISTS news (
   id TEXT PRIMARY KEY,
   title TEXT NOT NULL,
@@ -35,7 +33,6 @@ CREATE TABLE IF NOT EXISTS news (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Bảng Tuyển Dụng (Jobs)
 CREATE TABLE IF NOT EXISTS jobs (
   id TEXT PRIMARY KEY,
   title TEXT NOT NULL,
@@ -45,14 +42,13 @@ CREATE TABLE IF NOT EXISTS jobs (
   deadline TEXT,
   working_hours TEXT,
   type TEXT,
-  description TEXT, -- JSON array
-  requirements TEXT, -- JSON array
-  benefits TEXT, -- JSON array
+  description TEXT,
+  requirements TEXT,
+  benefits TEXT,
   active INTEGER DEFAULT 1,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Bảng Slides Trang Chủ (Hero Slides)
 CREATE TABLE IF NOT EXISTS slides (
   id TEXT PRIMARY KEY,
   title TEXT NOT NULL,
@@ -60,18 +56,16 @@ CREATE TABLE IF NOT EXISTS slides (
   tag TEXT,
   image TEXT NOT NULL,
   projectLink TEXT,
-  stats TEXT, -- JSON string { label, value }
+  stats TEXT,
   order_index INTEGER DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Bảng Cấu Hình Doanh Nghiệp (Settings)
 CREATE TABLE IF NOT EXISTS settings (
   key TEXT PRIMARY KEY,
   value TEXT
 );
 
--- Bảng Người Dùng Quản Trị (Users)
 CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY,
   username TEXT UNIQUE NOT NULL,
@@ -81,7 +75,6 @@ CREATE TABLE IF NOT EXISTS users (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tài khoản quản trị mặc định: username = 'admin', password = 'trunghai@2026'
 INSERT OR IGNORE INTO users (id, username, password_hash, name, role)
 VALUES (
   'user-admin-1',
@@ -91,7 +84,6 @@ VALUES (
   'admin'
 );
 
--- Bảng Đối Tác & Khách Hàng (Partners)
 CREATE TABLE IF NOT EXISTS partners (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
@@ -101,4 +93,3 @@ CREATE TABLE IF NOT EXISTS partners (
   active INTEGER DEFAULT 1,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
