@@ -45,7 +45,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
   const email = settings.email || "info@trunghaico.vn";
   const taxCode = settings.taxCode || "0312019045";
   const companyName =
-    settings.name || "CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI";
+    settings.name || "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ";
 
   const googleMapsEmbedUrl =
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7093.4802225019375!2d106.7340018!3d10.7902063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175250025dd33df%3A0x79d9f143bf06960a!2zQ8O0bmcgdHkgQ1AgWMOieSBk4buxbmcgQ-G6p3UgxJHGsOG7nW5nIFRow6BuaCBQaMOhdA!5e1!3m2!1svi!2s!4v1791253228303!5m2!1svi!2s";
@@ -87,7 +87,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
               </div>
               <div className="space-y-1">
                 <span className="inline-block text-[11px] font-extrabold uppercase px-2 py-0.5 rounded-[3px] bg-red-50 text-[#ed3237]">
-                  {settings.shortName || "TRUNG HAI JSC"}
+                  {settings.shortName || "THÀNH PHÚ JSC"}
                 </span>
                 <h2 className="text-base sm:text-xl font-black text-slate-900 leading-snug">
                   {companyName}
@@ -390,7 +390,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                   Tuyển Dụng & Nhân Sự
                 </h4>
                 <p className="text-[11px] text-slate-500">
-                  Gia nhập đội ngũ kỹ sư Trung Hải
+                  Gia nhập đội ngũ kỹ sư Thành Phú
                 </p>
               </div>
             </div>

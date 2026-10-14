@@ -12,19 +12,19 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `TIN TỨC & SỰ KIỆN DOANH NGHIỆP | ${settings.name}`,
     description:
-      "Cập nhật những hoạt động nổi bật, tiến độ thi công các công trình trọng điểm, an toàn lao động và thông tin doanh nghiệp Trung Hải JSC.",
+      "Cập nhật những hoạt động nổi bật, tiến độ thi công các công trình trọng điểm, an toàn lao động và thông tin doanh nghiệp Thành Phú JSC.",
     keywords: [
-      "Tin tức Trung Hải",
-      "Sự kiện Trung Hải",
+      "Tin tức Thành Phú",
+      "Sự kiện Thành Phú",
       "Tiến độ công trình",
       "An toàn lao động",
       "Tin dự án hạ tầng",
-      "Tuyển dụng Trung Hải",
+      "Tuyển dụng Thành Phú",
     ],
     openGraph: {
       title: `TIN TỨC & SỰ KIỆN DOANH NGHIỆP | ${settings.name}`,
       description:
-        "Cập nhật thông tin mới nhất về các dự án thi công hầm đường bộ, cầu cạn và các chuyển động của Trung Hải JSC.",
+        "Cập nhật thông tin mới nhất về các dự án thi công hầm đường bộ, cầu cạn và các chuyển động của Thành Phú JSC.",
       url: "https://trunghaico.vn/tin-tuc",
       siteName: settings.name,
       locale: "vi_VN",
@@ -51,7 +51,7 @@ export default async function NewsPage() {
         "@id": "https://trunghaico.vn/tin-tuc/#webpage",
         "url": "https://trunghaico.vn/tin-tuc",
         "name": `Tin Tức & Sự Kiện | ${settings.name}`,
-        "description": "Tin tức công trình và sự kiện doanh nghiệp Trung Hải",
+        "description": "Tin tức công trình và sự kiện doanh nghiệp Thành Phú",
         "isPartOf": {
           "@type": "WebSite",
           "@id": "https://trunghaico.vn/#website",

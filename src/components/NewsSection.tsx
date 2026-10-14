@@ -33,7 +33,7 @@ export default function NewsSection({ initialNews }: NewsSectionProps) {
             TIN TỨC CÔNG TRÌNH & DOANH NGHIỆP
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal">
-            Cập nhật những chuyển động mới nhất về tiến độ thi công, phong trào thi đua và hoạt động của Trung Hải.
+            Cập nhật những chuyển động mới nhất về tiến độ thi công, phong trào thi đua và hoạt động của Thành Phú.
           </p>
         </div>
 

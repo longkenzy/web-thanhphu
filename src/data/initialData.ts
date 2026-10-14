@@ -5,15 +5,15 @@ export const initialUsers: User[] = [
     id: "user-admin-1",
     username: "admin",
     passwordHash: "03f2abc18e5d21007000b9c04c17edfea0800450ab1198a72fc535d589baf506",
-    name: "Quản Trị Viên Trung Hải",
+    name: "Quản Trị Viên Thành Phú",
     role: "admin",
     createdAt: "2026-10-02 00:00:00",
   },
 ];
 
 export const initialCompanySettings: CompanySettings = {
-  name: "CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI",
-  shortName: "TRUNG HAI JSC",
+  name: "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ",
+  shortName: "THÀNH PHÚ JSC",
   slogan: "Tiên phong kiến tạo những công trình giao thông huyết mạch",
   taxCode: "0312019045",
   address: "12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh",
@@ -80,7 +80,7 @@ export const initialProjects: Project[] = [
       "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
     ],
     description:
-      "Dự án Hầm đường bộ qua Đèo Cả là một trong những công trình giao thông trọng điểm quốc gia lớn nhất miền Trung. Trung Hải tham gia với vai trò nhà thầu thi công các hạng mục đào hầm, gia cố vỏ hầm bê tông và đường dẫn, áp dụng công nghệ đào hầm NATM tiên tiến của Áo.",
+      "Dự án Hầm đường bộ qua Đèo Cả là một trong những công trình giao thông trọng điểm quốc gia lớn nhất miền Trung. Thành Phú tham gia với vai trò nhà thầu thi công các hạng mục đào hầm, gia cố vỏ hầm bê tông và đường dẫn, áp dụng công nghệ đào hầm NATM tiên tiến của Áo.",
     highlights: [
       "Áp dụng phương pháp đào hầm NATM (New Austrian Tunnelling Method)",
       "Vượt qua các tầng địa chất đứt gãy phức tạp, độ ẩm cao",
@@ -249,7 +249,7 @@ export const initialProjects: Project[] = [
       "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?auto=format&fit=crop&w=1200&q=80",
     ],
     description:
-      "Gói thầu thi công xuyên suốt vùng đồi núi có độ dốc cao và thời tiết mưa lũ khắc nghiệt. Trung Hải áp dụng các giải pháp nổ mìn định hướng, bạt núi hạ cốt và thảm bê tông nhựa chịu nhiệt chống lún.",
+      "Gói thầu thi công xuyên suốt vùng đồi núi có độ dốc cao và thời tiết mưa lũ khắc nghiệt. Thành Phú áp dụng các giải pháp nổ mìn định hướng, bạt núi hạ cốt và thảm bê tông nhựa chịu nhiệt chống lún.",
     highlights: [
       "Khối lượng đào đắp đất đá hơn 3.2 triệu m3",
       "Hệ thống cống hộp thoát nước lũ khẩu độ lớn chống xói trôi",
@@ -287,14 +287,14 @@ export const initialProjects: Project[] = [
 export const initialNews: NewsPost[] = [
   {
     id: "news-1",
-    title: "Trung Hải đẩy mạnh ứng dụng công nghệ cơ giới hóa hiện đại trong thi công hầm",
+    title: "Thành Phú đẩy mạnh ứng dụng công nghệ cơ giới hóa hiện đại trong thi công hầm",
     slug: "ung-dung-cong-nghe-thi-cong-ham-hien-dai",
     category: "du-an",
     categoryName: "Tin Dự Án",
     summary:
-      "Công ty Cổ phần Xây dựng và Đầu tư Trung Hải tiếp tục đầu tư dàn xe khoan hầm thủy lực tự hành và máy phun bê tông robot thế hệ mới nhất.",
+      "Công ty Cổ phần Đầu tư Xây lắp Thành Phú tiếp tục đầu tư dàn xe khoan hầm thủy lực tự hành và máy phun bê tông robot thế hệ mới nhất.",
     content:
-      "Để đáp ứng yêu cầu khắt khe về kỹ thuật và tiến độ của các dự án giao thông trọng điểm quốc gia, Ban Lãnh đạo Công ty CP Xây dựng và Đầu tư Trung Hải đã quyết định đầu tư thêm hệ thống xe khoan hầm 2 cần tự hành, máy phun vẩy bê tông thế hệ mới nhập khẩu từ châu Âu. Việc này giúp tăng 30% tốc độ đào hầm đồng thời đảm bảo an toàn tuyệt đối cho người lao động tại gương hầm.",
+      "Để đáp ứng yêu cầu khắt khe về kỹ thuật và tiến độ của các dự án giao thông trọng điểm quốc gia, Ban Lãnh đạo Công ty CP Đầu tư Xây lắp Thành Phú đã quyết định đầu tư thêm hệ thống xe khoan hầm 2 cần tự hành, máy phun vẩy bê tông thế hệ mới nhập khẩu từ châu Âu. Việc này giúp tăng 30% tốc độ đào hầm đồng thời đảm bảo an toàn tuyệt đối cho người lao động tại gương hầm.",
     date: "15/09/2026",
     author: "Ban Biên Tập",
     thumbnail: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
@@ -307,24 +307,24 @@ export const initialNews: NewsPost[] = [
     category: "doanh-nghiep",
     categoryName: "Tin Doanh Nghiệp",
     summary:
-      "Tất cả các mũi thi công của Trung Hải tại miền Trung đồng loạt ra quân với tinh thần 'vượt nắng thắng mưa, ăn tranh thủ ngủ khẩn trương'.",
+      "Tất cả các mũi thi công của Thành Phú tại miền Trung đồng loạt ra quân với tinh thần 'vượt nắng thắng mưa, ăn tranh thủ ngủ khẩn trương'.",
     content:
-      "Hưởng ứng phong trào thi đua của ngành Giao thông vận tải, toàn thể cán bộ, kỹ sư và công nhân viên Công ty Trung Hải đã ký cam kết thi đua hoàn thành vượt tiến độ các hạng mục nền đường, đúc dầm và hạ tầng kỹ thuật trước mùa mưa bão.",
+      "Hưởng ứng phong trào thi đua của ngành Giao thông vận tải, toàn thể cán bộ, kỹ sư và công nhân viên Công ty Thành Phú đã ký cam kết thi đua hoàn thành vượt tiến độ các hạng mục nền đường, đúc dầm và hạ tầng kỹ thuật trước mùa mưa bão.",
     date: "02/08/2026",
-    author: "Công Đoàn Trung Hải",
+    author: "Công Đoàn Thành Phú",
     thumbnail: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
     featured: true,
   },
   {
     id: "news-3",
-    title: "Trung Hải nhận khen thưởng về công tác bảo đảm an toàn vệ sinh lao động xuất sắc",
+    title: "Thành Phú nhận khen thưởng về công tác bảo đảm an toàn vệ sinh lao động xuất sắc",
     slug: "khen-thuong-an-toan-lao-dong",
     category: "an-toan",
     categoryName: "An Toàn Lao Động",
     summary:
       "Trải qua hàng triệu giờ làm việc trên các công trình hầm và cầu đường, công ty luôn giữ vững chỉ số an toàn tuyệt đối.",
     content:
-      "Với phương châm 'An toàn là danh dự của người thợ cầu đường', Trung Hải thực hiện quy trình giám sát an toàn nghiêm ngặt từ khâu thông gió gương hầm, đo nồng độ khí độc, đến kiểm định máy móc định kỳ.",
+      "Với phương châm 'An toàn là danh dự của người thợ cầu đường', Thành Phú thực hiện quy trình giám sát an toàn nghiêm ngặt từ khâu thông gió gương hầm, đo nồng độ khí độc, đến kiểm định máy móc định kỳ.",
     date: "18/06/2026",
     author: "Phòng An Toàn HSE",
     thumbnail: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",

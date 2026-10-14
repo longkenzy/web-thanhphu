@@ -811,7 +811,7 @@ export default function AdminPage() {
           <div className="flex items-center gap-2">
             <span className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-[1px] bg-[#ed3237]" />
-              TRUNG HẢI
+              THÀNH PHÚ
             </span>
             <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-[3px] bg-red-50 text-[#ed3237] border border-red-200/80">
               Admin
@@ -1217,7 +1217,7 @@ export default function AdminPage() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
                       <h2 className="text-base font-bold text-slate-900">Quản lý công trình</h2>
-                      <p className="text-xs text-slate-500">Danh sách các dự án thi công của Trung Hải</p>
+                      <p className="text-xs text-slate-500">Danh sách các dự án thi công của Thành Phú</p>
                     </div>
                     {!isEditingProject && (
                       <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -1696,7 +1696,7 @@ export default function AdminPage() {
                               https://trunghaico.vn › tin-tuc › {newsForm.slug || "duong-dan-bai-viet"}
                             </div>
                             <div className="text-sm font-semibold text-blue-700 truncate hover:underline cursor-pointer">
-                              {newsForm.title || "Tiêu đề bài viết tin tức"} - Trung Hải JSC
+                              {newsForm.title || "Tiêu đề bài viết tin tức"} - Thành Phú JSC
                             </div>
                             <div className="text-[11px] text-slate-500 line-clamp-2">
                               {newsForm.summary || "Đoạn tóm tắt nội dung bài viết sẽ hiển thị tại đây trên kết quả tìm kiếm Google..."}

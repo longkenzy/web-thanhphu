@@ -1,6 +1,6 @@
-# website-trunghai
+# web-thanhphu
 
-Cổng thông tin điện tử chính thức **CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI** (`trunghaico.vn`).
+Cổng thông tin điện tử chính thức **CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ** (`trunghaico.vn`).
 
 ## 🛠 Công nghệ sử dụng
 - **Framework**: Next.js 16 (App Router), React 19, TypeScript

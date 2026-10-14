@@ -213,7 +213,7 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
             CÔNG TRÌNH TIÊU BIỂU
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal">
-            Những dấu ấn kiên cố mang thương hiệu Trung Hải trên khắp các tuyến đường huyết mạch quốc gia.
+            Những dấu ấn kiên cố mang thương hiệu Thành Phú trên khắp các tuyến đường huyết mạch quốc gia.
           </p>
         </div>
 

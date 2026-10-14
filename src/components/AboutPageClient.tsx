@@ -220,13 +220,13 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
       year: "2010",
       yearColor: "text-[#ed3237]",
       title: "Thành Lập Doanh Nghiệp",
-      desc: "Khởi đầu với tên gọi Công ty CP Xây dựng TTNT Trung Hải, tập trung vào thiết kế thi công nội thất và hoàn thiện công trình dân dụng.",
+      desc: "Khởi đầu với tên gọi Công ty CP Xây dựng TTNT Thành Phú, tập trung vào thiết kế thi công nội thất và hoàn thiện công trình dân dụng.",
     },
     {
       year: "2015",
       yearColor: "text-[#f59e0b]",
       title: "Mở Rộng Quy Mô Thi Công",
-      desc: "Nâng cấp thành Công ty CP Đầu tư Xây lắp Trung Hải, chính thức tham gia thi công các dự án nhà cao tầng và hạ tầng kỹ thuật đô thị.",
+      desc: "Nâng cấp thành Công ty CP Đầu tư Xây lắp Thành Phú, chính thức tham gia thi công các dự án nhà cao tầng và hạ tầng kỹ thuật đô thị.",
     },
     {
       year: "2020",
@@ -248,7 +248,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
       badge: "CƠ GIỚI",
       overlayTitle: "Dàn Cẩu Tháp 8 - 16 Tấn",
       overlaySub: "12 CẨU THÁP TỰ NÂNG ĐỒNG BỘ",
-      subText: "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP TRUNG HẢI • ISO 9001:2015",
+      subText: "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ • ISO 9001:2015",
       title: "Cẩu Tháp & Vận Thăng Lồng Tải Trọng Lớn",
       desc: "Dàn 12 cẩu tháp tự nâng tải trọng 8 – 16 tấn cùng hệ thống vận thăng đôi đạt chuẩn kiểm định an toàn quốc gia.",
       type: "crane",
@@ -257,7 +257,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
       badge: "THIẾT BỊ BÊ TÔNG",
       overlayTitle: "Trạm Bơm & Cốp Pha Nhôm",
       overlaySub: "XE BƠM CẦN 52M & VÁN KHUÔN ĐỒNG BỘ",
-      subText: "TRUNG HẢI JSC • ISO 9001:2015",
+      subText: "THÀNH PHÚ JSC • ISO 9001:2015",
       title: "Trạm Bơm & Cốp Pha Nhôm Nhập Khẩu",
       desc: "Xe bơm bê tông cần 52m, hệ ván khuôn cốp pha nhôm liền khối giúp bề mặt bê tông láng mịn không cần trát vữa dày.",
       type: "pump",
@@ -266,7 +266,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
       badge: "NHÀ XƯỞNG",
       overlayTitle: "Xưởng Sản Xuất Kết Cấu Thép",
       overlaySub: "CÔNG SUẤT 5.000 TẤN THÉP/NĂM",
-      subText: "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP TRUNG HẢI • ISO 9001:2015",
+      subText: "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ • ISO 9001:2015",
       title: "Nhà Xưởng Chế Tạo Kết Cấu Thép",
       desc: "Dây chuyền cắt CNC plasma, máy hàn tự động dầm H và xưởng lắp ráp cấu kiện nhôm kính công suất 5.000 tấn thép/năm.",
       type: "workshop",
@@ -296,10 +296,10 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
               {/* Paragraphs matching Image 1 */}
               <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
                 <p>
-                  Sự ra đời và phát triển của <strong className="font-bold text-slate-900">Công ty Cổ phần Xây dựng và Đầu tư Trung Hải</strong> là dấu mốc khẳng định hành trình nỗ lực, học hỏi, lao động và sáng tạo không ngừng của <strong className="font-bold text-slate-900">Chủ tịch Văn Phú Thành</strong> cùng những cộng sự đồng hành.
+                  Sự ra đời và phát triển của <strong className="font-bold text-slate-900">Công ty Cổ phần Đầu tư Xây lắp Thành Phú</strong> là dấu mốc khẳng định hành trình nỗ lực, học hỏi, lao động và sáng tạo không ngừng của <strong className="font-bold text-slate-900">Chủ tịch Văn Phú Thành</strong> cùng những cộng sự đồng hành.
                 </p>
                 <p>
-                  Trải qua nhiều thăng trầm, Trung Hải đã biến khó khăn thành cơ hội, thử thách thành động lực, từng bước khẳng định vị thế bằng bản lĩnh, niềm tin và khát vọng vươn lên. Từ những nền tảng ban đầu, tập thể Trung Hải hôm nay tiếp tục đồng lòng tiến về phía trước, viết tiếp hành trình phát triển và những giá trị bền vững cho tương lai.
+                  Trải qua nhiều thăng trầm, Thành Phú đã biến khó khăn thành cơ hội, thử thách thành động lực, từng bước khẳng định vị thế bằng bản lĩnh, niềm tin và khát vọng vươn lên. Từ những nền tảng ban đầu, tập thể Thành Phú hôm nay tiếp tục đồng lòng tiến về phía trước, viết tiếp hành trình phát triển và những giá trị bền vững cho tương lai.
                 </p>
               </div>
 
@@ -360,10 +360,10 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
                     </svg>
                   </div>
 
-                  {/* Top Red Badge matching Image 1: TRUNG HẢI XD */}
+                  {/* Top Red Badge matching Image 1: THÀNH PHÚ XD */}
                   <div className="relative z-10" style={{ transform: "translateZ(14px)" }}>
                     <span className="inline-block px-3 py-1 rounded-[2px] bg-[#ed3237] text-white text-[11px] font-bold uppercase tracking-wider shadow-md">
-                      TRUNG HẢI XD
+                      THÀNH PHÚ XD
                     </span>
                   </div>
 
@@ -379,7 +379,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
                       TỔNG THẦU THI CÔNG XÂY LẮP
                     </div>
                     <div className="text-[11px] text-slate-400 font-light pt-1">
-                      CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP TRUNG HẢI • ISO 9001:2015
+                      CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ • ISO 9001:2015
                     </div>
                   </div>
                 </div>
@@ -418,7 +418,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
               TẦM NHÌN - SỨ MỆNH - GIÁ TRỊ CỐT LÕI
             </h2>
             <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto font-normal">
-              Kim chỉ nam soi sáng mọi quyết định và hành động của tập thể cán bộ công nhân viên Trung Hải.
+              Kim chỉ nam soi sáng mọi quyết định và hành động của tập thể cán bộ công nhân viên Thành Phú.
             </p>
           </div>
 
@@ -506,7 +506,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
               CHẶNG ĐƯỜNG HÌNH THÀNH & LỚN MẠNH
             </h2>
             <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto font-normal">
-              Những cột mốc đáng tự hào đánh dấu sự chuyển mình mạnh mẽ của Trung Hải qua từng thời kỳ.
+              Những cột mốc đáng tự hào đánh dấu sự chuyển mình mạnh mẽ của Thành Phú qua từng thời kỳ.
             </p>
           </div>
 

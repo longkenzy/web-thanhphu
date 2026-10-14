@@ -144,7 +144,7 @@ export default function LoginPage() {
           <div className="w-7 h-7 rounded-[3px] bg-slate-900 border border-slate-800 flex items-center justify-center group-hover:border-slate-700 transition-colors">
             <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           </div>
-          <span>Về trang chủ Trung Hải</span>
+          <span>Về trang chủ Thành Phú</span>
         </Link>
       </header>
 
@@ -164,7 +164,7 @@ export default function LoginPage() {
                   <div className="relative bg-white px-3.5 py-1.5 rounded-[3px] shadow border border-slate-200">
                     <Image
                       src="/logo.png"
-                      alt="Trung Hải JSC Logo"
+                      alt="Thành Phú JSC Logo"
                       width={150}
                       height={38}
                       className="h-8 w-auto object-contain"
@@ -334,7 +334,7 @@ export default function LoginPage() {
       {/* Page Footer */}
       <footer className="relative z-10 w-full text-center py-2.5 text-[11px] text-slate-600 border-t border-slate-900/80">
         <p>
-          © {new Date().getFullYear()} CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI. All rights
+          © {new Date().getFullYear()} CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ. All rights
           reserved.
         </p>
       </footer>

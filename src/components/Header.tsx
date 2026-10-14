@@ -181,13 +181,14 @@ export default function Header({
                 href="/"
                 className="flex items-center group shrink-0 z-10 max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2"
               >
-                <div className="relative h-12 w-[56px] sm:h-[60px] sm:w-[71px] transition-transform duration-300 group-hover:scale-105">
+                <div className="relative h-10 w-40 sm:h-12 sm:w-48 lg:h-[52px] lg:w-[195px] xl:h-[56px] xl:w-[210px] transition-transform duration-300 group-hover:scale-105">
                   <Image
                     src="/logo.png"
-                    alt="Trung Hải JSC Logo"
+                    alt="Thành Phú JSC Logo"
                     fill
                     priority
-                    className="object-contain drop-shadow-sm"
+                    sizes="(max-width: 640px) 160px, (max-width: 1024px) 195px, 210px"
+                    className="object-contain max-lg:object-center lg:object-left drop-shadow-sm"
                   />
                 </div>
               </Link>

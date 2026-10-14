@@ -87,7 +87,7 @@ VALUES (
   'user-admin-1',
   'admin',
   '03f2abc18e5d21007000b9c04c17edfea0800450ab1198a72fc535d589baf506',
-  'Quản Trị Viên Trung Hải',
+  'Quản Trị Viên Thành Phú',
   'admin'
 );
 

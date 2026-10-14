@@ -8,14 +8,14 @@ export const revalidate = 0;
 
 // 1. Chuẩn SEO Tối Ưu Toàn Diện (Metadata API Next.js)
 export const metadata: Metadata = {
-  title: "Giới Thiệu Doanh Nghiệp | CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI",
+  title: "Giới Thiệu Doanh Nghiệp | CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ",
   description:
-    "Hơn 15 năm hình thành và phát triển. Công ty Cổ phần Xây dựng và Đầu tư Trung Hải (Trung Hải JSC) là tổng thầu uy tín thi công hạ tầng giao thông, hầm đường bộ, dân dụng và công nghiệp hàng đầu Việt Nam.",
+    "Hơn 15 năm hình thành và phát triển. Công ty Cổ phần Đầu tư Xây lắp Thành Phú (Thành Phú JSC) là tổng thầu uy tín thi công hạ tầng giao thông, hầm đường bộ, dân dụng và công nghiệp hàng đầu Việt Nam.",
   keywords: [
-    "giới thiệu Trung Hải",
-    "Công ty Cổ phần Xây dựng và Đầu tư Trung Hải",
-    "Trung Hải JSC",
-    "hồ sơ năng lực Trung Hải",
+    "giới thiệu Thành Phú",
+    "Công ty Cổ phần Đầu tư Xây lắp Thành Phú",
+    "Thành Phú JSC",
+    "hồ sơ năng lực Thành Phú",
     "nhà thầu thi công hạ tầng giao thông",
     "thi công hầm đường bộ",
     "xây lắp công nghiệp",
@@ -25,11 +25,11 @@ export const metadata: Metadata = {
     canonical: "https://trunghaico.vn/gioi-thieu",
   },
   openGraph: {
-    title: "Giới Thiệu Doanh Nghiệp | TRUNG HẢI JSC",
+    title: "Giới Thiệu Doanh Nghiệp | THÀNH PHÚ JSC",
     description:
       "Hơn 15 năm hình thành và phát triển, hoàn thành hơn 380 công trình trên toàn quốc. Đơn vị tiên phong thi công hạ tầng giao thông trọng điểm.",
     url: "https://trunghaico.vn/gioi-thieu",
-    siteName: "Trung Hải JSC",
+    siteName: "Thành Phú JSC",
     locale: "vi_VN",
     type: "website",
     images: [
@@ -37,13 +37,13 @@ export const metadata: Metadata = {
         url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "Công ty Cổ phần Xây dựng và Đầu tư Trung Hải",
+        alt: "Công ty Cổ phần Đầu tư Xây lắp Thành Phú",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Giới Thiệu Doanh Nghiệp | TRUNG HẢI JSC",
+    title: "Giới Thiệu Doanh Nghiệp | THÀNH PHÚ JSC",
     description:
       "Hơn 15 năm kiến tạo diện mạo đô thị và hạ tầng giao thông trọng điểm quốc gia.",
     images: ["/logo.png"],
@@ -61,21 +61,21 @@ export default async function GioiThieuPage() {
         "@type": "AboutPage",
         "@id": "https://trunghaico.vn/gioi-thieu/#webpage",
         url: "https://trunghaico.vn/gioi-thieu",
-        name: "Giới Thiệu Doanh Nghiệp | CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI",
+        name: "Giới Thiệu Doanh Nghiệp | CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ",
         description:
-          "Hơn 15 năm hình thành và phát triển của Công ty Cổ phần Xây dựng và Đầu tư Trung Hải.",
+          "Hơn 15 năm hình thành và phát triển của Công ty Cổ phần Đầu tư Xây lắp Thành Phú.",
         isPartOf: {
           "@type": "WebSite",
           "@id": "https://trunghaico.vn/#website",
           url: "https://trunghaico.vn",
-          name: "Trung Hải JSC",
+          name: "Thành Phú JSC",
         },
         inLanguage: "vi-VN",
       },
       {
         "@type": "Organization",
         "@id": "https://trunghaico.vn/#organization",
-        name: settings.name || "CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI",
+        name: settings.name || "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ",
         url: "https://trunghaico.vn",
         logo: "https://trunghaico.vn/logo.png",
         taxID: settings.taxCode || "0310001821",

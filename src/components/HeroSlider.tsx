@@ -83,7 +83,7 @@ export default function HeroSlider({ slides, intervalSeconds = 5 }: HeroSliderPr
                 >
                   <Image
                     src={slide.image}
-                    alt={slide.title || "Công trình Trung Hải"}
+                    alt={slide.title || "Công trình Thành Phú"}
                     fill
                     priority={index === 0}
                     className="object-cover object-center select-none"

@@ -25,11 +25,12 @@ export default function Footer({ settings }: FooterProps) {
           {/* Brand info (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
             <Link href="/" className="inline-block group">
-              <div className="relative h-16 sm:h-[72px] w-32 sm:w-36 transition-transform duration-300 group-hover:scale-105">
+              <div className="relative h-12 w-48 sm:h-14 sm:w-56 transition-transform duration-300 group-hover:scale-105">
                 <Image
                   src="/logo.png"
-                  alt="Trung Hải JSC Logo"
+                  alt="Thành Phú JSC Logo"
                   fill
+                  sizes="(max-width: 640px) 192px, 224px"
                   className="object-contain object-left drop-shadow"
                 />
               </div>
@@ -180,7 +181,7 @@ export default function Footer({ settings }: FooterProps) {
         {/* Bottom row */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-slate-300">
           <div>
-            © {new Date().getFullYear()} CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI. All rights reserved.
+            © {new Date().getFullYear()} CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ. All rights reserved.
           </div>
           <div className="flex items-center gap-6">
             <span className="text-slate-400 font-medium">Tiêu chuẩn ISO 9001:2015 & OHSAS 18001</span>

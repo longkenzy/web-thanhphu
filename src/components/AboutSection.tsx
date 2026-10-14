@@ -15,7 +15,7 @@ export default function AboutSection() {
             <div className="relative rounded-[3px] overflow-hidden shadow-lg aspect-[16/11] w-full bg-slate-100 border border-slate-200">
               <Image
                 src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80"
-                alt="Tập thể cán bộ công nhân viên Công ty Trung Hải"
+                alt="Tập thể cán bộ công nhân viên Công ty Thành Phú"
                 fill
                 priority
                 className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
@@ -46,12 +46,12 @@ export default function AboutSection() {
 
             {/* Main Title */}
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-tight uppercase">
-              CÔNG TY CỔ PHẦN XÂY DỰNG VÀ ĐẦU TƯ TRUNG HẢI
+              CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ
             </h2>
 
             {/* Paragraph 1 */}
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
-              Trung Hải là doanh nghiệp hoạt động chuyên sâu trong lĩnh vực thi công xây dựng công trình hạ tầng giao thông, hầm đường bộ xuyên núi và kết cấu kỹ thuật cao.
+              Thành Phú là doanh nghiệp hoạt động chuyên sâu trong lĩnh vực thi công xây dựng công trình hạ tầng giao thông, hầm đường bộ xuyên núi và kết cấu kỹ thuật cao.
             </p>
 
             {/* Paragraph 2 */}
@@ -88,7 +88,7 @@ export default function AboutSection() {
                 href="/gioi-thieu"
                 className="inline-flex items-center gap-2.5 px-7 py-3.5 border border-[#3e4095] bg-white text-[#3e4095] hover:bg-[#3e4095] hover:text-white rounded-[3px] text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 group"
               >
-                <span>TÌM HIỂU THÊM VỀ TRUNG HẢI</span>
+                <span>TÌM HIỂU THÊM VỀ THÀNH PHÚ</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
               </Link>
             </div>

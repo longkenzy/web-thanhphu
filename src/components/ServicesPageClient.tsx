@@ -42,7 +42,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       title: "Thi Công Hầm Đường Bộ & Hầm Xuyên Núi",
       shortDesc: "Đơn vị tổng thầu thi công hầm đường bộ hàng đầu Việt Nam, làm chủ công nghệ đào hầm NATM tiên tiến của Áo.",
       fullDesc:
-        "Với bề dày kinh nghiệm và đội ngũ chuyên gia đào hầm kỳ cựu, Trung Hải JSC tự hào là đơn vị tiên phong tham gia khoan đào và hoàn thiện những cung hầm đường bộ xuyên núi hiểm trở nhất miền Trung. Chúng tôi kiểm soát tuyệt đối an toàn địa chất bằng quy trình trắc đạc đo chuyển vị chính xác đến từng milimet và thi công chống đỡ tức thời.",
+        "Với bề dày kinh nghiệm và đội ngũ chuyên gia đào hầm kỳ cựu, Thành Phú JSC tự hào là đơn vị tiên phong tham gia khoan đào và hoàn thiện những cung hầm đường bộ xuyên núi hiểm trở nhất miền Trung. Chúng tôi kiểm soát tuyệt đối an toàn địa chất bằng quy trình trắc đạc đo chuyển vị chính xác đến từng milimet và thi công chống đỡ tức thời.",
       image: "https://images.unsplash.com/photo-1541888946425-d0fbb1861564?auto=format&fit=crop&w=1200&q=80",
       iconName: "mountain",
       techHighlights: [
@@ -65,7 +65,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       title: "Thi Công Đường Cao Tốc & Quốc Lộ Trọng Điểm",
       shortDesc: "Thi công nền mặt đường bê tông nhựa Polymer, giải tỏa áp lực giao thông trên các trục huyết mạch quốc gia.",
       fullDesc:
-        "Trung Hải JSC tham gia thi công các gói thầu hạ tầng giao thông quy mô lớn trên tuyến Cao tốc Bắc - Nam và các đoạn huyết mạch Quốc lộ 1. Với dây chuyền trải thảm tự động hiện đại và quy trình kiểm soát chất lượng khắt khe, chúng tôi mang đến những cung đường êm thuận, thoát nước tối ưu và tuổi thọ vận hành bền vững.",
+        "Thành Phú JSC tham gia thi công các gói thầu hạ tầng giao thông quy mô lớn trên tuyến Cao tốc Bắc - Nam và các đoạn huyết mạch Quốc lộ 1. Với dây chuyền trải thảm tự động hiện đại và quy trình kiểm soát chất lượng khắt khe, chúng tôi mang đến những cung đường êm thuận, thoát nước tối ưu và tuổi thọ vận hành bền vững.",
       image: "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?auto=format&fit=crop&w=1200&q=80",
       iconName: "route",
       techHighlights: [
@@ -88,7 +88,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       title: "Xây Dựng Cầu Cạn, Cầu Vượt Sông & Nút Giao Phức Tạp",
       shortDesc: "Thi công kết cấu dầm Super T bê tông dự ứng lực, móng cọc khoan nhồi sâu và cầu đúc hẫng cân bằng khẩu độ lớn.",
       fullDesc:
-        "Chúng tôi sở hữu năng lực toàn diện trong việc thi công các công trình cầu cạn trên cao tốc, cầu vượt sông lớn với độ tĩnh không cao. Từ các trụ tháp sừng sững cắm sâu vào tầng đá lòng sông đến các nhịp dầm đúc hẫng vươn dài, mỗi công trình đều là sự kết tinh giữa kỷ luật công nghệ và tinh thần vượt khó của người kỹ sư Trung Hải.",
+        "Chúng tôi sở hữu năng lực toàn diện trong việc thi công các công trình cầu cạn trên cao tốc, cầu vượt sông lớn với độ tĩnh không cao. Từ các trụ tháp sừng sững cắm sâu vào tầng đá lòng sông đến các nhịp dầm đúc hẫng vươn dài, mỗi công trình đều là sự kết tinh giữa kỷ luật công nghệ và tinh thần vượt khó của người kỹ sư Thành Phú.",
       image: "https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=1200&q=80",
       iconName: "compass",
       techHighlights: [
@@ -111,7 +111,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       title: "Gia Cố Mái Dốc, Neo Đất Đá & Xử Lý Sạt Trượt Đèo Núi",
       shortDesc: "Ứng dụng các giải pháp địa kỹ thuật chuyên sâu để bảo vệ an toàn cho các tuyến giao thông huyết mạch qua đèo hiểm trở.",
       fullDesc:
-        "Những cung đường đèo núi miền Trung thường xuyên đối mặt với nguy cơ sạt lở dữ dội trong mùa mưa lũ. Trung Hải JSC là đơn vị có bề dày thực chiến trong việc xử lý các vị trí sạt trượt nguy hiểm, khoan neo đá sâu, giằng cáp dự ứng lực và phun vữa bảo vệ mái dốc taluy, giữ vững mạch máu giao thông an toàn tuyệt đối.",
+        "Những cung đường đèo núi miền Trung thường xuyên đối mặt với nguy cơ sạt lở dữ dội trong mùa mưa lũ. Thành Phú JSC là đơn vị có bề dày thực chiến trong việc xử lý các vị trí sạt trượt nguy hiểm, khoan neo đá sâu, giằng cáp dự ứng lực và phun vữa bảo vệ mái dốc taluy, giữ vững mạch máu giao thông an toàn tuyệt đối.",
       image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
       iconName: "layers",
       techHighlights: [
@@ -134,7 +134,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       title: "Hạ Tầng Kỹ Thuật Đô Thị & Khu Công Nghiệp",
       shortDesc: "Thi công san lấp mặt bằng, hệ thống thoát nước ngầm, giao thông nội khu và các công trình ngầm hạ tầng.",
       fullDesc:
-        "Chúng tôi mang đến giải pháp tổng thể cho hạ tầng kỹ thuật các khu công nghiệp, khu chế xuất và khu đô thị mới. Bằng việc sở hữu đội xe máy xúc đào, ủi, lu đông đảo, Trung Hải bảo đảm hoàn thành tiến độ san lấp mặt bằng hàng triệu mét khối và hạ ngầm đồng bộ hệ thống cấp thoát nước, điện chiếu sáng đúng cam kết chất lượng.",
+        "Chúng tôi mang đến giải pháp tổng thể cho hạ tầng kỹ thuật các khu công nghiệp, khu chế xuất và khu đô thị mới. Bằng việc sở hữu đội xe máy xúc đào, ủi, lu đông đảo, Thành Phú bảo đảm hoàn thành tiến độ san lấp mặt bằng hàng triệu mét khối và hạ ngầm đồng bộ hệ thống cấp thoát nước, điện chiếu sáng đúng cam kết chất lượng.",
       image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
       iconName: "wrench",
       techHighlights: [
@@ -157,7 +157,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       title: "Xây Dựng Dân Dụng & Nhà Xưởng Kết Cấu Thép",
       shortDesc: "Gia công lắp dựng khung thép tiền chế khẩu độ lớn, nhà xưởng kho vận logistics và công trình nhà điều hành.",
       fullDesc:
-        "Bên cạnh lĩnh vực giao thông hạ tầng, Trung Hải phát triển mạnh mảng xây dựng dân dụng kỹ thuật và nhà xưởng công nghiệp quy mô lớn. Với năng lực chế tạo cấu kiện thép chuẩn mực và biện pháp thi công lắp dựng khoa học, các công trình nhà máy luôn đạt tối ưu về tiến độ, thẩm mỹ và an toàn chịu lực.",
+        "Bên cạnh lĩnh vực giao thông hạ tầng, Thành Phú phát triển mạnh mảng xây dựng dân dụng kỹ thuật và nhà xưởng công nghiệp quy mô lớn. Với năng lực chế tạo cấu kiện thép chuẩn mực và biện pháp thi công lắp dựng khoa học, các công trình nhà máy luôn đạt tối ưu về tiến độ, thẩm mỹ và an toàn chịu lực.",
       image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80",
       iconName: "building",
       techHighlights: [

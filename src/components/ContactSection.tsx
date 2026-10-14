@@ -38,7 +38,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
             </span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight">
-            LIÊN HỆ VỚI TRUNG HẢI
+            LIÊN HỆ VỚI THÀNH PHÚ
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal">
             Sẵn sàng đồng hành cùng các đối tác, chủ đầu tư kiến tạo những công trình giao thông thế kỷ.
@@ -108,7 +108,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
             {/* Map Preview Card */}
             <div className="rounded-[3px] overflow-hidden border border-slate-200 bg-white p-1.5 shadow-sm">
               <iframe
-                title="Bản đồ Trung Hải"
+                title="Bản đồ Thành Phú"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.267868512117!2d106.69089857573617!3d10.790786958925508!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317528cb617cfd1f%3A0xb357492c30076a59!2zNDAgVGjhuqFjaCBUaOG7iyBUaGFuaCwgVMOibiDEkOG7i25oLCBRdeG6rW4gMSwgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1710000000000!5m2!1svi!2s"
                 width="100%"
                 height="200"
@@ -125,7 +125,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
             <div className="p-6 sm:p-8 rounded-[3px] bg-white border border-slate-200 shadow-sm relative">
               <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-1.5">Gửi Tin Nhắn / Yêu Cầu Hợp Tác</h3>
               <p className="text-xs text-slate-500 mb-6 font-normal">
-                Quý khách hàng hoặc đối tác vui lòng để lại thông điệp, ban lãnh đạo Trung Hải sẽ phản hồi sớm nhất.
+                Quý khách hàng hoặc đối tác vui lòng để lại thông điệp, ban lãnh đạo Thành Phú sẽ phản hồi sớm nhất.
               </p>
 
               {submitted ? (
@@ -133,7 +133,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                   <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
                   <div className="font-bold text-base text-emerald-900">Gửi Tin Nhắn Thành Công!</div>
                   <div className="text-xs text-emerald-700">
-                    Cảm ơn quý khách đã liên hệ với Công ty Cổ phần Xây dựng và Đầu tư Trung Hải.
+                    Cảm ơn quý khách đã liên hệ với Công ty Cổ phần Đầu tư Xây lắp Thành Phú.
                   </div>
                 </div>
               ) : (

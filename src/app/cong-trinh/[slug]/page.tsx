@@ -17,15 +17,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!project) {
     return {
-      title: "Không tìm thấy công trình | Trung Hải JSC",
+      title: "Không tìm thấy công trình | Thành Phú JSC",
     };
   }
 
   const pageUrl = `https://trunghaico.vn/cong-trinh/${project.slug}`;
-  const metaDescription = `${project.title} - ${project.categoryName} tại ${project.location}. Quy mô: ${project.scale}. Tổng thầu thi công: Trung Hải JSC.`;
+  const metaDescription = `${project.title} - ${project.categoryName} tại ${project.location}. Quy mô: ${project.scale}. Tổng thầu thi công: Thành Phú JSC.`;
 
   return {
-    title: `${project.title} | ${project.categoryName} | Trung Hải JSC`,
+    title: `${project.title} | ${project.categoryName} | Thành Phú JSC`,
     description: metaDescription,
     keywords: [
       project.title,
@@ -33,17 +33,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       project.location,
       "thi công hầm đường bộ",
       "hạ tầng giao thông",
-      "Trung Hải JSC",
+      "Thành Phú JSC",
       "đại công trình quốc gia",
     ],
     alternates: {
       canonical: pageUrl,
     },
     openGraph: {
-      title: `${project.title} | TRUNG HẢI JSC`,
+      title: `${project.title} | THÀNH PHÚ JSC`,
       description: metaDescription,
       url: pageUrl,
-      siteName: "Công ty Cổ phần Xây dựng và Đầu tư Trung Hải",
+      siteName: "Công ty Cổ phần Đầu tư Xây lắp Thành Phú",
       locale: "vi_VN",
       type: "article",
       images: [
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     twitter: {
       card: "summary_large_image",
-      title: `${project.title} | Trung Hải JSC`,
+      title: `${project.title} | Thành Phú JSC`,
       description: metaDescription,
       images: [project.thumbnail],
     },

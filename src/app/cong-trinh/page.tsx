@@ -12,9 +12,9 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `CÔNG TRÌNH & DỰ ÁN TIÊU BIỂU | ${settings.name}`,
     description:
-      "Danh mục toàn bộ các đại công trình hầm xuyên núi, hạ tầng giao thông đường bộ, cầu cạn và các dự án trọng điểm quốc gia do Trung Hải trực tiếp thi công.",
+      "Danh mục toàn bộ các đại công trình hầm xuyên núi, hạ tầng giao thông đường bộ, cầu cạn và các dự án trọng điểm quốc gia do Thành Phú trực tiếp thi công.",
     keywords: [
-      "Công trình Trung Hải",
+      "Công trình Thành Phú",
       "Dự án hầm Đèo Cả",
       "Hầm Cù Mông",
       "Hầm Phước Tượng Phú Gia",
@@ -27,13 +27,13 @@ export async function generateMetadata(): Promise<Metadata> {
       description:
         "Tổng hợp các công trình hầm đường bộ, cầu cạn và tuyến cao tốc huyết mạch quốc gia.",
       url: "https://trunghaico.vn/cong-trinh",
-      siteName: "Trung Hải JSC",
+      siteName: "Thành Phú JSC",
       images: [
         {
           url: "https://images.unsplash.com/photo-1541888946425-d0fbb1861564?auto=format&fit=crop&w=1200&q=80",
           width: 1200,
           height: 630,
-          alt: "Công trình tiêu biểu Trung Hải JSC",
+          alt: "Công trình tiêu biểu Thành Phú JSC",
         },
       ],
       locale: "vi_VN",
