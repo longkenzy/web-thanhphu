@@ -87,19 +87,21 @@ if (!memoryStore.partners) {
 
 // Execute query on Cloudflare D1 (Native binding or REST API fallback)
 export async function executeD1Query<T = any>(sql: string, params: any[] = []): Promise<T[]> {
-  // 1. Prioritize Native Cloudflare D1 binding (fastest & direct inside Cloudflare edge)
-  try {
-    const d1 = await getCloudflareD1Binding();
-    if (d1) {
-      let stmt = d1.prepare(sql);
-      if (params && params.length > 0) {
-        stmt = stmt.bind(...params);
+  // 1. Prioritize Native Cloudflare D1 binding in production (fastest & direct inside Cloudflare edge)
+  if (process.env.NODE_ENV === "production") {
+    try {
+      const d1 = await getCloudflareD1Binding();
+      if (d1) {
+        let stmt = d1.prepare(sql);
+        if (params && params.length > 0) {
+          stmt = stmt.bind(...params);
+        }
+        const res = await stmt.all();
+        return (res.results || []) as T[];
       }
-      const res = await stmt.all();
-      return (res.results || []) as T[];
+    } catch (nativeErr: any) {
+      console.warn("Native D1 execution error, falling back to REST API:", nativeErr?.message);
     }
-  } catch (nativeErr: any) {
-    console.warn("Native D1 execution error, falling back to REST API:", nativeErr?.message);
   }
 
   // 2. Fallback to Cloudflare REST API (works everywhere across local dev & edge)
