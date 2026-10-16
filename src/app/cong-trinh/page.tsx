@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Metadata } from "next";
 import { db } from "@/lib/db";
 import Header from "@/components/Header";
@@ -108,7 +109,9 @@ export default async function ProjectsPage() {
 
         {/* Main Content Area */}
         <main className="flex-1">
-          <ProjectsPageClient initialProjects={projects} settings={settings} />
+          <Suspense fallback={<div className="min-h-screen pt-32 text-center text-slate-400 text-xs">Đang tải danh sách công trình...</div>}>
+            <ProjectsPageClient initialProjects={projects} settings={settings} />
+          </Suspense>
         </main>
 
         {/* Footer */}

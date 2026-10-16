@@ -188,10 +188,11 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
 
   const categories = [
     { id: "all", label: "Tất Cả Công Trình" },
-    { id: "ham", label: "Hầm Xuyên Núi" },
-    { id: "cau-duong", label: "Cầu & Đường Bộ" },
-    { id: "quoc-lo", label: "Quốc Lộ & Cao Tốc" },
-    { id: "ha-tang", label: "Hạ Tầng Kỹ Thuật" },
+    { id: "dan-dung-cao-tang", label: "Dân Dụng & Cao Tầng" },
+    { id: "cong-nghiep-nha-xuong", label: "Công Nghiệp & Nhà Xưởng" },
+    { id: "ha-tang-giao-thong", label: "Hạ Tầng & Giao Thông" },
+    { id: "ket-cau-thep-nhom-kinh", label: "Kết Cấu Thép & Nhôm Kính" },
+    { id: "trang-tri-noi-that", label: "Trang Trí Nội Thất" },
   ];
 
   const filteredProjects =

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   MapPin,
   Calendar,
@@ -20,6 +21,8 @@ import {
   Route,
   Milestone,
   HardHat,
+  Factory,
+  Paintbrush,
 } from "lucide-react";
 import { Project, CompanySettings } from "@/types";
 
@@ -236,18 +239,27 @@ export default function ProjectsPageClient({
   initialProjects,
   settings,
 }: ProjectsPageClientProps) {
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState(categoryParam || "all");
   const [sortBy, setSortBy] = useState<"default" | "featured" | "newest">("default");
+
+  useEffect(() => {
+    if (categoryParam) {
+      setSelectedCategory(categoryParam);
+    }
+  }, [categoryParam]);
 
   // Category counts
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = {
       all: initialProjects.length,
-      ham: 0,
-      "cau-duong": 0,
-      "quoc-lo": 0,
-      "ha-tang": 0,
+      "dan-dung-cao-tang": 0,
+      "cong-nghiep-nha-xuong": 0,
+      "ha-tang-giao-thong": 0,
+      "ket-cau-thep-nhom-kinh": 0,
+      "trang-tri-noi-that": 0,
     };
     initialProjects.forEach((p) => {
       if (counts[p.category] !== undefined) {
@@ -259,10 +271,11 @@ export default function ProjectsPageClient({
 
   const categories = [
     { id: "all", label: "Tất cả", icon: Layers, count: categoryCounts.all },
-    { id: "ham", label: "Hầm xuyên núi", icon: Mountain, count: categoryCounts.ham },
-    { id: "cau-duong", label: "Cầu & Đường bộ", icon: Route, count: categoryCounts["cau-duong"] },
-    { id: "quoc-lo", label: "Quốc lộ & Cao tốc", icon: Milestone, count: categoryCounts["quoc-lo"] },
-    { id: "ha-tang", label: "Hạ tầng kỹ thuật", icon: HardHat, count: categoryCounts["ha-tang"] },
+    { id: "dan-dung-cao-tang", label: "Dân dụng & Cao tầng", icon: Building, count: categoryCounts["dan-dung-cao-tang"] || 0 },
+    { id: "cong-nghiep-nha-xuong", label: "Công nghiệp & Nhà xưởng", icon: Factory, count: categoryCounts["cong-nghiep-nha-xuong"] || 0 },
+    { id: "ha-tang-giao-thong", label: "Hạ tầng & Giao thông", icon: Route, count: categoryCounts["ha-tang-giao-thong"] || 0 },
+    { id: "ket-cau-thep-nhom-kinh", label: "Kết cấu thép & Nhôm kính", icon: Layers, count: categoryCounts["ket-cau-thep-nhom-kinh"] || 0 },
+    { id: "trang-tri-noi-that", label: "Trang trí nội thất", icon: Paintbrush, count: categoryCounts["trang-tri-noi-that"] || 0 },
   ];
 
   // Filter and sort logic

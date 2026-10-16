@@ -86,9 +86,11 @@ export default function Header({
       name: "DỰ ÁN",
       href: "/cong-trinh",
       children: [
-        { name: "Thi công xây lắp", href: "/cong-trinh?category=thi-cong-xay-lap" },
+        { name: "Dân dụng & Cao tầng", href: "/cong-trinh?category=dan-dung-cao-tang" },
+        { name: "Công nghiệp & Nhà xưởng", href: "/cong-trinh?category=cong-nghiep-nha-xuong" },
+        { name: "Hạ tầng & Giao thông", href: "/cong-trinh?category=ha-tang-giao-thong" },
+        { name: "Kết cấu thép & Nhôm kính", href: "/cong-trinh?category=ket-cau-thep-nhom-kinh" },
         { name: "Trang trí nội thất", href: "/cong-trinh?category=trang-tri-noi-that" },
-        { name: "SXLĐ cấu kiện nhôm kính", href: "/cong-trinh?category=sxld-nhom-kinh" },
       ],
     },
     { name: "Tin tức", href: "/tin-tuc" },

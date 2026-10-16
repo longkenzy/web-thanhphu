@@ -1,8 +1,16 @@
+export type ProjectCategory =
+  | "dan-dung-cao-tang"
+  | "cong-nghiep-nha-xuong"
+  | "ha-tang-giao-thong"
+  | "ket-cau-thep-nhom-kinh"
+  | "trang-tri-noi-that"
+  | string;
+
 export interface Project {
   id: string;
   title: string;
   slug: string;
-  category: "ham" | "cau-duong" | "quoc-lo" | "ha-tang";
+  category: ProjectCategory;
   categoryName: string;
   client: string;
   location: string;
