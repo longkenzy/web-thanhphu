@@ -158,7 +158,7 @@ if (fs.existsSync(assetsDir)) {
 const routes = {
   version: 1,
   include: ["/*"],
-  exclude: ["/_next/static/*", "/logo*.png", "/favicon.ico", "/robots.txt"],
+  exclude: ["/_next/static/*", "/logo*.png", "/favicon.ico", "/icon*.png", "/apple-icon*.png", "/robots.txt"],
 };
 
 fs.writeFileSync(routesDest, JSON.stringify(routes, null, 2));
