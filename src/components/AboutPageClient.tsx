@@ -296,7 +296,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
               {/* Paragraphs matching Image 1 */}
               <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
                 <p>
-                  Sự ra đời và phát triển của <strong className="font-bold text-slate-900">Công ty Cổ phần Đầu tư Xây lắp Thành Phú</strong> là dấu mốc khẳng định hành trình nỗ lực, học hỏi, lao động và sáng tạo không ngừng của <strong className="font-bold text-slate-900">Chủ tịch Văn Phú Thành</strong> cùng những cộng sự đồng hành.
+                  Sự ra đời và phát triển của <strong className="font-bold text-slate-900">Công ty Cổ phần Đầu tư Xây lắp Thành Phú</strong> là dấu mốc khẳng định hành trình nỗ lực, học hỏi, lao động và sáng tạo không ngừng của <strong className="font-bold text-slate-900">Chủ tịch Phạm Hoàng Anh</strong> cùng những cộng sự đồng hành.
                 </p>
                 <p>
                   Trải qua nhiều thăng trầm, Thành Phú đã biến khó khăn thành cơ hội, thử thách thành động lực, từng bước khẳng định vị thế bằng bản lĩnh, niềm tin và khát vọng vươn lên. Từ những nền tảng ban đầu, tập thể Thành Phú hôm nay tiếp tục đồng lòng tiến về phía trước, viết tiếp hành trình phát triển và những giá trị bền vững cho tương lai.
