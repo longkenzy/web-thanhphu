@@ -31,11 +31,21 @@ export default function Header({
   const isHomePage = pathname === "/" || pathname === "";
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
-  const [mobileAboutOpen, setMobileAboutOpen] = useState(true);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [openMobileSubmenus, setOpenMobileSubmenus] = useState<Record<string, boolean>>({
+    "Giới thiệu": false,
+    "DỰ ÁN": true,
+  });
+
+  const toggleMobileSubmenu = (name: string) => {
+    setOpenMobileSubmenus((prev) => ({
+      ...prev,
+      [name]: !prev[name],
+    }));
+  };
 
   useEffect(() => {
-    setAboutDropdownOpen(false);
+    setOpenDropdown(null);
     setMobileMenuOpen(false);
   }, [pathname]);
 
@@ -72,7 +82,15 @@ export default function Header({
         { name: "Lĩnh vực hoạt động", href: "/linh-vuc-hoat-dong" },
       ],
     },
-    { name: "Công trình", href: "/cong-trinh" },
+    {
+      name: "DỰ ÁN",
+      href: "/cong-trinh",
+      children: [
+        { name: "Thi công xây lắp", href: "/cong-trinh?category=thi-cong-xay-lap" },
+        { name: "Trang trí nội thất", href: "/cong-trinh?category=trang-tri-noi-that" },
+        { name: "SXLĐ cấu kiện nhôm kính", href: "/cong-trinh?category=sxld-nhom-kinh" },
+      ],
+    },
     { name: "Tin tức", href: "/tin-tuc" },
     { name: "Tuyển dụng", href: "/tuyen-dung" },
     { name: "Liên hệ", href: "/lien-he" },
@@ -198,19 +216,27 @@ export default function Header({
                 {navLinks.map((item) => {
                   if (item.children) {
                     const isDropdownActive =
-                      pathname.startsWith("/gioi-thieu") ||
-                      pathname.startsWith("/linh-vuc-hoat-dong");
+                      (item.href !== "/" && pathname.startsWith(item.href)) ||
+                      Boolean(
+                        item.children.some(
+                          (child) =>
+                            pathname === child.href ||
+                            (child.href !== "/" &&
+                              pathname.startsWith(child.href.split("?")[0]))
+                        )
+                      );
+                    const isOpen = openDropdown === item.name;
 
                     return (
                       <div
                         key={item.name}
                         className="relative group py-2"
-                        onMouseEnter={() => setAboutDropdownOpen(true)}
-                        onMouseLeave={() => setAboutDropdownOpen(false)}
+                        onMouseEnter={() => setOpenDropdown(item.name)}
+                        onMouseLeave={() => setOpenDropdown(null)}
                       >
-                        <button
-                          type="button"
-                          onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
+                        <Link
+                          href={item.href}
+                          onClick={() => setOpenDropdown(null)}
                           className={`group/btn relative whitespace-nowrap px-2.5 xl:px-3.5 py-1.5 text-xs xl:text-[13px] 2xl:text-sm uppercase tracking-wider font-bold transition-all duration-300 rounded-[3px] hover:text-[#ed3237] flex items-center gap-1 cursor-pointer ${
                             isDropdownActive
                               ? "text-[#ed3237] font-bold"
@@ -222,7 +248,7 @@ export default function Header({
                           <span>{item.name}</span>
                           <ChevronDown
                             className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                              aboutDropdownOpen
+                              isOpen
                                 ? "rotate-180 text-[#ed3237]"
                                 : isDropdownActive
                                 ? "text-[#ed3237]"
@@ -234,15 +260,15 @@ export default function Header({
                           {/* Animated underline micro-interaction */}
                           <span
                             className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#ed3237] rounded-full transition-all duration-300 ease-out ${
-                              isDropdownActive || aboutDropdownOpen ? "w-4/5" : "w-0 group-hover/btn:w-4/5"
+                              isDropdownActive || isOpen ? "w-4/5" : "w-0 group-hover/btn:w-4/5"
                             }`}
                           />
-                        </button>
+                        </Link>
 
                         {/* Dropdown Menu */}
                         <div
-                          className={`absolute left-0 top-full pt-1.5 min-w-[215px] transition-all duration-200 z-50 ${
-                            aboutDropdownOpen
+                          className={`absolute left-0 top-full pt-1.5 min-w-[240px] transition-all duration-200 z-50 ${
+                            isOpen
                               ? "opacity-100 translate-y-0 pointer-events-auto"
                               : "opacity-0 -translate-y-2 pointer-events-none"
                           }`}
@@ -255,7 +281,7 @@ export default function Header({
                                 <Link
                                   key={sub.name}
                                   href={sub.href}
-                                  onClick={() => setAboutDropdownOpen(false)}
+                                  onClick={() => setOpenDropdown(null)}
                                   className={`flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-[13px] font-semibold transition-all ${
                                     isSubActive
                                       ? "text-[#ed3237] bg-red-50/70 font-bold"
@@ -377,14 +403,22 @@ export default function Header({
                 {navLinks.map((item) => {
                   if (item.children) {
                     const isDropdownActive =
-                      pathname.startsWith("/gioi-thieu") ||
-                      pathname.startsWith("/linh-vuc-hoat-dong");
+                      (item.href !== "/" && pathname.startsWith(item.href)) ||
+                      Boolean(
+                        item.children.some(
+                          (child) =>
+                            pathname === child.href ||
+                            (child.href !== "/" &&
+                              pathname.startsWith(child.href.split("?")[0]))
+                        )
+                      );
+                    const isMobileSubOpen = Boolean(openMobileSubmenus[item.name]);
 
                     return (
                       <div key={item.name} className="flex flex-col">
                         <button
                           type="button"
-                          onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
+                          onClick={() => toggleMobileSubmenu(item.name)}
                           className={`flex items-center justify-between px-3 py-2.5 rounded-[3px] text-xs uppercase tracking-wider font-bold transition-all ${
                             isDropdownActive
                               ? "text-[#ed3237] bg-red-50/70 font-bold border-l-2 border-[#ed3237]"
@@ -394,12 +428,12 @@ export default function Header({
                           <span>{item.name}</span>
                           <ChevronDown
                             className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                              mobileAboutOpen ? "rotate-180 text-[#ed3237]" : "text-slate-400"
+                              isMobileSubOpen ? "rotate-180 text-[#ed3237]" : "text-slate-400"
                             }`}
                           />
                         </button>
 
-                        {mobileAboutOpen && (
+                        {isMobileSubOpen && (
                           <div className="ml-3 pl-2.5 border-l border-red-200 my-1 flex flex-col space-y-0.5">
                             {item.children.map((sub) => {
                               const isSubActive = pathname === sub.href;

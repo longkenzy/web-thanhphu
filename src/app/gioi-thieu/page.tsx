@@ -10,7 +10,7 @@ export const revalidate = 0;
 export const metadata: Metadata = {
   title: "Giới Thiệu Doanh Nghiệp | CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ",
   description:
-    "Hơn 15 năm hình thành và phát triển. Công ty Cổ phần Đầu tư Xây lắp Thành Phú (Thành Phú JSC) là tổng thầu uy tín thi công hạ tầng giao thông, hầm đường bộ, dân dụng và công nghiệp hàng đầu Việt Nam.",
+    "Hơn 15 năm hình thành và phát triển. Công ty Cổ phần Đầu tư Xây lắp Thành Phú (Thành Phú JSC) là tổng thầu uy tín thi công hạ tầng giao thông, hầm đường bộ xuyên núi và kết cấu kỹ thuật cao hàng đầu Việt Nam.",
   keywords: [
     "giới thiệu Thành Phú",
     "Công ty Cổ phần Đầu tư Xây lắp Thành Phú",

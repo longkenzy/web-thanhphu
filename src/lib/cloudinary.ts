@@ -1,9 +1,9 @@
 // Cloudinary Helper Service
 export const cloudinaryConfig = {
-  cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "syjvx1ly",
-  uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "trunghai_uploads",
-  apiKey: process.env.CLOUDINARY_API_KEY || "",
-  apiSecret: process.env.CLOUDINARY_API_SECRET || "",
+  cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "x13kyocz",
+  uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "thanhphu_uploads",
+  apiKey: process.env.CLOUDINARY_API_KEY || "225856118158743",
+  apiSecret: process.env.CLOUDINARY_API_SECRET || "T5Orbj6X2aCS_kqKQ82E5Y7zYt8",
 };
 
 export function isCloudinaryConfigured(): boolean {
@@ -13,25 +13,38 @@ export function isCloudinaryConfigured(): boolean {
 /**
  * Upload an image file or base64 directly to Cloudinary
  */
-export async function uploadToCloudinary(fileDataUrl: string, folder = "trunghai_media"): Promise<string> {
-  if (!cloudinaryConfig.cloudName) {
+export async function uploadToCloudinary(fileDataUrl: string, folder = "thanhphu_media"): Promise<string> {
+  const { cloudName, apiKey, apiSecret, uploadPreset } = cloudinaryConfig;
+  if (!cloudName) {
     console.warn("Cloudinary is not configured. Returning the provided URL/data.");
     return fileDataUrl;
   }
 
-  const endpoint = `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/image/upload`;
-
+  const endpoint = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
   const formData = new FormData();
   formData.append("file", fileDataUrl);
-  formData.append("upload_preset", cloudinaryConfig.uploadPreset);
-  formData.append("folder", folder);
+
+  if (apiKey && apiSecret) {
+    // Signed upload: bảo mật cao, không yêu cầu cấu hình unsigned preset trên Cloudinary
+    const timestamp = Math.floor(Date.now() / 1000);
+    const toSign = `folder=${folder}&timestamp=${timestamp}${apiSecret}`;
+    const signature = await generateSha1(toSign);
+
+    formData.append("api_key", apiKey);
+    formData.append("timestamp", timestamp.toString());
+    formData.append("folder", folder);
+    formData.append("signature", signature);
+  } else {
+    formData.append("upload_preset", uploadPreset);
+    formData.append("folder", folder);
+  }
 
   const response = await fetch(endpoint, {
     method: "POST",
     body: formData,
   });
 
-  const resData = await response.json();
+  const resData = (await response.json()) as any;
   if (!response.ok) {
     throw new Error(resData.error?.message || "Failed to upload image to Cloudinary");
   }
@@ -41,8 +54,8 @@ export async function uploadToCloudinary(fileDataUrl: string, folder = "trunghai
 
 /**
  * Extracts Cloudinary public_id from a full URL
- * e.g. "https://res.cloudinary.com/syjvx1ly/image/upload/v1727854123/trunghai_media/abc123xyz.jpg"
- * -> "trunghai_media/abc123xyz"
+ * e.g. "https://res.cloudinary.com/x13kyocz/image/upload/v1727854123/thanhphu_media/abc123xyz.jpg"
+ * -> "thanhphu_media/abc123xyz"
  */
 export function extractCloudinaryPublicId(url: string): string | null {
   if (!url || typeof url !== "string" || !url.includes("res.cloudinary.com")) {
