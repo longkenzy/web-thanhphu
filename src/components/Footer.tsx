@@ -142,7 +142,7 @@ export default function Footer({ settings }: FooterProps) {
             <div className="space-y-3 text-sm text-slate-300">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-[#ed3237] shrink-0 mt-1" />
-                <span className="leading-snug">{settings.address || "12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh"}</span>
+                <span className="leading-snug">{settings.address || "22A Vũ Ngọc Phan, Phường Bình Lợi Trung, Tp. Hồ Chí Minh"}</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-[#ed3237] shrink-0" />
@@ -158,20 +158,20 @@ export default function Footer({ settings }: FooterProps) {
                   </span>
                 ) : (
                   <a
-                    href={`tel:${(settings.hotline || settings.phone || "0966.700.045").replace(/[^0-9]/g, "")}`}
+                    href={`tel:${(settings.hotline || settings.phone || "(028) 3553 0675").replace(/[^0-9]/g, "")}`}
                     className="font-semibold text-white hover:text-red-400 transition-colors"
                   >
-                    {settings.hotline || settings.phone || "0966.700.045"}
+                    {settings.hotline || settings.phone || "(028) 3553 0675"}
                   </a>
                 )}
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-[#ed3237] shrink-0" />
                 <a
-                  href={`mailto:${settings.email || "info@trunghaico.vn"}`}
+                  href={`mailto:${settings.email || "thanhphuhcns@gmail.com"}`}
                   className="text-slate-200 hover:text-white transition-colors"
                 >
-                  {settings.email || "info@trunghaico.vn"}
+                  {settings.email || "thanhphuhcns@gmail.com"}
                 </a>
               </div>
             </div>

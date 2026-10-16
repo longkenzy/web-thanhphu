@@ -72,7 +72,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                   <div>
                     <div className="text-[11px] uppercase text-slate-500 font-semibold">Địa Chỉ Trụ Sở</div>
                     <div className="text-xs sm:text-sm text-slate-700 mt-0.5 leading-relaxed">
-                      {settings.address || "12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh"}
+                      {settings.address || "22A Vũ Ngọc Phan, Phường Bình Lợi Trung, Tp. Hồ Chí Minh"}
                     </div>
                   </div>
                 </div>
@@ -86,7 +86,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                     <div className="text-xs sm:text-sm font-bold text-slate-900 mt-0.5">
                       {settings.phone && settings.hotline && settings.phone !== settings.hotline
                         ? `${settings.phone} - ${settings.hotline}`
-                        : settings.hotline || settings.phone || "0966.700.045"}
+                        : settings.hotline || settings.phone || "(028) 3553 0675"}
                     </div>
                   </div>
                 </div>
@@ -98,7 +98,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
                   <div>
                     <div className="text-[11px] uppercase text-slate-500 font-semibold">Thư Điện Tử</div>
                     <div className="text-xs sm:text-sm text-slate-700 mt-0.5">
-                      {settings.email || "info@trunghaico.vn"}
+                      {settings.email || "thanhphuhcns@gmail.com"}
                     </div>
                   </div>
                 </div>
@@ -109,7 +109,7 @@ export default function ContactSection({ settings }: ContactSectionProps) {
             <div className="rounded-[3px] overflow-hidden border border-slate-200 bg-white p-1.5 shadow-sm">
               <iframe
                 title="Bản đồ Thành Phú"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.267868512117!2d106.69089857573617!3d10.790786958925508!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317528cb617cfd1f%3A0xb357492c30076a59!2zNDAgVGjhuqFjaCBUaOG7iyBUaGFuaCwgVMOibiDEkOG7i25oLCBRdeG6rW4gMSwgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1710000000000!5m2!1svi!2s"
+                src="https://maps.google.com/maps?q=22A+V%C5%A9+Ng%E1%BB%8Dc+Phan,+Ph%C6%B0%E1%BB%9Dng+B%C3%ACnh+L%E1%BB%A3i+Trung,+H%E1%BB%93+Ch%C3%AD+Minh&t=&z=16&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="200"
                 style={{ border: 0, borderRadius: "2px" }}

@@ -21,11 +21,11 @@ interface NavItem {
 }
 
 export default function Header({
-  hotline = "0966.700.045",
-  phoneDisplay = "0966.700.045",
-  address = "12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh",
+  hotline = "(028) 3553 0675",
+  phoneDisplay = "(028) 3553 0675",
+  address = "22A Vũ Ngọc Phan, Phường Bình Lợi Trung, Tp. Hồ Chí Minh",
   workingHours = "Thứ 2 – Thứ 7: 08:00 – 17:30",
-  email = "info@trunghaico.vn",
+  email = "thanhphuhcns@gmail.com",
 }: HeaderProps) {
   const pathname = usePathname();
   const isHomePage = pathname === "/" || pathname === "";

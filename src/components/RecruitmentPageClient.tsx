@@ -28,7 +28,7 @@ interface RecruitmentPageClientProps {
   settings: CompanySettings;
 }
 
-const HR_EMAIL = "tuyendung@trunghaico.vn";
+const HR_EMAIL = "thanhphuhcns@gmail.com";
 
 export default function RecruitmentPageClient({
   initialJobs,

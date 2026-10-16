@@ -40,17 +40,17 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
 
   const address =
     settings.address ||
-    "12-14 Đường D5, Khu phố 12, Phường An Khánh, Tp. Hồ Chí Minh";
-  const hotline = settings.hotline || settings.phone || "0966.700.045";
-  const email = settings.email || "info@trunghaico.vn";
+    "22A Vũ Ngọc Phan, Phường Bình Lợi Trung, Tp. Hồ Chí Minh";
+  const hotline = settings.hotline || settings.phone || "(028) 3553 0675";
+  const email = settings.email || "thanhphuhcns@gmail.com";
   const taxCode = settings.taxCode || "0312019045";
   const companyName =
     settings.name || "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ";
 
   const googleMapsEmbedUrl =
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7093.4802225019375!2d106.7340018!3d10.7902063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175250025dd33df%3A0x79d9f143bf06960a!2zQ8O0bmcgdHkgQ1AgWMOieSBk4buxbmcgQ-G6p3UgxJHGsOG7nW5nIFRow6BuaCBQaMOhdA!5e1!3m2!1svi!2s!4v1791253228303!5m2!1svi!2s";
+    "https://maps.google.com/maps?q=22A+V%C5%A9+Ng%E1%BB%8Dc+Phan,+Ph%C6%B0%E1%BB%9Dng+B%C3%ACnh+L%E1%BB%A3i+Trung,+H%E1%BB%93+Ch%C3%AD+Minh&t=&z=16&ie=UTF8&iwloc=&output=embed";
   const googleMapsUrl =
-    "https://www.google.com/maps?cid=0x79d9f143bf06960a";
+    "https://www.google.com/maps/search/?api=1&query=22A+V%C5%A9+Ng%E1%BB%8Dc+Phan,+Ph%C6%B0%E1%BB%9Dng+B%C3%ACnh+L%E1%BB%A3i+Trung,+H%E1%BB%93+Ch%C3%AD+Minh";
 
   return (
     <div className="bg-slate-50 min-h-screen text-slate-800 pt-28 sm:pt-32 pb-20 selection:bg-[#ed3237] selection:text-white">
@@ -401,7 +401,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
             <div className="text-xs space-y-2 text-slate-700">
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-[#ed3237]" />
-                <span className="font-semibold">tuyendung@trunghaico.vn</span>
+                <span className="font-semibold">{email}</span>
               </div>
               <Link
                 href="/tuyen-dung"
@@ -462,7 +462,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
             <div className="flex items-center gap-2">
               <Navigation className="w-4 h-4 text-[#ed3237] shrink-0" />
               <span>
-                Vị trí nằm tại khu đô thị An Khánh, thuận tiện di chuyển qua trục Mai Chí Thọ, Xa Lộ Hà Nội và cầu Ba Son.
+                Vị trí nằm tại 22A Vũ Ngọc Phan, Phường Bình Lợi Trung, Tp. Hồ Chí Minh, thuận tiện kết nối và giao dịch.
               </span>
             </div>
             <a
