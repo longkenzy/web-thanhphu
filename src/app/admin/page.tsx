@@ -116,6 +116,8 @@ export default function AdminPage() {
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
   const [isBulkDeletingProjects, setIsBulkDeletingProjects] = useState(false);
   const [newsSearch, setNewsSearch] = useState("");
+  const [selectedNewsIds, setSelectedNewsIds] = useState<string[]>([]);
+  const [isBulkDeletingNews, setIsBulkDeletingNews] = useState(false);
   const [partnerSearch, setPartnerSearch] = useState("");
 
   // Partner Form State
@@ -468,10 +470,63 @@ export default function AdminPage() {
       const res = await fetch(`/api/news?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         showNotice("Đã xóa tin tức thành công");
+        setSelectedNewsIds((prev) => prev.filter((item) => item !== id));
         loadData();
       }
     } catch (err: any) {
       showNotice(err.message, "error");
+    }
+  };
+
+  const handleToggleSelectAllNews = () => {
+    if (filteredNews.length === 0) return;
+    const allFilteredSelected = filteredNews.every((n) => selectedNewsIds.includes(n.id));
+    if (allFilteredSelected) {
+      const filteredIds = new Set(filteredNews.map((n) => n.id));
+      setSelectedNewsIds((prev) => prev.filter((id) => !filteredIds.has(id)));
+    } else {
+      const newSelected = new Set(selectedNewsIds);
+      filteredNews.forEach((n) => newSelected.add(n.id));
+      setSelectedNewsIds(Array.from(newSelected));
+    }
+  };
+
+  const handleToggleSelectNews = (id: string) => {
+    setSelectedNewsIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleBulkDeleteNews = async () => {
+    if (selectedNewsIds.length === 0) return;
+    const count = selectedNewsIds.length;
+    if (
+      !confirm(
+        `Bạn có chắc chắn muốn xóa ${count} bài viết đã chọn?\nToàn bộ hình ảnh liên quan trên Cloudinary cũng sẽ được xóa sạch và không thể hoàn tác.`
+      )
+    ) {
+      return;
+    }
+
+    setIsBulkDeletingNews(true);
+    try {
+      const res = await fetch("/api/news", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selectedNewsIds }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        showNotice(`Đã xóa thành công ${count} bài viết!`);
+        setSelectedNewsIds([]);
+        loadData();
+      } else {
+        showNotice(data.error || "Lỗi khi xóa bài viết hàng loạt", "error");
+      }
+    } catch (err: any) {
+      showNotice(err.message, "error");
+    } finally {
+      setIsBulkDeletingNews(false);
     }
   };
 
@@ -1665,51 +1720,69 @@ export default function AdminPage() {
                     )}
                   </div>
 
-                  {/* Filter Status Tabs (Tất cả / Đang công khai / Đã ẩn toàn bộ) */}
+                  {/* Filter Status Tabs (Tất cả / Đang công khai / Đã ẩn toàn bộ) & Select All */}
                   {!isEditingNews && (
-                    <div className="flex items-center gap-1.5 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
-                      <button
-                        type="button"
-                        onClick={() => setNewsFilterStatus("all")}
-                        className={`px-2.5 py-1 rounded-[3px] text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${
-                          newsFilterStatus === "all"
-                            ? "bg-slate-800 text-white shadow-2xs"
-                            : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
-                        }`}
-                      >
-                        <span>Tất cả</span>
-                        <span className="text-[10px] opacity-80">({news.length})</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setNewsFilterStatus("published")}
-                        className={`px-2.5 py-1 rounded-[3px] text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${
-                          newsFilterStatus === "published"
-                            ? "bg-emerald-700 text-white shadow-2xs"
-                            : "bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-50"
-                        }`}
-                      >
-                        <Eye className="w-3 h-3" />
-                        <span>Đang công khai</span>
-                        <span className="text-[10px] opacity-80">
-                          ({news.filter((n) => n.published !== false).length})
-                        </span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setNewsFilterStatus("hidden")}
-                        className={`px-2.5 py-1 rounded-[3px] text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${
-                          newsFilterStatus === "hidden"
-                            ? "bg-rose-700 text-white shadow-2xs"
-                            : "bg-white text-rose-700 border border-rose-200 hover:bg-rose-50"
-                        }`}
-                      >
-                        <EyeOff className="w-3 h-3" />
-                        <span>Đã ẩn toàn bộ</span>
-                        <span className="text-[10px] opacity-80">
-                          ({news.filter((n) => n.published === false).length})
-                        </span>
-                      </button>
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2">
+                      <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+                        <button
+                          type="button"
+                          onClick={() => setNewsFilterStatus("all")}
+                          className={`px-2.5 py-1 rounded-[3px] text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${
+                            newsFilterStatus === "all"
+                              ? "bg-slate-800 text-white shadow-2xs"
+                              : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+                          }`}
+                        >
+                          <span>Tất cả</span>
+                          <span className="text-[10px] opacity-80">({news.length})</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setNewsFilterStatus("published")}
+                          className={`px-2.5 py-1 rounded-[3px] text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${
+                            newsFilterStatus === "published"
+                              ? "bg-emerald-700 text-white shadow-2xs"
+                              : "bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-50"
+                          }`}
+                        >
+                          <Eye className="w-3 h-3" />
+                          <span>Đang công khai</span>
+                          <span className="text-[10px] opacity-80">
+                            ({news.filter((n) => n.published !== false).length})
+                          </span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setNewsFilterStatus("hidden")}
+                          className={`px-2.5 py-1 rounded-[3px] text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${
+                            newsFilterStatus === "hidden"
+                              ? "bg-rose-700 text-white shadow-2xs"
+                              : "bg-white text-rose-700 border border-rose-200 hover:bg-rose-50"
+                          }`}
+                        >
+                          <EyeOff className="w-3 h-3" />
+                          <span>Đã ẩn toàn bộ</span>
+                          <span className="text-[10px] opacity-80">
+                            ({news.filter((n) => n.published === false).length})
+                          </span>
+                        </button>
+                      </div>
+
+                      {filteredNews.length > 0 && (
+                        <label className="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer select-none px-2.5 py-1 rounded-[3px] bg-white border border-slate-200 hover:bg-slate-50 transition-colors">
+                          <input
+                            type="checkbox"
+                            aria-label="Chọn tất cả bài viết"
+                            checked={
+                              filteredNews.length > 0 &&
+                              filteredNews.every((n) => selectedNewsIds.includes(n.id))
+                            }
+                            onChange={handleToggleSelectAllNews}
+                            className="w-4 h-4 rounded-[2px] border-slate-300 text-[#ed3237] focus:ring-[#ed3237] cursor-pointer accent-[#ed3237]"
+                          />
+                          <span>Chọn tất cả ({filteredNews.length})</span>
+                        </label>
+                      )}
                     </div>
                   )}
 
@@ -2026,158 +2099,211 @@ export default function AdminPage() {
                       </div>
                     </form>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                      {filteredNews.length === 0 ? (
-                        <div className="col-span-2 py-8 text-center text-slate-400 text-xs bg-white rounded-[3px] border border-slate-200">
-                          Không tìm thấy bài viết nào
-                        </div>
-                      ) : (
-                        filteredNews.map((item) => {
-                          const isPublished = item.published !== false;
-                          return (
-                            <div
-                              key={item.id}
-                              className={`p-3.5 rounded-[3px] bg-white border shadow-2xs flex gap-3.5 transition-colors ${
-                                isPublished
-                                  ? "border-slate-200 hover:border-slate-300"
-                                  : "border-rose-200/90 bg-rose-50/20 hover:border-rose-300"
-                              }`}
+                    <div className="space-y-3">
+                      {/* Bulk Actions Bar */}
+                      {selectedNewsIds.length > 0 && (
+                        <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 bg-red-50 border border-red-200 rounded-[3px] text-xs">
+                          <div className="flex items-center gap-2 text-slate-800">
+                            <span className="font-semibold text-[#ed3237]">
+                              Đã chọn {selectedNewsIds.length}/{filteredNews.length} bài viết
+                            </span>
+                            <span className="text-slate-300">|</span>
+                            <button
+                              type="button"
+                              onClick={() => setSelectedNewsIds([])}
+                              className="text-slate-600 hover:text-slate-900 underline cursor-pointer"
                             >
-                              <div className="relative w-20 h-20 rounded-[2px] overflow-hidden shrink-0 border border-slate-200">
-                                <Image src={item.thumbnail} alt="" fill className="object-cover" />
-                                {!isPublished && (
-                                  <div className="absolute inset-0 bg-slate-900/40 flex items-center justify-center">
-                                    <EyeOff className="w-5 h-5 text-white/90" />
-                                  </div>
-                                )}
-                              </div>
-                              <div className="flex-1 flex flex-col justify-between min-w-0">
-                                <div>
-                                  <div className="flex items-center gap-1.5 flex-wrap">
-                                    <span className="text-[10px] font-bold uppercase text-slate-500">
-                                      {item.categoryName}
-                                    </span>
-                                    {isPublished ? (
-                                      <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-300 px-1.5 py-0.2 rounded-[2px] inline-flex items-center gap-1">
-                                        <Eye className="w-2.5 h-2.5" />
-                                        <span>CÔNG KHAI</span>
-                                      </span>
-                                    ) : (
-                                      <span className="text-[9px] font-bold text-rose-700 bg-rose-100 border border-rose-300 px-1.5 py-0.2 rounded-[2px] inline-flex items-center gap-1">
-                                        <EyeOff className="w-2.5 h-2.5" />
-                                        <span>ĐÃ ẨN TOÀN BỘ</span>
-                                      </span>
-                                    )}
-                                  </div>
-                                  <h4 className="text-xs font-bold text-slate-900 line-clamp-2 mt-0.5">
-                                    {item.title}
-                                  </h4>
-                                  {item.slug && (
-                                    <div className="text-[10px] text-slate-400 font-mono truncate mt-0.5">
-                                      /{item.slug}
+                              Bỏ chọn tất cả
+                            </button>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={handleBulkDeleteNews}
+                            disabled={isBulkDeletingNews}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed shadow-2xs"
+                          >
+                            {isBulkDeletingNews ? (
+                              <>
+                                <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                <span>Đang xóa...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Trash2 className="w-3.5 h-3.5" />
+                                <span>Xóa {selectedNewsIds.length} bài viết đã chọn</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      )}
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                        {filteredNews.length === 0 ? (
+                          <div className="col-span-2 py-8 text-center text-slate-400 text-xs bg-white rounded-[3px] border border-slate-200">
+                            Không tìm thấy bài viết nào
+                          </div>
+                        ) : (
+                          filteredNews.map((item) => {
+                            const isSelected = selectedNewsIds.includes(item.id);
+                            const isPublished = item.published !== false;
+                            return (
+                              <div
+                                key={item.id}
+                                className={`p-3.5 rounded-[3px] bg-white border shadow-2xs flex gap-3 transition-colors ${
+                                  isSelected
+                                    ? "border-red-400 bg-red-50/40 ring-1 ring-[#ed3237]/30"
+                                    : isPublished
+                                    ? "border-slate-200 hover:border-slate-300"
+                                    : "border-rose-200/90 bg-rose-50/20 hover:border-rose-300"
+                                }`}
+                              >
+                                {/* Checkbox chọn dòng */}
+                                <div className="pt-0.5 shrink-0">
+                                  <input
+                                    type="checkbox"
+                                    aria-label={`Chọn bài viết ${item.title}`}
+                                    checked={isSelected}
+                                    onChange={() => handleToggleSelectNews(item.id)}
+                                    className="w-4 h-4 rounded-[2px] border-slate-300 text-[#ed3237] focus:ring-[#ed3237] cursor-pointer accent-[#ed3237]"
+                                  />
+                                </div>
+
+                                <div className="relative w-20 h-20 rounded-[2px] overflow-hidden shrink-0 border border-slate-200">
+                                  <Image src={item.thumbnail} alt="" fill className="object-cover" />
+                                  {!isPublished && (
+                                    <div className="absolute inset-0 bg-slate-900/40 flex items-center justify-center">
+                                      <EyeOff className="w-5 h-5 text-white/90" />
                                     </div>
                                   )}
                                 </div>
-                                <div className="flex items-center justify-between pt-2">
-                                  <div className="flex items-center gap-1.5 flex-wrap">
-                                    <span className="text-[11px] text-slate-400 mr-0.5">{item.date}</span>
-
-                                    {/* 1-click Quick Toggle Nút Ẩn / Mở công khai */}
-                                    <button
-                                      type="button"
-                                      onClick={() => handleTogglePublishNews(item)}
-                                      title={
-                                        isPublished
-                                          ? "Bấm để ẩn bài viết khỏi toàn bộ website"
-                                          : "Bấm để mở công khai bài viết lên website"
-                                      }
-                                      className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] text-[10px] font-bold border transition-all cursor-pointer ${
-                                        isPublished
-                                          ? "bg-slate-50 text-slate-600 border-slate-300 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-300"
-                                          : "bg-rose-100 text-rose-700 border-rose-300 hover:bg-emerald-100 hover:text-emerald-700 hover:border-emerald-300"
-                                      }`}
-                                    >
+                                <div className="flex-1 flex flex-col justify-between min-w-0">
+                                  <div>
+                                    <div className="flex items-center gap-1.5 flex-wrap">
+                                      <span className="text-[10px] font-bold uppercase text-slate-500">
+                                        {item.categoryName}
+                                      </span>
                                       {isPublished ? (
-                                        <>
-                                          <EyeOff className="w-3 h-3 text-slate-500" />
-                                          <span>Ẩn bài</span>
-                                        </>
+                                        <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-300 px-1.5 py-0.2 rounded-[2px] inline-flex items-center gap-1">
+                                          <Eye className="w-2.5 h-2.5" />
+                                          <span>CÔNG KHAI</span>
+                                        </span>
                                       ) : (
-                                        <>
-                                          <Eye className="w-3 h-3 text-rose-600" />
-                                          <span>Hiện lại</span>
-                                        </>
+                                        <span className="text-[9px] font-bold text-rose-700 bg-rose-100 border border-rose-300 px-1.5 py-0.2 rounded-[2px] inline-flex items-center gap-1">
+                                          <EyeOff className="w-2.5 h-2.5" />
+                                          <span>ĐÃ ẨN TOÀN BỘ</span>
+                                        </span>
                                       )}
-                                    </button>
-
-                                    {/* Toggle hiển thị trên trang chủ */}
-                                    <button
-                                      type="button"
-                                      onClick={() => handleToggleFeaturedNews(item)}
-                                      title={
-                                        item.featured
-                                          ? "Bấm để tắt hiển thị trên trang chủ"
-                                          : "Bấm để bật hiển thị trên trang chủ"
-                                      }
-                                      className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] text-[10px] font-bold border transition-all cursor-pointer ${
-                                        item.featured
-                                          ? "bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100"
-                                          : "bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200"
-                                      }`}
-                                    >
-                                      <span
-                                        className={`w-1.5 h-1.5 rounded-full ${
-                                          item.featured ? "bg-emerald-500" : "bg-slate-400"
-                                        }`}
-                                      />
-                                      <span>{item.featured ? "Trang chủ: BẬT" : "Trang chủ: TẮT"}</span>
-                                    </button>
+                                    </div>
+                                    <h4 className="text-xs font-bold text-slate-900 line-clamp-2 mt-0.5">
+                                      {item.title}
+                                    </h4>
+                                    {item.slug && (
+                                      <div className="text-[10px] text-slate-400 font-mono truncate mt-0.5">
+                                        /{item.slug}
+                                      </div>
+                                    )}
                                   </div>
+                                  <div className="flex items-center justify-between pt-2">
+                                    <div className="flex items-center gap-1.5 flex-wrap">
+                                      <span className="text-[11px] text-slate-400 mr-0.5">{item.date}</span>
 
-                                  <div className="flex gap-1.5 shrink-0">
-                                    <a
-                                      href={`/tin-tuc/${item.slug || item.id}`}
-                                      target="_blank"
-                                      rel="noreferrer"
-                                      className="p-1 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-500 hover:text-slate-800"
-                                      title={
-                                        isPublished
-                                          ? "Xem bài viết live"
-                                          : "Bài viết đang bị ẩn (xem live sẽ báo 404)"
-                                      }
-                                    >
-                                      <ExternalLink className="w-3.5 h-3.5" />
-                                    </a>
-                                    <button
-                                      onClick={() => {
-                                        setNewsForm({
-                                          ...item,
-                                          slug: item.slug || toVietnameseSlug(item.title),
-                                          featured: item.featured ?? true,
-                                          published: item.published !== false,
-                                        });
-                                        setIsAutoSlug(false);
-                                        setIsEditingNews(true);
-                                      }}
-                                      className="p-1 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-600"
-                                      title="Sửa"
-                                    >
-                                      <Edit3 className="w-3.5 h-3.5" />
-                                    </button>
-                                    <button
-                                      onClick={() => handleDeleteNews(item.id)}
-                                      className="p-1 rounded-[3px] border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-600"
-                                      title="Xóa"
-                                    >
-                                      <Trash2 className="w-3.5 h-3.5" />
-                                    </button>
+                                      {/* 1-click Quick Toggle Nút Ẩn / Mở công khai */}
+                                      <button
+                                        type="button"
+                                        onClick={() => handleTogglePublishNews(item)}
+                                        title={
+                                          isPublished
+                                            ? "Bấm để ẩn bài viết khỏi toàn bộ website"
+                                            : "Bấm để mở công khai bài viết lên website"
+                                        }
+                                        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] text-[10px] font-bold border transition-all cursor-pointer ${
+                                          isPublished
+                                            ? "bg-slate-50 text-slate-600 border-slate-300 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-300"
+                                            : "bg-rose-100 text-rose-700 border-rose-300 hover:bg-emerald-100 hover:text-emerald-700 hover:border-emerald-300"
+                                        }`}
+                                      >
+                                        {isPublished ? (
+                                          <>
+                                            <EyeOff className="w-3 h-3 text-slate-500" />
+                                            <span>Ẩn bài</span>
+                                          </>
+                                        ) : (
+                                          <>
+                                            <Eye className="w-3 h-3 text-rose-600" />
+                                            <span>Hiện lại</span>
+                                          </>
+                                        )}
+                                      </button>
+
+                                      {/* Toggle hiển thị trên trang chủ */}
+                                      <button
+                                        type="button"
+                                        onClick={() => handleToggleFeaturedNews(item)}
+                                        title={
+                                          item.featured
+                                            ? "Bấm để tắt hiển thị trên trang chủ"
+                                            : "Bấm để bật hiển thị trên trang chủ"
+                                        }
+                                        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] text-[10px] font-bold border transition-all cursor-pointer ${
+                                          item.featured
+                                            ? "bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100"
+                                            : "bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200"
+                                        }`}
+                                      >
+                                        <span
+                                          className={`w-1.5 h-1.5 rounded-full ${
+                                            item.featured ? "bg-emerald-500" : "bg-slate-400"
+                                          }`}
+                                        />
+                                        <span>{item.featured ? "Trang chủ: BẬT" : "Trang chủ: TẮT"}</span>
+                                      </button>
+                                    </div>
+
+                                    <div className="flex gap-1.5 shrink-0">
+                                      <a
+                                        href={`/tin-tuc/${item.slug || item.id}`}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="p-1 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-500 hover:text-slate-800"
+                                        title={
+                                          isPublished
+                                            ? "Xem bài viết live"
+                                            : "Bài viết đang bị ẩn (xem live sẽ báo 404)"
+                                        }
+                                      >
+                                        <ExternalLink className="w-3.5 h-3.5" />
+                                      </a>
+                                      <button
+                                        onClick={() => {
+                                          setNewsForm({
+                                            ...item,
+                                            slug: item.slug || toVietnameseSlug(item.title),
+                                            featured: item.featured ?? true,
+                                            published: item.published !== false,
+                                          });
+                                          setIsAutoSlug(false);
+                                          setIsEditingNews(true);
+                                        }}
+                                        className="p-1 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-600"
+                                        title="Sửa"
+                                      >
+                                        <Edit3 className="w-3.5 h-3.5" />
+                                      </button>
+                                      <button
+                                        onClick={() => handleDeleteNews(item.id)}
+                                        className="p-1 rounded-[3px] border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-600"
+                                        title="Xóa"
+                                      >
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          );
-                        })
-                      )}
+                            );
+                          })
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>

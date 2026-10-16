@@ -50,38 +50,61 @@ export async function POST(req: Request) {
 export async function DELETE(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
-    if (!id) {
-      return NextResponse.json({ error: "Missing news id" }, { status: 400 });
+    const idParam = searchParams.get("id");
+    const idsParam = searchParams.get("ids");
+    let ids: string[] = [];
+
+    if (idsParam) {
+      ids = idsParam.split(",").map((s) => s.trim()).filter(Boolean);
+    } else if (idParam) {
+      ids = [idParam.trim()];
+    } else {
+      try {
+        const text = await req.text();
+        if (text) {
+          const body = JSON.parse(text);
+          if (Array.isArray(body?.ids)) {
+            ids = body.ids.filter(Boolean);
+          } else if (body?.id) {
+            ids = [body.id];
+          }
+        }
+      } catch {
+        // no body
+      }
     }
 
-    // 1. Tìm bài viết để quét các ảnh trên Cloudinary cần hủy (Thumbnail + Ảnh trong nội dung)
+    if (ids.length === 0) {
+      return NextResponse.json({ error: "Missing news id or ids" }, { status: 400 });
+    }
+
+    // 1. Tìm các bài viết để quét ảnh Cloudinary cần hủy (Thumbnail + Nội dung HTML)
     const allNews = await db.getNews();
-    const targetPost = allNews.find((n) => n.id === id);
+    const targetPosts = allNews.filter((n) => ids.includes(n.id));
 
-    if (targetPost) {
-      const urlsToDelete: string[] = [];
-
-      // Ảnh thumbnail đại diện
-      if (targetPost.thumbnail && targetPost.thumbnail.includes("res.cloudinary.com")) {
-        urlsToDelete.push(targetPost.thumbnail);
+    const urlsToDelete: string[] = [];
+    for (const post of targetPosts) {
+      if (post.thumbnail && post.thumbnail.includes("res.cloudinary.com")) {
+        urlsToDelete.push(post.thumbnail);
       }
-
-      // Các hình ảnh chèn trong nội dung HTML bài viết (soạn từ Quill)
-      if (targetPost.content) {
-        const contentUrls = extractCloudinaryUrlsFromHtml(targetPost.content);
+      if (post.content) {
+        const contentUrls = extractCloudinaryUrlsFromHtml(post.content);
         urlsToDelete.push(...contentUrls);
       }
-
-      // Gọi Cloudinary Destroy API hủy tất cả ảnh liên quan
-      if (urlsToDelete.length > 0) {
-        await deleteMultipleFromCloudinary(urlsToDelete);
-      }
     }
 
-    // 2. Xóa bản ghi bài viết trong cơ sở dữ liệu
-    const success = await db.deleteNews(id);
-    return NextResponse.json({ success });
+    if (urlsToDelete.length > 0) {
+      await deleteMultipleFromCloudinary(urlsToDelete);
+    }
+
+    // 2. Xóa các bản ghi bài viết trong cơ sở dữ liệu
+    let deletedCount = 0;
+    for (const id of ids) {
+      const success = await db.deleteNews(id);
+      if (success) deletedCount++;
+    }
+
+    return NextResponse.json({ success: true, count: deletedCount });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
