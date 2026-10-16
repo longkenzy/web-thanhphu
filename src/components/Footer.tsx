@@ -21,9 +21,9 @@ export default function Footer({ settings }: FooterProps) {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#ed3237]/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-12 border-b border-slate-700/70">
-          {/* Brand info (4 cols) */}
-          <div className="lg:col-span-4 space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-8 xl:gap-10 pb-12 border-b border-slate-700/70">
+          {/* Cột 1: Thông tin doanh nghiệp */}
+          <div className="space-y-4">
             <Link href="/" className="inline-block group">
               <div className="relative h-12 w-48 sm:h-14 sm:w-56 transition-transform duration-300 group-hover:scale-105">
                 <Image
@@ -37,18 +37,18 @@ export default function Footer({ settings }: FooterProps) {
             </Link>
             <p className="text-sm text-slate-300 leading-relaxed font-normal">
               <strong className="text-white block font-bold mb-1 text-[15px]">{settings.name}</strong>
-              Đơn vị tiên phong thi công các công trình hầm xuyên núi, hạ tầng giao thông đường bộ, cầu cạn và các tuyến quốc lộ trọng điểm quốc gia.
+              Doanh nghiệp hoạt động chuyên sâu trong lĩnh vực thi công xây dựng dân dụng &amp; công nghiệp, công trình hạ tầng giao thông và kết cấu kỹ thuật cao.
             </p>
             <div className="pt-1 text-sm text-slate-300 space-y-1.5">
               <div>
-                Mã số doanh nghiệp: <span className="text-white font-bold">{settings.taxCode || "0310001821"}</span>
+                Mã số doanh nghiệp: <span className="text-white font-bold">{settings.taxCode || "0312019045"}</span>
               </div>
               <div className="text-slate-400 text-xs sm:text-sm">Cấp bởi: Sở Kế hoạch và Đầu tư TP. Hồ Chí Minh</div>
             </div>
           </div>
 
-          {/* Quick Links (3 cols) */}
-          <div className="lg:col-span-3 space-y-4">
+          {/* Cột 2: Liên kết nhanh */}
+          <div className="space-y-4">
             <h4 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#ed3237]" />
               <span>Liên Kết Nhanh</span>
@@ -56,85 +56,106 @@ export default function Footer({ settings }: FooterProps) {
             <ul className="space-y-2.5 text-sm text-slate-300">
               <li>
                 <Link href="/" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
                   <span>Trang chủ</span>
                 </Link>
               </li>
               <li>
                 <Link href="/gioi-thieu" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
                   <span>Giới thiệu doanh nghiệp</span>
                 </Link>
               </li>
               <li>
                 <Link href="/linh-vuc-hoat-dong" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
                   <span>Lĩnh vực hoạt động</span>
                 </Link>
               </li>
               <li>
                 <Link href="/cong-trinh" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
                   <span>Công trình tiêu biểu</span>
                 </Link>
               </li>
               <li>
                 <Link href="/tin-tuc" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
-                  <span>Tin tức & Sự kiện</span>
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
+                  <span>Tin tức &amp; Sự kiện</span>
                 </Link>
               </li>
               <li>
                 <Link href="/tuyen-dung" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
                   <span>Cơ hội tuyển dụng</span>
                 </Link>
               </li>
               <li>
                 <Link href="/lien-he" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237]" />
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
                   <span>Liên hệ hợp tác</span>
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Key Projects (2 cols) */}
-          <div className="lg:col-span-2 space-y-4">
+          {/* Cột 3: Hạng mục công trình */}
+          <div className="space-y-4">
             <h4 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#3e4095]" />
-              <span>Đại Công Trình</span>
+              <span className="w-2 h-2 rounded-full bg-[#ed3237]" />
+              <span>Hạng Mục Công Trình</span>
             </h4>
             <ul className="space-y-2.5 text-sm text-slate-300">
               <li>
-                <Link href="/#projects" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                  <span>Hầm Đèo Cả & Cổ Mã</span>
+                <Link
+                  href="/cong-trinh?category=dan-dung-cao-tang"
+                  className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
+                  <span>Xây dựng dân dụng &amp; cao tầng</span>
                 </Link>
               </li>
               <li>
-                <Link href="/#projects" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                  <span>Hầm đường bộ Cù Mông</span>
+                <Link
+                  href="/cong-trinh?category=cong-nghiep-nha-xuong"
+                  className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
+                  <span>Công trình công nghiệp &amp; nhà xưởng</span>
                 </Link>
               </li>
               <li>
-                <Link href="/#projects" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                  <span>Hầm Phước Tượng - Phú Gia</span>
+                <Link
+                  href="/cong-trinh?category=ha-tang-giao-thong"
+                  className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
+                  <span>Hạ tầng kỹ thuật &amp; giao thông</span>
                 </Link>
               </li>
               <li>
-                <Link href="/#projects" className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all">
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                  <span>Mở rộng QL1 Khánh Hòa</span>
+                <Link
+                  href="/cong-trinh?category=ket-cau-thep-nhom-kinh"
+                  className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
+                  <span>Kết cấu thép &amp; nhôm kính</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/cong-trinh?category=trang-tri-noi-that"
+                  className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
+                  <span>Thi công trang trí nội thất</span>
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact Details (3 cols) */}
-          <div className="lg:col-span-3 space-y-4">
+          {/* Cột 4: Liên hệ trụ sở */}
+          <div className="space-y-4">
             <h4 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#ed3237]" />
               <span>Liên Hệ Trụ Sở</span>
@@ -169,7 +190,7 @@ export default function Footer({ settings }: FooterProps) {
                 <Mail className="w-4 h-4 text-[#ed3237] shrink-0" />
                 <a
                   href={`mailto:${settings.email || "thanhphuhcns@gmail.com"}`}
-                  className="text-slate-200 hover:text-white transition-colors"
+                  className="text-slate-200 hover:text-white transition-colors break-all"
                 >
                   {settings.email || "thanhphuhcns@gmail.com"}
                 </a>
