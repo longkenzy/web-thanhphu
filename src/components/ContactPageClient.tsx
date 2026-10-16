@@ -41,7 +41,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
   const address = settings.address || "22A Vũ Ngọc Phan, Phường Bình Lợi Trung, Tp. Hồ Chí Minh";
   const hotline = settings.hotline || settings.phone || "(028) 3553 0675";
   const email = settings.email || "thanhphuhcns@gmail.com";
-  const taxCode = settings.taxCode || "0312019045";
+  const taxCode = settings.taxCode || "0310001821";
   const companyName = settings.name || "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ";
 
   const googleMapsEmbedUrl =

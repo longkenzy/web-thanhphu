@@ -95,7 +95,7 @@ export default async function ContactPage() {
         logo: "https://trunghaico.vn/logo.png",
         telephone: settings.hotline || settings.phone || "(028) 3553 0675",
         email: settings.email || "thanhphuhcns@gmail.com",
-        taxID: settings.taxCode || "0312019045",
+        taxID: settings.taxCode || "0310001821",
         address: {
           "@type": "PostalAddress",
           streetAddress: settings.address || "22A Vũ Ngọc Phan, Phường Bình Lợi Trung, Tp. Hồ Chí Minh",

@@ -15,7 +15,7 @@ export const initialCompanySettings: CompanySettings = {
   name: "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ",
   shortName: "THÀNH PHÚ JSC",
   slogan: "Tiên phong kiến tạo những công trình giao thông huyết mạch",
-  taxCode: "0312019045",
+  taxCode: "0310001821",
   address: "22A Vũ Ngọc Phan, Phường Bình Lợi Trung, Tp. Hồ Chí Minh",
   phone: "(028) 3553 0675",
   hotline: "(028) 3553 0675",
