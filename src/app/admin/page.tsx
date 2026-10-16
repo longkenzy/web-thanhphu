@@ -113,6 +113,8 @@ export default function AdminPage() {
 
   // Search filters
   const [projectSearch, setProjectSearch] = useState("");
+  const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
+  const [isBulkDeletingProjects, setIsBulkDeletingProjects] = useState(false);
   const [newsSearch, setNewsSearch] = useState("");
   const [partnerSearch, setPartnerSearch] = useState("");
 
@@ -380,10 +382,63 @@ export default function AdminPage() {
       const res = await fetch(`/api/projects?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         showNotice("Đã xóa dự án thành công");
+        setSelectedProjectIds((prev) => prev.filter((item) => item !== id));
         loadData();
       }
     } catch (err: any) {
       showNotice(err.message, "error");
+    }
+  };
+
+  const handleToggleSelectAllProjects = () => {
+    if (filteredProjects.length === 0) return;
+    const allFilteredSelected = filteredProjects.every((p) => selectedProjectIds.includes(p.id));
+    if (allFilteredSelected) {
+      const filteredIds = new Set(filteredProjects.map((p) => p.id));
+      setSelectedProjectIds((prev) => prev.filter((id) => !filteredIds.has(id)));
+    } else {
+      const newSelected = new Set(selectedProjectIds);
+      filteredProjects.forEach((p) => newSelected.add(p.id));
+      setSelectedProjectIds(Array.from(newSelected));
+    }
+  };
+
+  const handleToggleSelectProject = (id: string) => {
+    setSelectedProjectIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleBulkDeleteProjects = async () => {
+    if (selectedProjectIds.length === 0) return;
+    const count = selectedProjectIds.length;
+    if (
+      !confirm(
+        `Bạn có chắc chắn muốn xóa ${count} công trình đã chọn?\nToàn bộ hình ảnh liên quan trên Cloudinary cũng sẽ được xóa sạch và không thể hoàn tác.`
+      )
+    ) {
+      return;
+    }
+
+    setIsBulkDeletingProjects(true);
+    try {
+      const res = await fetch("/api/projects", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selectedProjectIds }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        showNotice(`Đã xóa thành công ${count} công trình!`);
+        setSelectedProjectIds([]);
+        loadData();
+      } else {
+        showNotice(data.error || "Lỗi khi xóa công trình hàng loạt", "error");
+      }
+    } catch (err: any) {
+      showNotice(err.message, "error");
+    } finally {
+      setIsBulkDeletingProjects(false);
     }
   };
 
@@ -1235,8 +1290,8 @@ export default function AdminPage() {
                           onClick={() => {
                             setProjectForm({
                               title: "",
-                              category: "ham",
-                              categoryName: "Hầm Xuyên Núi",
+                              category: "dan-dung-cao-tang",
+                              categoryName: "Dân Dụng & Cao Tầng",
                               client: "",
                               location: "",
                               year: "2026",
@@ -1258,6 +1313,46 @@ export default function AdminPage() {
                       </div>
                     )}
                   </div>
+
+                  {/* Bulk Action Bar */}
+                  {!isEditingProject && selectedProjectIds.length > 0 && (
+                    <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-[3px] bg-red-50/90 border border-red-200 text-xs shadow-2xs">
+                      <div className="flex items-center gap-2">
+                        <span className="w-5 h-5 rounded-full bg-[#ed3237] text-white flex items-center justify-center text-[11px] font-bold">
+                          {selectedProjectIds.length}
+                        </span>
+                        <span className="text-slate-800 font-semibold">
+                          Đã chọn <span className="text-[#ed3237] font-bold">{selectedProjectIds.length}</span> công trình
+                        </span>
+                        <span className="text-slate-300">|</span>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedProjectIds([])}
+                          className="text-slate-500 hover:text-slate-800 underline text-[11px] cursor-pointer"
+                        >
+                          Bỏ chọn tất cả
+                        </button>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleBulkDeleteProjects}
+                        disabled={isBulkDeletingProjects}
+                        className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-[3px] bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs shadow-2xs transition-colors cursor-pointer disabled:opacity-60"
+                      >
+                        {isBulkDeletingProjects ? (
+                          <>
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            <span>Đang xóa...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Trash2 className="w-3.5 h-3.5" />
+                            <span>Xóa {selectedProjectIds.length} công trình đã chọn</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
 
                   {isEditingProject ? (
                     /* Project Form */
@@ -1426,9 +1521,18 @@ export default function AdminPage() {
                     /* Project Table */
                     <div className="rounded-[3px] border border-slate-200 bg-white shadow-2xs overflow-hidden">
                       <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs min-w-[580px]">
+                        <table className="w-full text-left text-xs min-w-[620px]">
                           <thead className="bg-slate-50 text-slate-600 uppercase text-[11px] font-semibold border-b border-slate-200">
                             <tr>
+                              <th className="py-2.5 px-3 w-10 text-center">
+                                <input
+                                  type="checkbox"
+                                  aria-label="Chọn tất cả công trình"
+                                  checked={filteredProjects.length > 0 && filteredProjects.every((p) => selectedProjectIds.includes(p.id))}
+                                  onChange={handleToggleSelectAllProjects}
+                                  className="w-4 h-4 rounded-[2px] border-slate-300 text-[#ed3237] focus:ring-[#ed3237] cursor-pointer accent-[#ed3237]"
+                                />
+                              </th>
                               <th className="py-2.5 px-3.5 w-16">Ảnh</th>
                               <th className="py-2.5 px-3.5">Tên công trình</th>
                               <th className="py-2.5 px-3.5">Hạng mục</th>
@@ -1440,49 +1544,66 @@ export default function AdminPage() {
                           <tbody className="divide-y divide-slate-100 text-slate-700">
                             {filteredProjects.length === 0 ? (
                               <tr>
-                                <td colSpan={6} className="py-8 text-center text-slate-400 text-xs">
+                                <td colSpan={7} className="py-8 text-center text-slate-400 text-xs">
                                   Không tìm thấy công trình nào
                                 </td>
                               </tr>
                             ) : (
-                              filteredProjects.map((p) => (
-                                <tr key={p.id} className="hover:bg-slate-50/70 transition-colors">
-                                  <td className="py-2.5 px-3.5">
-                                    <div className="relative w-12 h-9 rounded-[2px] overflow-hidden border border-slate-200">
-                                      <Image src={p.thumbnail} alt="" fill className="object-cover" />
-                                    </div>
-                                  </td>
-                                  <td className="py-2.5 px-3.5 font-semibold text-slate-900 max-w-xs truncate">
-                                    {p.title}
-                                  </td>
-                                  <td className="py-2.5 px-3.5">
-                                    <span className="px-2 py-0.5 rounded-[3px] bg-slate-100 text-slate-700 text-[11px] font-medium border border-slate-200">
-                                      {p.categoryName}
-                                    </span>
-                                  </td>
-                                  <td className="py-2.5 px-3.5 text-slate-500">{p.location}</td>
-                                  <td className="py-2.5 px-3.5 text-slate-500">{p.year}</td>
-                                  <td className="py-2.5 px-3.5 text-right space-x-1">
-                                    <button
-                                      onClick={() => {
-                                        setProjectForm(p);
-                                        setIsEditingProject(true);
-                                      }}
-                                      className="p-1.5 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-600 transition-colors"
-                                      title="Sửa"
-                                    >
-                                      <Edit3 className="w-3.5 h-3.5" />
-                                    </button>
-                                    <button
-                                      onClick={() => handleDeleteProject(p.id)}
-                                      className="p-1.5 rounded-[3px] border border-rose-200 bg-rose-50/60 hover:bg-rose-100 text-rose-600 transition-colors"
-                                      title="Xóa"
-                                    >
-                                      <Trash2 className="w-3.5 h-3.5" />
-                                    </button>
-                                  </td>
-                                </tr>
-                              ))
+                              filteredProjects.map((p) => {
+                                const isSelected = selectedProjectIds.includes(p.id);
+                                return (
+                                  <tr
+                                    key={p.id}
+                                    className={`transition-colors ${
+                                      isSelected ? "bg-red-50/60 hover:bg-red-50/80" : "hover:bg-slate-50/70"
+                                    }`}
+                                  >
+                                    <td className="py-2.5 px-3 text-center">
+                                      <input
+                                        type="checkbox"
+                                        aria-label={`Chọn công trình ${p.title}`}
+                                        checked={isSelected}
+                                        onChange={() => handleToggleSelectProject(p.id)}
+                                        className="w-4 h-4 rounded-[2px] border-slate-300 text-[#ed3237] focus:ring-[#ed3237] cursor-pointer accent-[#ed3237]"
+                                      />
+                                    </td>
+                                    <td className="py-2.5 px-3.5">
+                                      <div className="relative w-12 h-9 rounded-[2px] overflow-hidden border border-slate-200">
+                                        <Image src={p.thumbnail} alt="" fill className="object-cover" />
+                                      </div>
+                                    </td>
+                                    <td className="py-2.5 px-3.5 font-semibold text-slate-900 max-w-xs truncate">
+                                      {p.title}
+                                    </td>
+                                    <td className="py-2.5 px-3.5">
+                                      <span className="px-2 py-0.5 rounded-[3px] bg-slate-100 text-slate-700 text-[11px] font-medium border border-slate-200">
+                                        {p.categoryName}
+                                      </span>
+                                    </td>
+                                    <td className="py-2.5 px-3.5 text-slate-500">{p.location}</td>
+                                    <td className="py-2.5 px-3.5 text-slate-500">{p.year}</td>
+                                    <td className="py-2.5 px-3.5 text-right space-x-1">
+                                      <button
+                                        onClick={() => {
+                                          setProjectForm(p);
+                                          setIsEditingProject(true);
+                                        }}
+                                        className="p-1.5 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-600 transition-colors"
+                                        title="Sửa"
+                                      >
+                                        <Edit3 className="w-3.5 h-3.5" />
+                                      </button>
+                                      <button
+                                        onClick={() => handleDeleteProject(p.id)}
+                                        className="p-1.5 rounded-[3px] border border-rose-200 bg-rose-50/60 hover:bg-rose-100 text-rose-600 transition-colors"
+                                        title="Xóa"
+                                      >
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                      </button>
+                                    </td>
+                                  </tr>
+                                );
+                              })
                             )}
                           </tbody>
                         </table>

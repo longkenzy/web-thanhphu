@@ -42,35 +42,64 @@ export async function POST(req: Request) {
 export async function DELETE(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
-    if (!id) {
-      return NextResponse.json({ error: "Missing project id" }, { status: 400 });
-    }
+    const idParam = searchParams.get("id");
+    const idsParam = searchParams.get("ids");
+    let ids: string[] = [];
 
-    // 1. Tìm dự án để quét các ảnh trên Cloudinary cần hủy (Thumbnail + Gallery)
-    const project = await db.getProjectById(id);
-    if (project) {
-      const urlsToDelete: string[] = [];
-
-      if (project.thumbnail && project.thumbnail.includes("res.cloudinary.com")) {
-        urlsToDelete.push(project.thumbnail);
-      }
-      if (Array.isArray(project.gallery)) {
-        project.gallery.forEach((img) => {
-          if (img && img.includes("res.cloudinary.com")) {
-            urlsToDelete.push(img);
+    if (idsParam) {
+      ids = idsParam.split(",").map((s) => s.trim()).filter(Boolean);
+    } else if (idParam) {
+      ids = [idParam.trim()];
+    } else {
+      try {
+        const text = await req.text();
+        if (text) {
+          const body = JSON.parse(text);
+          if (Array.isArray(body?.ids)) {
+            ids = body.ids.filter(Boolean);
+          } else if (body?.id) {
+            ids = [body.id];
           }
-        });
-      }
-
-      if (urlsToDelete.length > 0) {
-        await deleteMultipleFromCloudinary(urlsToDelete);
+        }
+      } catch {
+        // no body
       }
     }
 
-    // 2. Xóa bản ghi dự án trong cơ sở dữ liệu
-    const success = await db.deleteProject(id);
-    return NextResponse.json({ success });
+    if (ids.length === 0) {
+      return NextResponse.json({ error: "Missing project id or ids" }, { status: 400 });
+    }
+
+    // 1. Quét toàn bộ ảnh trên Cloudinary từ tất cả các dự án cần xóa
+    const allUrlsToDelete: string[] = [];
+    for (const id of ids) {
+      const project = await db.getProjectById(id);
+      if (project) {
+        if (project.thumbnail && project.thumbnail.includes("res.cloudinary.com")) {
+          allUrlsToDelete.push(project.thumbnail);
+        }
+        if (Array.isArray(project.gallery)) {
+          project.gallery.forEach((img) => {
+            if (img && img.includes("res.cloudinary.com")) {
+              allUrlsToDelete.push(img);
+            }
+          });
+        }
+      }
+    }
+
+    if (allUrlsToDelete.length > 0) {
+      await deleteMultipleFromCloudinary(allUrlsToDelete);
+    }
+
+    // 2. Xóa các bản ghi dự án trong cơ sở dữ liệu
+    let deletedCount = 0;
+    for (const id of ids) {
+      const success = await db.deleteProject(id);
+      if (success) deletedCount++;
+    }
+
+    return NextResponse.json({ success: true, count: deletedCount });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
