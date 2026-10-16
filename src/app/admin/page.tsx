@@ -48,6 +48,7 @@ import {
   Handshake,
 } from "lucide-react";
 import { Project, NewsPost, JobPosting, CompanySettings, HeroSlide, Partner } from "@/types";
+import { toDateInputValue, formatDateDisplay, getTodayDisplayDate } from "@/lib/dateUtils";
 
 // Dynamic import for TinyMCE editor to ensure client-side rendering
 const TinyMCEEditor = dynamic(() => import("@/components/TinyMCEEditor"), {
@@ -180,6 +181,7 @@ export default function AdminPage() {
     summary: "",
     content: "",
     author: "Ban Biên Tập",
+    date: getTodayDisplayDate(),
     thumbnail: "",
     featured: true,
     published: true,
@@ -455,10 +457,11 @@ export default function AdminPage() {
     e.preventDefault();
     try {
       const finalSlug = newsForm.slug || toVietnameseSlug(newsForm.title || "");
+      const finalDate = formatDateDisplay(newsForm.date || getTodayDisplayDate());
       const res = await fetch("/api/news", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...newsForm, slug: finalSlug }),
+        body: JSON.stringify({ ...newsForm, slug: finalSlug, date: finalDate }),
       });
       if (res.ok) {
         showNotice("Đã lưu bài viết thành công!");
@@ -1291,8 +1294,10 @@ export default function AdminPage() {
                             summary: "",
                             content: "",
                             author: "Ban Biên Tập",
+                            date: getTodayDisplayDate(),
                             thumbnail: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
                             featured: true,
+                            published: true,
                           });
                           setIsAutoSlug(true);
                           setIsEditingNews(true);
@@ -1830,6 +1835,7 @@ export default function AdminPage() {
                               summary: "",
                               content: "",
                               author: "Ban Biên Tập",
+                              date: getTodayDisplayDate(),
                               thumbnail: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
                               featured: true,
                               published: true,
@@ -2027,7 +2033,7 @@ export default function AdminPage() {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
                         <div>
                           <div className="flex items-center justify-between mb-1">
                             <label className="block text-xs font-semibold text-slate-700">Chuyên mục</label>
@@ -2054,6 +2060,7 @@ export default function AdminPage() {
                             toSlug={toVietnameseSlug}
                           />
                         </div>
+
                         <div>
                           <label className="block text-xs font-semibold text-slate-700 mb-1">Tác giả</label>
                           <input
@@ -2062,6 +2069,39 @@ export default function AdminPage() {
                             onChange={(e) => setNewsForm({ ...newsForm, author: e.target.value })}
                             className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
                           />
+                        </div>
+
+                        <div>
+                          <div className="flex items-center justify-between mb-1">
+                            <label className="block text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+                              <Calendar className="w-3.5 h-3.5 text-[#ed3237]" />
+                              <span>Thời gian đăng bài</span>
+                            </label>
+                            <button
+                              type="button"
+                              onClick={() => setNewsForm((prev) => ({ ...prev, date: getTodayDisplayDate() }))}
+                              className="text-[10px] text-[#3e4095] hover:text-[#ed3237] font-semibold underline cursor-pointer"
+                              title="Đặt thời gian đăng về ngày hôm nay"
+                            >
+                              Hôm nay
+                            </button>
+                          </div>
+                          <input
+                            type="date"
+                            value={toDateInputValue(newsForm.date)}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setNewsForm((prev) => ({
+                                ...prev,
+                                date: val ? formatDateDisplay(val) : "",
+                              }));
+                            }}
+                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none cursor-pointer"
+                          />
+                          <div className="flex items-center justify-between mt-1 text-[10px] text-slate-400">
+                            <span>Hiển thị: <strong className="text-slate-600 font-semibold">{formatDateDisplay(newsForm.date)}</strong></span>
+                            <span>(Quá khứ / tương lai)</span>
+                          </div>
                         </div>
                       </div>
 
@@ -2331,7 +2371,10 @@ export default function AdminPage() {
                                   </div>
                                   <div className="flex items-center justify-between pt-2">
                                     <div className="flex items-center gap-1.5 flex-wrap">
-                                      <span className="text-[11px] text-slate-400 mr-0.5">{item.date}</span>
+                                      <span className="inline-flex items-center gap-1 text-[11px] text-slate-600 font-medium mr-0.5 bg-slate-100 px-2 py-0.5 rounded-[2px] border border-slate-200/80">
+                                        <Calendar className="w-3 h-3 text-[#ed3237]" />
+                                        <span>{formatDateDisplay(item.date)}</span>
+                                      </span>
 
                                       {/* 1-click Quick Toggle Nút Ẩn / Mở công khai */}
                                       <button
@@ -2403,6 +2446,7 @@ export default function AdminPage() {
                                         onClick={() => {
                                           setNewsForm({
                                             ...item,
+                                            date: formatDateDisplay(item.date),
                                             slug: item.slug || toVietnameseSlug(item.title),
                                             featured: item.featured ?? true,
                                             published: item.published !== false,

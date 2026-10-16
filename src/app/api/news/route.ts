@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { NewsPost } from "@/types";
 import { deleteMultipleFromCloudinary, extractCloudinaryUrlsFromHtml } from "@/lib/cloudinary";
+import { formatDateDisplay, getTodayDisplayDate } from "@/lib/dateUtils";
 
 export async function GET() {
   try {
@@ -31,9 +32,10 @@ export async function POST(req: Request) {
         .replace(/-+/g, "-")
         .replace(/^-|-$/g, "");
     }
-    if (!body.date) {
-      const today = new Date();
-      body.date = `${today.getDate().toString().padStart(2, "0")}/${(today.getMonth() + 1).toString().padStart(2, "0")}/${today.getFullYear()}`;
+    if (body.date) {
+      body.date = formatDateDisplay(body.date);
+    } else {
+      body.date = getTodayDisplayDate();
     }
 
     if (body.published === undefined) {

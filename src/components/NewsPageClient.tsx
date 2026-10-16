@@ -24,6 +24,7 @@ import {
   Check,
 } from "lucide-react";
 import { NewsPost } from "@/types";
+import { parseDateToTimestamp } from "@/lib/dateUtils";
 
 interface NewsPageClientProps {
   initialNews: NewsPost[];
@@ -240,8 +241,13 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
     } else if (sortBy === "title") {
       result = [...result].sort((a, b) => a.title.localeCompare(b.title, "vi"));
     } else {
-      // Default: newest by date/id
-      result = [...result].sort((a, b) => b.id.localeCompare(a.id));
+      // Default: newest by publication date, fallback to id
+      result = [...result].sort((a, b) => {
+        const timeA = parseDateToTimestamp(a.date);
+        const timeB = parseDateToTimestamp(b.date);
+        if (timeB !== timeA) return timeB - timeA;
+        return (b.id || "").localeCompare(a.id || "");
+      });
     }
 
     return result;

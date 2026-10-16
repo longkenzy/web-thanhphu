@@ -9,6 +9,7 @@ import {
   initialPartners,
 } from "@/data/initialData";
 import { verifyPassword } from "@/lib/auth";
+import { parseDateToTimestamp, formatDateDisplay, sortNewsByDateDesc } from "@/lib/dateUtils";
 
 // Environment variables for Cloudflare D1
 const CF_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID || "b7ea767effeb7ee6eaa71e34a83c0a37";
@@ -221,11 +222,13 @@ export const db = {
 
   // === NEWS POSTS ===
   async getNews(): Promise<NewsPost[]> {
+    let posts: NewsPost[] = [];
     if (isCloudflareD1Configured) {
       try {
         const rows = await executeD1Query<any>("SELECT * FROM news ORDER BY created_at DESC");
-        return rows.map((r) => ({
+        posts = rows.map((r) => ({
           ...r,
+          date: formatDateDisplay(r.date),
           featured: Boolean(r.featured),
           published: r.published === undefined || r.published === null ? true : Boolean(r.published),
         }));
@@ -233,10 +236,14 @@ export const db = {
         console.warn("Cloudflare D1 query error for news:", err);
       }
     }
-    return memoryStore.news.map((r) => ({
-      ...r,
-      published: r.published === undefined || r.published === null ? true : Boolean(r.published),
-    }));
+    if (posts.length === 0) {
+      posts = memoryStore.news.map((r) => ({
+        ...r,
+        date: formatDateDisplay(r.date),
+        published: r.published === undefined || r.published === null ? true : Boolean(r.published),
+      }));
+    }
+    return sortNewsByDateDesc(posts);
   },
 
   async getNewsBySlug(slug: string): Promise<NewsPost | undefined> {
@@ -245,16 +252,21 @@ export const db = {
   },
 
   async saveNews(post: NewsPost): Promise<NewsPost> {
+    const normalizedDate = formatDateDisplay(post.date);
     const postToSave: NewsPost = {
       ...post,
+      date: normalizedDate,
       published: post.published === false ? false : true,
     };
 
     if (isCloudflareD1Configured) {
       try {
+        const timestamp = parseDateToTimestamp(normalizedDate);
+        const createdAtIso = timestamp > 0 ? new Date(timestamp).toISOString() : new Date().toISOString();
+
         await executeD1Query(
-          `INSERT OR REPLACE INTO news (id, title, slug, category, categoryName, summary, content, date, author, thumbnail, featured, published)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          `INSERT OR REPLACE INTO news (id, title, slug, category, categoryName, summary, content, date, author, thumbnail, featured, published, created_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
           [
             postToSave.id,
             postToSave.title,
@@ -268,6 +280,7 @@ export const db = {
             postToSave.thumbnail,
             postToSave.featured ? 1 : 0,
             postToSave.published === false ? 0 : 1,
+            createdAtIso,
           ]
         );
       } catch (err) {
@@ -279,8 +292,9 @@ export const db = {
     if (index >= 0) {
       memoryStore.news[index] = postToSave;
     } else {
-      memoryStore.news.unshift(postToSave);
+      memoryStore.news.push(postToSave);
     }
+    memoryStore.news = sortNewsByDateDesc(memoryStore.news);
     return postToSave;
   },
 

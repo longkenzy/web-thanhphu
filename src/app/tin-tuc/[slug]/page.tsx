@@ -11,6 +11,7 @@ import {
   Home,
 } from "lucide-react";
 import { db } from "@/lib/db";
+import { parseDateToTimestamp } from "@/lib/dateUtils";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ShareButtons from "@/components/ShareButtons";
@@ -51,7 +52,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         },
       ],
       type: "article",
-      publishedTime: post.date,
+      publishedTime: (() => {
+        const ts = parseDateToTimestamp(post.date);
+        return ts > 0 ? new Date(ts).toISOString() : post.date;
+      })(),
       authors: [post.author || "Thành Phú JSC"],
     },
     twitter: {
