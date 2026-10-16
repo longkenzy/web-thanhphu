@@ -51,12 +51,12 @@ export default function AboutSection() {
 
             {/* Paragraph 1 */}
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
-              Thành Phú là doanh nghiệp hoạt động chuyên sâu trong lĩnh vực thi công xây dựng công trình hạ tầng giao thông, hầm đường bộ xuyên núi và kết cấu kỹ thuật cao.
+              Thành Phú là doanh nghiệp hoạt động chuyên sâu trong lĩnh vực thi công xây dựng dân dụng &amp; công nghiệp, công trình hạ tầng giao thông và kết cấu kỹ thuật cao.
             </p>
 
             {/* Paragraph 2 */}
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
-              Với tôn chỉ <strong className="text-slate-900 font-bold">&quot;Uy Tín – Tiến Độ – Chất Lượng&quot;</strong>, chúng tôi tự hào sở hữu đội ngũ kỹ sư giàu kinh nghiệm, hệ thống máy móc thiết bị cơ giới hiện đại và năng lực thi công các dự án quy mô lớn đòi hỏi tiêu chuẩn kỹ thuật khắt khe.
+              Với tôn chỉ <strong className="text-slate-900 font-bold">&quot;Uy Tín - Tiến Độ - Chất Lượng&quot;</strong>, chúng tôi tự hào sở hữu đội ngũ kỹ sư giàu kinh nghiệm, hệ thống máy móc thiết bị cơ giới hiện đại và năng lực thi công các dự án quy mô lớn đòi hỏi tiêu chuẩn kỹ thuật khắt khe.
             </p>
 
             {/* Vision & Mission 2-column Grid with Hover Shift & Border Thickening */}
