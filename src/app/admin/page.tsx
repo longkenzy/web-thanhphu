@@ -119,6 +119,12 @@ export default function AdminPage() {
   const [selectedNewsIds, setSelectedNewsIds] = useState<string[]>([]);
   const [isBulkDeletingNews, setIsBulkDeletingNews] = useState(false);
   const [partnerSearch, setPartnerSearch] = useState("");
+  const [selectedPartnerIds, setSelectedPartnerIds] = useState<string[]>([]);
+  const [isBulkDeletingPartners, setIsBulkDeletingPartners] = useState(false);
+
+  const [jobSearch, setJobSearch] = useState("");
+  const [selectedJobIds, setSelectedJobIds] = useState<string[]>([]);
+  const [isBulkDeletingJobs, setIsBulkDeletingJobs] = useState(false);
 
   // Partner Form State
   const [isEditingPartner, setIsEditingPartner] = useState(false);
@@ -711,6 +717,7 @@ export default function AdminPage() {
       const res = await fetch(`/api/partners?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         showNotice("Đã xóa đối tác thành công!");
+        setSelectedPartnerIds((prev) => prev.filter((item) => item !== id));
         loadData();
       } else {
         const data = await res.json();
@@ -718,6 +725,58 @@ export default function AdminPage() {
       }
     } catch (err: any) {
       showNotice(err.message, "error");
+    }
+  };
+
+  const handleToggleSelectAllPartners = () => {
+    if (filteredPartners.length === 0) return;
+    const allFilteredSelected = filteredPartners.every((p) => selectedPartnerIds.includes(p.id));
+    if (allFilteredSelected) {
+      const filteredIds = new Set(filteredPartners.map((p) => p.id));
+      setSelectedPartnerIds((prev) => prev.filter((id) => !filteredIds.has(id)));
+    } else {
+      const newSelected = new Set(selectedPartnerIds);
+      filteredPartners.forEach((p) => newSelected.add(p.id));
+      setSelectedPartnerIds(Array.from(newSelected));
+    }
+  };
+
+  const handleToggleSelectPartner = (id: string) => {
+    setSelectedPartnerIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleBulkDeletePartners = async () => {
+    if (selectedPartnerIds.length === 0) return;
+    const count = selectedPartnerIds.length;
+    if (
+      !confirm(
+        `Bạn có chắc chắn muốn xóa ${count} đối tác đã chọn?\nToàn bộ logo liên quan trên Cloudinary cũng sẽ được xóa sạch và không thể hoàn tác.`
+      )
+    ) {
+      return;
+    }
+
+    setIsBulkDeletingPartners(true);
+    try {
+      const res = await fetch("/api/partners", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selectedPartnerIds }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        showNotice(`Đã xóa thành công ${count} đối tác!`);
+        setSelectedPartnerIds([]);
+        loadData();
+      } else {
+        showNotice(data.error || "Lỗi khi xóa đối tác hàng loạt", "error");
+      }
+    } catch (err: any) {
+      showNotice(err.message, "error");
+    } finally {
+      setIsBulkDeletingPartners(false);
     }
   };
 
@@ -815,12 +874,65 @@ export default function AdminPage() {
       const data = await res.json();
       if (res.ok) {
         showNotice("Đã xóa tin tuyển dụng thành công");
+        setSelectedJobIds((prev) => prev.filter((item) => item !== id));
         await loadData();
       } else {
         showNotice(data.error || "Lỗi khi xóa tin tuyển dụng", "error");
       }
     } catch (err: any) {
       showNotice(err.message, "error");
+    }
+  };
+
+  const handleToggleSelectAllJobs = () => {
+    if (filteredJobs.length === 0) return;
+    const allFilteredSelected = filteredJobs.every((j) => selectedJobIds.includes(j.id));
+    if (allFilteredSelected) {
+      const filteredIds = new Set(filteredJobs.map((j) => j.id));
+      setSelectedJobIds((prev) => prev.filter((id) => !filteredIds.has(id)));
+    } else {
+      const newSelected = new Set(selectedJobIds);
+      filteredJobs.forEach((j) => newSelected.add(j.id));
+      setSelectedJobIds(Array.from(newSelected));
+    }
+  };
+
+  const handleToggleSelectJob = (id: string) => {
+    setSelectedJobIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleBulkDeleteJobs = async () => {
+    if (selectedJobIds.length === 0) return;
+    const count = selectedJobIds.length;
+    if (
+      !confirm(
+        `Bạn có chắc chắn muốn xóa ${count} vị trí tuyển dụng đã chọn?\nHành động này không thể hoàn tác.`
+      )
+    ) {
+      return;
+    }
+
+    setIsBulkDeletingJobs(true);
+    try {
+      const res = await fetch("/api/jobs", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selectedJobIds }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        showNotice(`Đã xóa thành công ${count} tin tuyển dụng!`);
+        setSelectedJobIds([]);
+        loadData();
+      } else {
+        showNotice(data.error || "Lỗi khi xóa tin tuyển dụng hàng loạt", "error");
+      }
+    } catch (err: any) {
+      showNotice(err.message, "error");
+    } finally {
+      setIsBulkDeletingJobs(false);
     }
   };
 
@@ -858,6 +970,20 @@ export default function AdminPage() {
     if (newsFilterStatus === "published") return n.published !== false;
     if (newsFilterStatus === "hidden") return n.published === false;
     return true;
+  });
+
+  const filteredPartners = partners.filter((p) =>
+    partnerSearch ? p.name.toLowerCase().includes(partnerSearch.toLowerCase()) : true
+  );
+
+  const filteredJobs = jobs.filter((j) => {
+    if (!jobSearch) return true;
+    const q = jobSearch.toLowerCase();
+    return (
+      j.title.toLowerCase().includes(q) ||
+      (j.department && j.department.toLowerCase().includes(q)) ||
+      (j.location && j.location.toLowerCase().includes(q))
+    );
   });
 
   if (isAuthLoading) {
@@ -2990,6 +3116,43 @@ export default function AdminPage() {
                         </div>
                       </div>
 
+                      {/* Bulk Actions Bar */}
+                      {selectedPartnerIds.length > 0 && (
+                        <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 bg-red-50 border border-red-200 rounded-[3px] text-xs">
+                          <div className="flex items-center gap-2 text-slate-800">
+                            <span className="font-semibold text-[#ed3237]">
+                              Đã chọn {selectedPartnerIds.length}/{filteredPartners.length} đối tác
+                            </span>
+                            <span className="text-slate-300">|</span>
+                            <button
+                              type="button"
+                              onClick={() => setSelectedPartnerIds([])}
+                              className="text-slate-600 hover:text-slate-900 underline cursor-pointer"
+                            >
+                              Bỏ chọn tất cả
+                            </button>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={handleBulkDeletePartners}
+                            disabled={isBulkDeletingPartners}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed shadow-2xs"
+                          >
+                            {isBulkDeletingPartners ? (
+                              <>
+                                <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                <span>Đang xóa...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Trash2 className="w-3.5 h-3.5" />
+                                <span>Xóa {selectedPartnerIds.length} đối tác đã chọn</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      )}
+
                       {/* Partners Table */}
                       {partners.length === 0 ? (
                         <div className="p-10 text-center bg-white rounded-[3px] border border-slate-200 text-slate-400 space-y-3">
@@ -3018,6 +3181,18 @@ export default function AdminPage() {
                             <table className="w-full text-left text-xs border-collapse">
                               <thead>
                                 <tr className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                                  <th className="py-2.5 px-3 w-10 text-center">
+                                    <input
+                                      type="checkbox"
+                                      aria-label="Chọn tất cả đối tác"
+                                      checked={
+                                        filteredPartners.length > 0 &&
+                                        filteredPartners.every((p) => selectedPartnerIds.includes(p.id))
+                                      }
+                                      onChange={handleToggleSelectAllPartners}
+                                      className="w-4 h-4 rounded-[2px] border-slate-300 text-[#ed3237] focus:ring-[#ed3237] cursor-pointer accent-[#ed3237]"
+                                    />
+                                  </th>
                                   <th className="py-2.5 px-3 w-16 text-center">Thứ tự</th>
                                   <th className="py-2.5 px-3 w-28">Logo</th>
                                   <th className="py-2.5 px-3">Tên đối tác</th>
@@ -3027,135 +3202,158 @@ export default function AdminPage() {
                                 </tr>
                               </thead>
                               <tbody className="divide-y divide-slate-100">
-                                {partners
-                                  .filter((p) =>
-                                    partnerSearch ? p.name.toLowerCase().includes(partnerSearch.toLowerCase()) : true
-                                  )
-                                  .map((item, idx) => (
-                                    <tr key={item.id} className="hover:bg-slate-50/70 transition-colors">
-                                      {/* Order & Move buttons */}
-                                      <td className="py-2.5 px-3 text-center">
-                                        <div className="flex items-center justify-center gap-1">
-                                          <span className="font-bold text-slate-700 text-xs w-5">
-                                            {item.orderIndex ?? idx}
-                                          </span>
-                                          <div className="flex flex-col">
-                                            <button
-                                              type="button"
-                                              disabled={idx === 0}
-                                              onClick={() => handleMovePartner(idx, "up")}
-                                              className={`p-0.5 rounded-[2px] ${
-                                                idx === 0
-                                                  ? "text-slate-200 cursor-not-allowed"
-                                                  : "text-slate-500 hover:text-slate-900 cursor-pointer hover:bg-slate-200"
-                                              }`}
-                                              title="Lên trước"
+                                {filteredPartners.length === 0 ? (
+                                  <tr>
+                                    <td colSpan={7} className="py-8 text-center text-slate-400 text-xs">
+                                      Không tìm thấy đối tác nào
+                                    </td>
+                                  </tr>
+                                ) : (
+                                  filteredPartners.map((item, idx) => {
+                                    const isSelected = selectedPartnerIds.includes(item.id);
+                                    return (
+                                      <tr
+                                        key={item.id}
+                                        className={`transition-colors ${
+                                          isSelected ? "bg-red-50/60 hover:bg-red-50/80" : "hover:bg-slate-50/70"
+                                        }`}
+                                      >
+                                        {/* Checkbox */}
+                                        <td className="py-2.5 px-3 text-center">
+                                          <input
+                                            type="checkbox"
+                                            aria-label={`Chọn đối tác ${item.name}`}
+                                            checked={isSelected}
+                                            onChange={() => handleToggleSelectPartner(item.id)}
+                                            className="w-4 h-4 rounded-[2px] border-slate-300 text-[#ed3237] focus:ring-[#ed3237] cursor-pointer accent-[#ed3237]"
+                                          />
+                                        </td>
+
+                                        {/* Order & Move buttons */}
+                                        <td className="py-2.5 px-3 text-center">
+                                          <div className="flex items-center justify-center gap-1">
+                                            <span className="font-bold text-slate-700 text-xs w-5">
+                                              {item.orderIndex ?? idx}
+                                            </span>
+                                            <div className="flex flex-col">
+                                              <button
+                                                type="button"
+                                                disabled={idx === 0}
+                                                onClick={() => handleMovePartner(idx, "up")}
+                                                className={`p-0.5 rounded-[2px] ${
+                                                  idx === 0
+                                                    ? "text-slate-200 cursor-not-allowed"
+                                                    : "text-slate-500 hover:text-slate-900 cursor-pointer hover:bg-slate-200"
+                                                }`}
+                                                title="Lên trước"
+                                              >
+                                                <ChevronUp className="w-3 h-3" />
+                                              </button>
+                                              <button
+                                                type="button"
+                                                disabled={idx === partners.length - 1}
+                                                onClick={() => handleMovePartner(idx, "down")}
+                                                className={`p-0.5 rounded-[2px] ${
+                                                  idx === partners.length - 1
+                                                    ? "text-slate-200 cursor-not-allowed"
+                                                    : "text-slate-500 hover:text-slate-900 cursor-pointer hover:bg-slate-200"
+                                                }`}
+                                                title="Xuống sau"
+                                              >
+                                                <ChevronDown className="w-3 h-3" />
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </td>
+
+                                        {/* Logo Thumbnail */}
+                                        <td className="py-2.5 px-3">
+                                          <div className="relative w-20 h-11 bg-white border border-slate-200 rounded-[3px] p-1 flex items-center justify-center overflow-hidden">
+                                            <Image
+                                              src={item.logo}
+                                              alt={item.name}
+                                              fill
+                                              className="object-contain p-1"
+                                            />
+                                          </div>
+                                        </td>
+
+                                        {/* Partner Name */}
+                                        <td className="py-2.5 px-3">
+                                          <div className="font-bold text-slate-900 text-xs">{item.name}</div>
+                                        </td>
+
+                                        {/* Website Link */}
+                                        <td className="py-2.5 px-3">
+                                          {item.website ? (
+                                            <a
+                                              href={item.website}
+                                              target="_blank"
+                                              rel="noreferrer"
+                                              className="inline-flex items-center gap-1 text-slate-600 hover:text-[#ed3237] transition-colors truncate max-w-[200px]"
                                             >
-                                              <ChevronUp className="w-3 h-3" />
+                                              <span className="truncate">{item.website}</span>
+                                              <ExternalLink className="w-3 h-3 shrink-0" />
+                                            </a>
+                                          ) : (
+                                            <span className="text-slate-400 italic">--</span>
+                                          )}
+                                        </td>
+
+                                        {/* Active Status Toggle */}
+                                        <td className="py-2.5 px-3 text-center">
+                                          <button
+                                            type="button"
+                                            onClick={() => handleTogglePartnerActive(item)}
+                                            title="Bấm để bật/tắt hiển thị trên trang chủ"
+                                            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-[3px] text-[11px] font-semibold border transition-all cursor-pointer ${
+                                              item.active !== false
+                                                ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+                                                : "bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200"
+                                            }`}
+                                          >
+                                            {item.active !== false ? (
+                                              <>
+                                                <Eye className="w-3 h-3 text-emerald-600" />
+                                                <span>Hiển thị</span>
+                                              </>
+                                            ) : (
+                                              <>
+                                                <EyeOff className="w-3 h-3 text-slate-400" />
+                                                <span>Đang ẩn</span>
+                                              </>
+                                            )}
+                                          </button>
+                                        </td>
+
+                                        {/* Actions */}
+                                        <td className="py-2.5 px-3 text-right">
+                                          <div className="inline-flex items-center gap-1.5">
+                                            <button
+                                              onClick={() => {
+                                                setPartnerForm({
+                                                  ...item,
+                                                });
+                                                setIsEditingPartner(true);
+                                              }}
+                                              className="p-1.5 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-600 cursor-pointer"
+                                              title="Chỉnh sửa đối tác"
+                                            >
+                                              <Edit3 className="w-3.5 h-3.5" />
                                             </button>
                                             <button
-                                              type="button"
-                                              disabled={idx === partners.length - 1}
-                                              onClick={() => handleMovePartner(idx, "down")}
-                                              className={`p-0.5 rounded-[2px] ${
-                                                idx === partners.length - 1
-                                                  ? "text-slate-200 cursor-not-allowed"
-                                                  : "text-slate-500 hover:text-slate-900 cursor-pointer hover:bg-slate-200"
-                                              }`}
-                                              title="Xuống sau"
+                                              onClick={() => handleDeletePartner(item.id)}
+                                              className="p-1.5 rounded-[3px] border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-600 cursor-pointer"
+                                              title="Xóa đối tác"
                                             >
-                                              <ChevronDown className="w-3 h-3" />
+                                              <Trash2 className="w-3.5 h-3.5" />
                                             </button>
                                           </div>
-                                        </div>
-                                      </td>
-
-                                      {/* Logo Thumbnail */}
-                                      <td className="py-2.5 px-3">
-                                        <div className="relative w-20 h-11 bg-white border border-slate-200 rounded-[3px] p-1 flex items-center justify-center overflow-hidden">
-                                          <Image
-                                            src={item.logo}
-                                            alt={item.name}
-                                            fill
-                                            className="object-contain p-1"
-                                          />
-                                        </div>
-                                      </td>
-
-                                      {/* Partner Name */}
-                                      <td className="py-2.5 px-3">
-                                        <div className="font-bold text-slate-900 text-xs">{item.name}</div>
-                                      </td>
-
-                                      {/* Website Link */}
-                                      <td className="py-2.5 px-3">
-                                        {item.website ? (
-                                          <a
-                                            href={item.website}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            className="inline-flex items-center gap-1 text-slate-600 hover:text-[#ed3237] transition-colors truncate max-w-[200px]"
-                                          >
-                                            <span className="truncate">{item.website}</span>
-                                            <ExternalLink className="w-3 h-3 shrink-0" />
-                                          </a>
-                                        ) : (
-                                          <span className="text-slate-400 italic">--</span>
-                                        )}
-                                      </td>
-
-                                      {/* Active Status Toggle */}
-                                      <td className="py-2.5 px-3 text-center">
-                                        <button
-                                          type="button"
-                                          onClick={() => handleTogglePartnerActive(item)}
-                                          title="Bấm để bật/tắt hiển thị trên trang chủ"
-                                          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-[3px] text-[11px] font-semibold border transition-all cursor-pointer ${
-                                            item.active !== false
-                                              ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
-                                              : "bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200"
-                                          }`}
-                                        >
-                                          {item.active !== false ? (
-                                            <>
-                                              <Eye className="w-3 h-3 text-emerald-600" />
-                                              <span>Hiển thị</span>
-                                            </>
-                                          ) : (
-                                            <>
-                                              <EyeOff className="w-3 h-3 text-slate-400" />
-                                              <span>Đang ẩn</span>
-                                            </>
-                                          )}
-                                        </button>
-                                      </td>
-
-                                      {/* Actions */}
-                                      <td className="py-2.5 px-3 text-right">
-                                        <div className="inline-flex items-center gap-1.5">
-                                          <button
-                                            onClick={() => {
-                                              setPartnerForm({
-                                                ...item,
-                                              });
-                                              setIsEditingPartner(true);
-                                            }}
-                                            className="p-1.5 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-600 cursor-pointer"
-                                            title="Chỉnh sửa đối tác"
-                                          >
-                                            <Edit3 className="w-3.5 h-3.5" />
-                                          </button>
-                                          <button
-                                            onClick={() => handleDeletePartner(item.id)}
-                                            className="p-1.5 rounded-[3px] border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-600 cursor-pointer"
-                                            title="Xóa đối tác"
-                                          >
-                                            <Trash2 className="w-3.5 h-3.5" />
-                                          </button>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))}
+                                        </td>
+                                      </tr>
+                                    );
+                                  })
+                                )}
                               </tbody>
                             </table>
                           </div>
@@ -3170,37 +3368,54 @@ export default function AdminPage() {
               {activeTab === "jobs" && (
                 <div className="space-y-4 max-w-6xl">
                   {/* Top Bar */}
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                      <h2 className="text-base font-bold text-slate-900">Quản lý tuyển dụng</h2>
-                      <p className="text-xs text-slate-500">Thông báo tuyển dụng nhân sự công ty</p>
+                      <div className="flex items-center gap-2">
+                        <h2 className="text-base font-bold text-slate-900">Quản lý tuyển dụng</h2>
+                        <span className="text-[11px] font-bold text-slate-500 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-[2px]">
+                          Tổng: {jobs.length}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-500 mt-0.5">Thông báo tuyển dụng nhân sự công ty</p>
                     </div>
                     {!isEditingJob && (
-                      <button
-                        onClick={() => {
-                          setJobForm({
-                            title: "",
-                            department: "Ban Quản lý Thi công",
-                            location: "",
-                            salary: "Thỏa thuận",
-                            deadline: "",
-                            workingHours: "Thứ 2 – Thứ 7: 08:00 – 17:30",
-                            type: "Toàn thời gian",
-                            description: [],
-                            requirements: [],
-                            benefits: [],
-                            active: true,
-                          });
-                          setJobDescText("");
-                          setJobReqText("");
-                          setJobBenefitText("");
-                          setIsEditingJob(true);
-                        }}
-                        className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0 cursor-pointer w-full sm:w-auto"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                        <span>Thêm vị trí</span>
-                      </button>
+                      <div className="flex items-center gap-2 w-full sm:w-auto">
+                        <div className="relative flex-1 sm:flex-initial">
+                          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                          <input
+                            type="text"
+                            placeholder="Tìm vị trí tuyển dụng..."
+                            value={jobSearch}
+                            onChange={(e) => setJobSearch(e.target.value)}
+                            className="pl-8 pr-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-xs text-slate-800 focus:border-[#ed3237] focus:outline-none w-full sm:w-56"
+                          />
+                        </div>
+                        <button
+                          onClick={() => {
+                            setJobForm({
+                              title: "",
+                              department: "Ban Quản lý Thi công",
+                              location: "",
+                              salary: "Thỏa thuận",
+                              deadline: "",
+                              workingHours: "Thứ 2 – Thứ 7: 08:00 – 17:30",
+                              type: "Toàn thời gian",
+                              description: [],
+                              requirements: [],
+                              benefits: [],
+                              active: true,
+                            });
+                            setJobDescText("");
+                            setJobReqText("");
+                            setJobBenefitText("");
+                            setIsEditingJob(true);
+                          }}
+                          className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs shadow-2xs transition-colors shrink-0 cursor-pointer w-full sm:w-auto"
+                        >
+                          <Plus className="w-3.5 h-3.5" />
+                          <span>Thêm vị trí</span>
+                        </button>
+                      </div>
                     )}
                   </div>
 
@@ -3398,58 +3613,144 @@ export default function AdminPage() {
                       </div>
                     </form>
                   ) : (
-                    <div className="space-y-2.5">
-                      {jobs.map((job) => (
-                        <div
-                          key={job.id}
-                          className="p-3.5 rounded-[3px] bg-white border border-slate-200 shadow-2xs flex items-center justify-between hover:border-slate-300 transition-colors"
-                        >
-                          <div className="space-y-1">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-[11px] font-bold text-slate-500 uppercase">{job.department || "Khối Thi công"}</span>
-                              <span className="text-[11px] text-slate-400">• {job.type || "Toàn thời gian"}</span>
-                              {job.active === false ? (
-                                <span className="px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-500 text-[10px] font-semibold">
-                                  Đã đóng
-                                </span>
-                              ) : (
-                                <span className="px-1.5 py-0.2 rounded-full bg-emerald-50 text-emerald-600 text-[10px] font-bold">
-                                  Đang tuyển
-                                </span>
-                              )}
-                            </div>
-                            <h4 className="text-xs sm:text-sm font-bold text-slate-900">{job.title}</h4>
-                            <div className="text-[11px] text-slate-500 flex items-center gap-2 flex-wrap">
-                              <span>📍 {job.location}</span>
-                              <span>• 💰 {job.salary}</span>
-                              <span>• 📅 Hạn: {job.deadline}</span>
-                              {job.workingHours && <span>• ⏰ {job.workingHours}</span>}
-                            </div>
+                    <div className="space-y-3">
+                      {/* Bulk Actions Bar & Select All Bar */}
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        {filteredJobs.length > 0 && (
+                          <label className="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer select-none px-2.5 py-1 rounded-[3px] bg-white border border-slate-200 hover:bg-slate-50 transition-colors">
+                            <input
+                              type="checkbox"
+                              aria-label="Chọn tất cả vị trí tuyển dụng"
+                              checked={
+                                filteredJobs.length > 0 &&
+                                filteredJobs.every((j) => selectedJobIds.includes(j.id))
+                              }
+                              onChange={handleToggleSelectAllJobs}
+                              className="w-4 h-4 rounded-[2px] border-slate-300 text-[#ed3237] focus:ring-[#ed3237] cursor-pointer accent-[#ed3237]"
+                            />
+                            <span>Chọn tất cả ({filteredJobs.length})</span>
+                          </label>
+                        )}
+
+                        {selectedJobIds.length > 0 && (
+                          <button
+                            type="button"
+                            onClick={() => setSelectedJobIds([])}
+                            className="text-xs text-slate-600 hover:text-slate-900 underline cursor-pointer"
+                          >
+                            Bỏ chọn tất cả ({selectedJobIds.length})
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Bulk Actions Bar */}
+                      {selectedJobIds.length > 0 && (
+                        <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 bg-red-50 border border-red-200 rounded-[3px] text-xs">
+                          <div className="flex items-center gap-2 text-slate-800">
+                            <span className="font-semibold text-[#ed3237]">
+                              Đã chọn {selectedJobIds.length}/{filteredJobs.length} vị trí tuyển dụng
+                            </span>
                           </div>
-                          <div className="flex items-center gap-1.5 shrink-0">
-                            <button
-                              onClick={() => {
-                                setJobForm(job);
-                                setJobDescText((job.description || []).join("\n"));
-                                setJobReqText((job.requirements || []).join("\n"));
-                                setJobBenefitText((job.benefits || []).join("\n"));
-                                setIsEditingJob(true);
-                              }}
-                              className="p-1.5 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-600 cursor-pointer"
-                              title="Sửa"
-                            >
-                              <Edit3 className="w-3.5 h-3.5" />
-                            </button>
-                            <button
-                              onClick={() => handleDeleteJob(job.id)}
-                              className="p-1.5 rounded-[3px] border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-600"
-                              title="Xóa"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
+                          <button
+                            type="button"
+                            onClick={handleBulkDeleteJobs}
+                            disabled={isBulkDeletingJobs}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#ed3237] hover:bg-[#d0282d] text-white font-semibold text-xs transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed shadow-2xs"
+                          >
+                            {isBulkDeletingJobs ? (
+                              <>
+                                <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                <span>Đang xóa...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Trash2 className="w-3.5 h-3.5" />
+                                <span>Xóa {selectedJobIds.length} vị trí đã chọn</span>
+                              </>
+                            )}
+                          </button>
                         </div>
-                      ))}
+                      )}
+
+                      <div className="space-y-2.5">
+                        {filteredJobs.length === 0 ? (
+                          <div className="py-8 text-center text-slate-400 text-xs bg-white rounded-[3px] border border-slate-200">
+                            Không tìm thấy vị trí tuyển dụng nào
+                          </div>
+                        ) : (
+                          filteredJobs.map((job) => {
+                            const isSelected = selectedJobIds.includes(job.id);
+                            return (
+                              <div
+                                key={job.id}
+                                className={`p-3.5 rounded-[3px] bg-white border shadow-2xs flex items-center justify-between transition-colors gap-3 ${
+                                  isSelected
+                                    ? "border-red-400 bg-red-50/40 ring-1 ring-[#ed3237]/30"
+                                    : "border-slate-200 hover:border-slate-300"
+                                }`}
+                              >
+                                <div className="flex items-start gap-3 min-w-0">
+                                  {/* Checkbox */}
+                                  <div className="pt-0.5 shrink-0">
+                                    <input
+                                      type="checkbox"
+                                      aria-label={`Chọn vị trí ${job.title}`}
+                                      checked={isSelected}
+                                      onChange={() => handleToggleSelectJob(job.id)}
+                                      className="w-4 h-4 rounded-[2px] border-slate-300 text-[#ed3237] focus:ring-[#ed3237] cursor-pointer accent-[#ed3237]"
+                                    />
+                                  </div>
+
+                                  <div className="space-y-1 min-w-0">
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                      <span className="text-[11px] font-bold text-slate-500 uppercase">{job.department || "Khối Thi công"}</span>
+                                      <span className="text-[11px] text-slate-400">• {job.type || "Toàn thời gian"}</span>
+                                      {job.active === false ? (
+                                        <span className="px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-500 text-[10px] font-semibold">
+                                          Đã đóng
+                                        </span>
+                                      ) : (
+                                        <span className="px-1.5 py-0.2 rounded-full bg-emerald-50 text-emerald-600 text-[10px] font-bold">
+                                          Đang tuyển
+                                        </span>
+                                      )}
+                                    </div>
+                                    <h4 className="text-xs sm:text-sm font-bold text-slate-900 truncate">{job.title}</h4>
+                                    <div className="text-[11px] text-slate-500 flex items-center gap-2 flex-wrap">
+                                      <span>📍 {job.location}</span>
+                                      <span>• 💰 {job.salary}</span>
+                                      <span>• 📅 Hạn: {job.deadline}</span>
+                                      {job.workingHours && <span>• ⏰ {job.workingHours}</span>}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-1.5 shrink-0">
+                                  <button
+                                    onClick={() => {
+                                      setJobForm(job);
+                                      setJobDescText((job.description || []).join("\n"));
+                                      setJobReqText((job.requirements || []).join("\n"));
+                                      setJobBenefitText((job.benefits || []).join("\n"));
+                                      setIsEditingJob(true);
+                                    }}
+                                    className="p-1.5 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-600 cursor-pointer"
+                                    title="Sửa"
+                                  >
+                                    <Edit3 className="w-3.5 h-3.5" />
+                                  </button>
+                                  <button
+                                    onClick={() => handleDeleteJob(job.id)}
+                                    className="p-1.5 rounded-[3px] border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-600"
+                                    title="Xóa"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>

@@ -55,21 +55,57 @@ export async function POST(req: Request) {
 export async function DELETE(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
-    if (!id) {
-      return NextResponse.json({ error: "Thiếu ID đối tác" }, { status: 400 });
+    const idParam = searchParams.get("id");
+    const idsParam = searchParams.get("ids");
+    let ids: string[] = [];
+
+    if (idsParam) {
+      ids = idsParam.split(",").map((s) => s.trim()).filter(Boolean);
+    } else if (idParam) {
+      ids = [idParam.trim()];
+    } else {
+      try {
+        const text = await req.text();
+        if (text) {
+          const body = JSON.parse(text);
+          if (Array.isArray(body?.ids)) {
+            ids = body.ids.filter(Boolean);
+          } else if (body?.id) {
+            ids = [body.id];
+          }
+        }
+      } catch {
+        // no body
+      }
     }
 
-    // Quét tìm ảnh trên Cloudinary để tự động xóa hủy ảnh trên CDN nếu có
+    if (ids.length === 0) {
+      return NextResponse.json({ error: "Thiếu ID đối tác cần xóa" }, { status: 400 });
+    }
+
+    // 1. Quét tìm logo trên Cloudinary để tự động hủy trên CDN nếu có
     const allPartners = await db.getPartners();
-    const target = allPartners.find((p) => p.id === id);
+    const targets = allPartners.filter((p) => ids.includes(p.id));
 
-    if (target && target.logo && target.logo.includes("res.cloudinary.com")) {
-      await deleteMultipleFromCloudinary([target.logo]);
+    const urlsToDelete: string[] = [];
+    for (const partner of targets) {
+      if (partner.logo && partner.logo.includes("res.cloudinary.com")) {
+        urlsToDelete.push(partner.logo);
+      }
     }
 
-    const success = await db.deletePartner(id);
-    return NextResponse.json({ success });
+    if (urlsToDelete.length > 0) {
+      await deleteMultipleFromCloudinary(urlsToDelete);
+    }
+
+    // 2. Xóa các bản ghi đối tác trong cơ sở dữ liệu
+    let deletedCount = 0;
+    for (const id of ids) {
+      const success = await db.deletePartner(id);
+      if (success) deletedCount++;
+    }
+
+    return NextResponse.json({ success: true, count: deletedCount });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
