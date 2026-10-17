@@ -352,17 +352,17 @@ export default function Header({
                 </a>
               </div>
 
-              {/* Mobile Hamburger Button (pinned right, call button removed on mobile) */}
+              {/* Mobile Hamburger Button (pinned right, touch target min 44x44px) */}
               <div className="flex items-center gap-2 lg:hidden ml-auto">
                 <button
                   type="button"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className={`p-2.5 rounded-lg transition-colors ${
+                  className={`min-w-[44px] min-h-[44px] p-2.5 rounded-[4px] flex items-center justify-center transition-all active:scale-95 cursor-pointer ${
                     isSolid
-                      ? "text-slate-700 hover:bg-slate-100"
-                      : "text-white hover:bg-white/20"
+                      ? "text-slate-800 hover:bg-slate-100 active:bg-slate-200"
+                      : "text-white hover:bg-white/20 active:bg-white/30 drop-shadow"
                   }`}
-                  aria-label="Toggle Navigation"
+                  aria-label="Mở menu điều hướng"
                 >
                   {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                 </button>
@@ -372,7 +372,7 @@ export default function Header({
         </div>
       </header>
 
-      {/* Mobile Drawer Navigation (Gọn gàng, border-radius 3px, có animation slide-in) */}
+      {/* Mobile Drawer Navigation (Rộng hơn, vùng bấm lớn min 48px, dễ nhấn) */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-[100] lg:hidden">
           {/* Backdrop with smooth fade-in */}
@@ -382,26 +382,33 @@ export default function Header({
             aria-hidden="true"
           />
 
-          {/* Drawer container with slide-in animation from right */}
-          <div className="fixed top-0 right-0 bottom-0 w-[78%] max-w-[320px] bg-white p-4 sm:p-5 flex flex-col justify-between shadow-2xl z-10 overflow-y-auto animate-drawer-in">
+          {/* Drawer container: Rộng hơn (w-[88%] max-w-[390px]) với padding thông thoáng */}
+          <div className="fixed top-0 right-0 bottom-0 w-[88%] sm:w-[82%] max-w-[390px] bg-white p-5 sm:p-6 flex flex-col justify-between shadow-2xl z-10 overflow-y-auto animate-drawer-in">
             <div>
-              {/* Header: Chỉ có nhãn Menu tinh tế và nút đóng bo góc 3px */}
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                  Menu
-                </span>
+              {/* Header: Logo công ty và nút đóng rộng rãi (40x40px) dễ nhấn */}
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center">
+                  <div className="relative h-9 w-36 sm:h-10 sm:w-42">
+                    <Image
+                      src="/logo.png"
+                      alt="Thành Phú JSC"
+                      fill
+                      className="object-contain object-left"
+                    />
+                  </div>
+                </Link>
                 <button
                   type="button"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-7 h-7 rounded-[3px] bg-slate-100 hover:bg-red-50 text-slate-500 hover:text-[#ed3237] flex items-center justify-center transition-colors"
+                  className="w-10 h-10 rounded-[4px] bg-slate-100 hover:bg-red-50 text-slate-500 hover:text-[#ed3237] active:scale-95 flex items-center justify-center transition-all cursor-pointer"
                   aria-label="Đóng menu"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* Navigation Menu List: Không icon, bo góc rounded-[3px], gọn gàng */}
-              <div className="mt-3 flex flex-col space-y-1">
+              {/* Navigation Menu List: Nút bấm cao 50px, chữ to rõ (14px), khoảng cách thông thoáng */}
+              <div className="mt-4 flex flex-col space-y-1.5">
                 {navLinks.map((item) => {
                   if (item.children) {
                     const isDropdownActive =
@@ -421,22 +428,43 @@ export default function Header({
                         <button
                           type="button"
                           onClick={() => toggleMobileSubmenu(item.name)}
-                          className={`flex items-center justify-between px-3 py-2.5 rounded-[3px] text-xs uppercase tracking-wider font-bold transition-all ${
+                          className={`group flex items-center justify-between min-h-[50px] px-4 py-3.5 rounded-[4px] text-sm uppercase tracking-wide font-bold transition-all active:scale-[0.99] select-none cursor-pointer ${
                             isDropdownActive
-                              ? "text-[#ed3237] bg-red-50/70 font-bold border-l-2 border-[#ed3237]"
-                              : "text-slate-700 hover:text-[#ed3237] hover:bg-slate-50"
+                              ? "text-[#ed3237] bg-red-50/80 font-bold border-l-4 border-[#ed3237] shadow-2xs"
+                              : "text-slate-800 hover:text-[#ed3237] hover:bg-slate-50 active:bg-red-50/50"
                           }`}
                         >
-                          <span>{item.name}</span>
-                          <ChevronDown
-                            className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                              isMobileSubOpen ? "rotate-180 text-[#ed3237]" : "text-slate-400"
+                          <span className="text-left leading-normal">{item.name}</span>
+                          <div
+                            className={`w-8 h-8 rounded-[4px] flex items-center justify-center transition-all shrink-0 ml-2 ${
+                              isMobileSubOpen
+                                ? "rotate-180 bg-red-100 text-[#ed3237]"
+                                : "bg-slate-100 text-slate-400 group-hover:text-[#ed3237]"
                             }`}
-                          />
+                          >
+                            <ChevronDown className="w-4 h-4" />
+                          </div>
                         </button>
 
+                        {/* Submenu: Rộng rãi, từng mục cao 44px dễ bấm */}
                         {isMobileSubOpen && (
-                          <div className="ml-3 pl-2.5 border-l border-red-200 my-1 flex flex-col space-y-0.5">
+                          <div className="ml-2 pl-3.5 pr-1.5 py-1.5 my-1.5 rounded-[4px] bg-slate-50/90 border-l-2 border-[#ed3237] space-y-1">
+                            {/* Link dẫn đến trang danh mục gốc (ví dụ Tất cả công trình) */}
+                            {item.href && item.href !== "/" && (
+                              <Link
+                                href={item.href}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className={`flex items-center justify-between min-h-[44px] px-3.5 py-2.5 rounded-[3px] text-[13px] font-bold transition-all ${
+                                  pathname === item.href
+                                    ? "text-[#ed3237] bg-white font-bold shadow-2xs border border-red-100"
+                                    : "text-[#ed3237] hover:bg-white active:bg-red-50/50"
+                                }`}
+                              >
+                                <span>Tất cả {item.name.toLowerCase()}</span>
+                                <ChevronRight className="w-3.5 h-3.5" />
+                              </Link>
+                            )}
+
                             {item.children.map((sub) => {
                               const isSubActive = pathname === sub.href;
 
@@ -445,17 +473,17 @@ export default function Header({
                                   key={sub.name}
                                   href={sub.href}
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className={`flex items-center justify-between px-3 py-2 rounded-[3px] text-xs font-medium transition-all ${
+                                  className={`flex items-center justify-between min-h-[44px] px-3.5 py-2.5 rounded-[3px] text-[13px] font-medium transition-all ${
                                     isSubActive
-                                      ? "text-[#ed3237] bg-red-50/60 font-bold"
-                                      : "text-slate-600 hover:text-[#ed3237] hover:bg-slate-50"
+                                      ? "text-[#ed3237] bg-white font-bold shadow-2xs border border-red-100"
+                                      : "text-slate-700 hover:text-[#ed3237] hover:bg-white active:bg-red-50/50"
                                   }`}
                                 >
-                                  <span>{sub.name}</span>
+                                  <span className="leading-snug">{sub.name}</span>
                                   {isSubActive ? (
-                                    <span className="w-1.5 h-1.5 rounded-full bg-[#ed3237]" />
+                                    <span className="w-2 h-2 rounded-full bg-[#ed3237] shrink-0 ml-2" />
                                   ) : (
-                                    <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                                    <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0 ml-2" />
                                   )}
                                 </Link>
                               );
@@ -476,33 +504,43 @@ export default function Header({
                       key={item.name}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center justify-between px-3 py-2.5 rounded-[3px] text-xs uppercase tracking-wider font-bold transition-all ${
+                      className={`flex items-center justify-between min-h-[50px] px-4 py-3.5 rounded-[4px] text-sm uppercase tracking-wide font-bold transition-all active:scale-[0.99] select-none ${
                         isActive
-                          ? "text-[#ed3237] bg-red-50/70 font-bold border-l-2 border-[#ed3237]"
-                          : "text-slate-700 hover:text-[#ed3237] hover:bg-slate-50"
+                          ? "text-[#ed3237] bg-red-50/80 font-bold border-l-4 border-[#ed3237] shadow-2xs"
+                          : "text-slate-800 hover:text-[#ed3237] hover:bg-slate-50 active:bg-red-50/50"
                       }`}
                     >
                       <span>{item.name}</span>
-                      <ChevronRight className={`w-3.5 h-3.5 ${isActive ? "text-[#ed3237]" : "text-slate-300"}`} />
+                      <ChevronRight className={`w-4 h-4 shrink-0 ${isActive ? "text-[#ed3237]" : "text-slate-300"}`} />
                     </Link>
                   );
                 })}
               </div>
             </div>
 
-            {/* Footer with hotline and info: gọn gàng, rounded-[3px] */}
-            <div className="pt-3 border-t border-slate-100 mt-4 space-y-2">
+            {/* Footer with hotline and info: Nút gọi to rõ min 48px, thông tin liên hệ dễ nhìn */}
+            <div className="pt-4 border-t border-slate-100 mt-6 space-y-2.5">
               <a
                 href={`tel:${hotline.replace(/\s+/g, "")}`}
-                className="flex items-center justify-center gap-2 w-full py-2.5 text-xs font-bold text-white bg-[#ed3237] hover:bg-[#d0282d] rounded-[3px] shadow-sm shadow-[#ed3237]/25 active:scale-98 transition-all"
+                className="flex items-center justify-center gap-3 w-full py-3.5 px-4 min-h-[50px] text-sm font-bold text-white bg-[#ed3237] hover:bg-[#d0282d] rounded-[4px] shadow-md shadow-[#ed3237]/25 active:scale-[0.98] transition-all"
               >
-                <Phone className="w-3.5 h-3.5 fill-current animate-phone-ring" />
+                <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                  <Phone className="w-3.5 h-3.5 fill-current animate-phone-ring" />
+                </div>
                 <span>Hotline: {hotline}</span>
               </a>
 
-              <p className="text-[11px] text-slate-400 text-center truncate px-1">
-                {address}
-              </p>
+              <div className="pt-1 text-center space-y-1">
+                <p className="text-xs text-slate-500 leading-relaxed px-1">
+                  {address}
+                </p>
+                <a
+                  href={`mailto:${email}`}
+                  className="inline-block text-xs font-semibold text-slate-400 hover:text-[#ed3237] transition-colors"
+                >
+                  {email}
+                </a>
+              </div>
             </div>
           </div>
         </div>
