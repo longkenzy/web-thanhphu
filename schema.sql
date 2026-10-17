@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS projects (
   description TEXT,
   highlights TEXT,
   featured INTEGER DEFAULT 0,
+  published INTEGER DEFAULT 1,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

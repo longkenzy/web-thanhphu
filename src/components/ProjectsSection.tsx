@@ -131,10 +131,12 @@ function Project3DCard({
                 <MapPin className="w-3.5 h-3.5 text-[#ed3237]" />
                 <span className="truncate font-medium">{project.location}</span>
               </div>
-              <div className="flex items-center gap-1 drop-shadow">
-                <Calendar className="w-3.5 h-3.5 text-slate-300" />
-                <span className="font-medium">{project.year}</span>
-              </div>
+              {project.year ? (
+                <div className="flex items-center gap-1 drop-shadow">
+                  <Calendar className="w-3.5 h-3.5 text-slate-300" />
+                  <span className="font-medium">{project.year}</span>
+                </div>
+              ) : null}
             </div>
           </div>
 
@@ -151,7 +153,7 @@ function Project3DCard({
                 {project.title}
               </h3>
               <p className="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed font-normal">
-                {project.description}
+                {project.description ? project.description.replace(/<[^>]*>?/gm, "") : ""}
               </p>
             </div>
 
@@ -162,12 +164,7 @@ function Project3DCard({
                 transition: "transform 0.2s ease-out",
               }}
             >
-              {project.scale && (
-                <div className="flex items-start gap-1.5 text-xs text-slate-700">
-                  <Layers className="w-3.5 h-3.5 text-[#3e4095] shrink-0 mt-0.5" />
-                  <span className="line-clamp-1 font-medium">{project.scale}</span>
-                </div>
-              )}
+
 
               <div className="flex items-center justify-between text-xs pt-0.5">
                 <span className="text-slate-500">Chủ đầu tư:</span>
@@ -195,10 +192,15 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
     { id: "trang-tri-noi-that", label: "Trang Trí Nội Thất" },
   ];
 
+  // Lọc các dự án công khai (published !== false) và được tích chọn hiển thị trên trang chủ (featured)
+  const activeProjects = initialProjects.filter((p) => p.published !== false);
+  const featuredProjects = activeProjects.filter((p) => p.featured);
+  const displayProjects = featuredProjects.length > 0 ? featuredProjects : activeProjects;
+
   const filteredProjects =
     filter === "all"
-      ? initialProjects
-      : initialProjects.filter((p) => p.category === filter);
+      ? displayProjects
+      : displayProjects.filter((p) => p.category === filter);
 
   return (
     <section id="projects" className="py-6 sm:py-8 lg:py-10 bg-white relative">

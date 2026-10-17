@@ -130,6 +130,37 @@ export async function executeD1Query<T = any>(sql: string, params: any[] = []): 
   return (data.result?.[0]?.results || []) as T[];
 }
 
+/**
+ * Lấy thông tin metadata và dung lượng database từ Cloudflare D1 API
+ */
+export async function getCloudflareD1DatabaseInfo(): Promise<any> {
+  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID || CF_ACCOUNT_ID;
+  const databaseId = process.env.CLOUDFLARE_D1_DATABASE_ID || CF_DATABASE_ID;
+  const apiToken = process.env.CLOUDFLARE_API_TOKEN || CF_API_TOKEN;
+
+  if (!accountId || !databaseId || !apiToken) {
+    throw new Error("Thông tin xác thực Cloudflare D1 chưa được cấu hình đầy đủ");
+  }
+
+  const endpoint = `https://api.cloudflare.com/client/v4/accounts/${accountId}/d1/database/${databaseId}`;
+
+  const res = await fetch(endpoint, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${apiToken}`,
+      "Content-Type": "application/json",
+    },
+    cache: "no-store",
+  });
+
+  const data = await res.json();
+  if (!res.ok || !data.success) {
+    throw new Error(data.errors?.[0]?.message || "Lỗi khi lấy thông tin Cloudflare D1");
+  }
+
+  return data.result;
+}
+
 // Database Service Layer with automatic Cloudflare D1 / Memory fallback
 export const db = {
   isCloudflareConfigured(): boolean {
@@ -146,6 +177,7 @@ export const db = {
           gallery: typeof r.gallery === "string" ? JSON.parse(r.gallery) : r.gallery || [],
           highlights: typeof r.highlights === "string" ? JSON.parse(r.highlights) : r.highlights || [],
           featured: Boolean(r.featured),
+          published: r.published !== 0,
         }));
       } catch (err) {
         console.warn("Cloudflare D1 query error, falling back to memory store:", err);
@@ -168,8 +200,8 @@ export const db = {
     if (isCloudflareD1Configured) {
       try {
         await executeD1Query(
-          `INSERT OR REPLACE INTO projects (id, title, slug, category, categoryName, client, location, year, value, scale, thumbnail, gallery, description, highlights, featured)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          `INSERT OR REPLACE INTO projects (id, title, slug, category, categoryName, client, location, year, value, scale, thumbnail, gallery, description, highlights, featured, published)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
           [
             project.id,
             project.title,
@@ -178,14 +210,15 @@ export const db = {
             project.categoryName,
             project.client,
             project.location,
-            project.year,
+            project.year || "",
             project.value || "",
-            project.scale,
+            project.scale || "",
             project.thumbnail,
             JSON.stringify(project.gallery || []),
             project.description,
             JSON.stringify(project.highlights || []),
             project.featured ? 1 : 0,
+            project.published !== false ? 1 : 0,
           ]
         );
       } catch (err) {

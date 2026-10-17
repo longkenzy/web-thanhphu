@@ -14,14 +14,15 @@ export interface Project {
   categoryName: string;
   client: string;
   location: string;
-  year: string;
+  year?: string;
   value?: string;
-  scale: string; // Quy mô kỹ thuật (ví dụ: "Chiều dài hầm 4.125m, 2 ống hầm độc lập")
+  scale?: string; // Quy mô kỹ thuật
   thumbnail: string;
   gallery: string[];
   description: string;
   highlights: string[];
   featured?: boolean;
+  published?: boolean;
 }
 
 export interface NewsPost {

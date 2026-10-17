@@ -73,13 +73,13 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     db.getSettings(),
   ]);
 
-  if (!project) {
+  if (!project || project.published === false) {
     notFound();
   }
 
-  // Filter related projects: same category first, excluding current project
+  // Filter related projects: same category first, excluding current project and hidden projects
   const relatedProjects = allProjects
-    .filter((p) => p.id !== project.id && p.slug !== project.slug)
+    .filter((p) => p.published !== false && p.id !== project.id && p.slug !== project.slug)
     .sort((a, b) => (a.category === project.category ? -1 : 1))
     .slice(0, 4);
 

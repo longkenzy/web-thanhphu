@@ -7,7 +7,6 @@ import {
   MapPin,
   Calendar,
   Building,
-  Layers,
   ArrowLeft,
   ChevronRight,
   Maximize2,
@@ -130,13 +129,15 @@ export default function ProjectDetailView({
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-[#3e4095] shrink-0" />
-                  <div>
-                    <span className="text-[10px] text-slate-400 uppercase font-bold block">Thời gian thi công</span>
-                    <span className="font-semibold text-slate-800">{project.year}</span>
+                {project.year ? (
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-[#3e4095] shrink-0" />
+                    <div>
+                      <span className="text-[10px] text-slate-400 uppercase font-bold block">Thời gian thi công</span>
+                      <span className="font-semibold text-slate-800">{project.year}</span>
+                    </div>
                   </div>
-                </div>
+                ) : null}
 
                 <div className="flex items-center gap-2">
                   <Building className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -192,28 +193,16 @@ export default function ProjectDetailView({
               )}
             </div>
 
-            {/* Technical Scale Box */}
-            <div className="p-4 sm:p-5 rounded-[3px] bg-gradient-to-r from-red-50/80 via-white to-red-50/50 border-l-4 border-l-[#ed3237] border-y border-r border-slate-200 shadow-2xs">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#3e4095] mb-1.5">
-                <Layers className="w-4 h-4 text-[#ed3237]" />
-                <span>Quy mô & Thông số kỹ thuật chủ đạo</span>
-              </div>
-              <p className="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed">
-                {project.scale}
-              </p>
-            </div>
-
             {/* Detailed Article Description */}
-            <div className="space-y-4">
-              <h2 className="text-lg sm:text-xl font-bold text-slate-900 border-l-3 border-[#3e4095] pl-3">
-                Tổng Quan & Bối Cảnh Thực Hiện Dự Án
-              </h2>
-              <div className="text-sm sm:text-base text-slate-700 leading-relaxed space-y-3 font-normal">
-                <p>{project.description}</p>
-                <p>
-                  Trong suốt quá trình triển khai, Công ty Cổ phần Đầu tư Xây lắp Thành Phú (Thành Phú JSC) đã huy động toàn bộ nguồn lực cơ giới hiện đại, đội ngũ kỹ sư dày dạn kinh nghiệm và áp dụng các giải pháp thi công tiên tiến nhất nhằm bảo đảm tiến độ, an toàn lao động tuyệt đối và chất lượng công trình đạt chuẩn mực quốc gia.
-                </p>
-              </div>
+            <div className="space-y-4 pt-2">
+              {project.description ? (
+                <div
+                  className="rich-text-content text-sm sm:text-base text-slate-700 leading-relaxed font-normal"
+                  dangerouslySetInnerHTML={{ __html: project.description }}
+                />
+              ) : (
+                <p className="text-sm text-slate-500 italic">Chưa có thông tin mô tả chi tiết.</p>
+              )}
             </div>
 
             {/* Social Share Strip */}
@@ -275,7 +264,7 @@ export default function ProjectDetailView({
                           {rel.title}
                         </h4>
                         <span className="text-[11px] text-slate-500 font-medium block">
-                          {rel.year} • {rel.location}
+                          {rel.year ? `${rel.year} • ` : ""}{rel.location}
                         </span>
                       </div>
                     </Link>

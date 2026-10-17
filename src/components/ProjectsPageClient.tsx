@@ -170,10 +170,12 @@ function Project3DItem({
                 <MapPin className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
                 <span className="truncate font-medium">{project.location}</span>
               </div>
-              <div className="flex items-center gap-1 drop-shadow shrink-0">
-                <Calendar className="w-3.5 h-3.5 text-slate-300 shrink-0" />
-                <span className="font-medium text-slate-200">{project.year}</span>
-              </div>
+              {project.year ? (
+                <div className="flex items-center gap-1 drop-shadow shrink-0">
+                  <Calendar className="w-3.5 h-3.5 text-slate-300 shrink-0" />
+                  <span className="font-medium text-slate-200">{project.year}</span>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -194,16 +196,7 @@ function Project3DItem({
               </div>
             )}
 
-            {/* Technical Scale Box */}
-            <div className="p-2.5 rounded-[2px] bg-slate-50 border border-slate-100 text-xs text-slate-600 space-y-1">
-              <div className="text-[10px] font-bold uppercase tracking-wider text-[#3e4095] flex items-center gap-1">
-                <Layers className="w-3 h-3 text-[#3e4095]" />
-                <span>Quy Mô Kỹ Thuật</span>
-              </div>
-              <p className="line-clamp-2 leading-relaxed text-slate-700 text-[11px] sm:text-xs">
-                {project.scale}
-              </p>
-            </div>
+
 
             {/* Highlights Tag Pills */}
             {project.highlights && project.highlights.length > 0 && (
@@ -281,6 +274,8 @@ export default function ProjectsPageClient({
   // Filter and sort logic
   const filteredProjects = useMemo(() => {
     let result = initialProjects.filter((p) => {
+      if (p.published === false) return false;
+
       const matchCategory =
         selectedCategory === "all" || p.category === selectedCategory;
 
@@ -290,7 +285,7 @@ export default function ProjectsPageClient({
         p.title.toLowerCase().includes(q) ||
         p.location.toLowerCase().includes(q) ||
         p.client.toLowerCase().includes(q) ||
-        p.scale.toLowerCase().includes(q) ||
+        (p.scale ? p.scale.toLowerCase().includes(q) : false) ||
         p.categoryName.toLowerCase().includes(q);
 
       return matchCategory && matchSearch;
@@ -299,7 +294,7 @@ export default function ProjectsPageClient({
     if (sortBy === "featured") {
       result = [...result].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
     } else if (sortBy === "newest") {
-      result = [...result].sort((a, b) => b.year.localeCompare(a.year));
+      result = [...result].sort((a, b) => (b.year || "").localeCompare(a.year || ""));
     }
 
     return result;

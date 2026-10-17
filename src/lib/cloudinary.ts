@@ -163,3 +163,34 @@ export async function deleteMultipleFromCloudinary(urlsOrPublicIds: (string | un
   const successfulCount = results.filter((r) => r.status === "fulfilled" && r.value.success).length;
   return successfulCount;
 }
+
+/**
+ * Lấy thông tin thống kê dung lượng và băng thông từ Cloudinary Admin API
+ */
+export async function getCloudinaryUsage(): Promise<any> {
+  const { cloudName, apiKey, apiSecret } = cloudinaryConfig;
+  if (!cloudName || !apiKey || !apiSecret) {
+    throw new Error("Thông tin xác thực Cloudinary chưa được cấu hình đầy đủ");
+  }
+
+  const endpoint = `https://api.cloudinary.com/v1_1/${cloudName}/usage`;
+  const auth = typeof Buffer !== "undefined"
+    ? Buffer.from(`${apiKey}:${apiSecret}`).toString("base64")
+    : btoa(`${apiKey}:${apiSecret}`);
+
+  const res = await fetch(endpoint, {
+    method: "GET",
+    headers: {
+      Authorization: `Basic ${auth}`,
+    },
+    cache: "no-store",
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error?.message || `Lỗi Cloudinary API (${res.status})`);
+  }
+
+  return data;
+}
+

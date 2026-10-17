@@ -152,20 +152,21 @@ export default function AdminPage() {
 
   // Project Form State
   const [isEditingProject, setIsEditingProject] = useState(false);
+  const [isUploadingGallery, setIsUploadingGallery] = useState(false);
+  const [newGalleryUrl, setNewGalleryUrl] = useState("");
+  const [projectFilterStatus, setProjectFilterStatus] = useState<"all" | "published" | "hidden">("all");
   const [projectForm, setProjectForm] = useState<Partial<Project>>({
     title: "",
     category: "dan-dung-cao-tang",
     categoryName: "Dân Dụng & Cao Tầng",
     client: "",
     location: "",
-    year: "2026",
-    value: "",
-    scale: "",
     thumbnail: "",
     gallery: [],
     description: "",
     highlights: [],
     featured: true,
+    published: true,
   });
 
   // News Form State
@@ -223,6 +224,69 @@ export default function AdminPage() {
   const [uploadedUrl, setUploadedUrl] = useState<string>("");
   const [isUploading, setIsUploading] = useState(false);
 
+  // Storage Stats State (Cloudflare D1 & Cloudinary CDN)
+  const [storageStats, setStorageStats] = useState<{
+    timestamp?: string;
+    d1?: {
+      status: "ok" | "error" | "unconfigured";
+      name?: string;
+      fileSize?: number;
+      fileSizeFormatted?: string;
+      maxSizeBytes?: number;
+      maxSizeFormatted?: string;
+      usedPercent?: number;
+      numTables?: number;
+      region?: string;
+      error?: string;
+    };
+    cloudinary?: {
+      status: "ok" | "error" | "unconfigured";
+      plan?: string;
+      storageBytes?: number;
+      storageFormatted?: string;
+      objectsCount?: number;
+      bandwidthBytes?: number;
+      bandwidthFormatted?: string;
+      creditsUsed?: number;
+      creditsLimit?: number;
+      creditsUsedPercent?: number;
+      lastUpdated?: string;
+      error?: string;
+    };
+  } | null>(null);
+  const [isLoadingStorage, setIsLoadingStorage] = useState(false);
+  const [showStoragePopover, setShowStoragePopover] = useState(false);
+  const storagePopoverRef = useRef<HTMLDivElement>(null);
+
+  const loadStorageStats = async () => {
+    setIsLoadingStorage(true);
+    try {
+      const res = await fetch("/api/admin/storage-stats", { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        setStorageStats(data);
+      }
+    } catch (err) {
+      console.error("Failed to load storage stats:", err);
+    } finally {
+      setIsLoadingStorage(false);
+    }
+  };
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (storagePopoverRef.current && !storagePopoverRef.current.contains(event.target as Node)) {
+        setShowStoragePopover(false);
+      }
+    }
+    if (showStoragePopover) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showStoragePopover]);
+
   // Load all data
   const loadData = async () => {
     setLoading(true);
@@ -268,6 +332,7 @@ export default function AdminPage() {
         }
         setCurrentUser(data.user);
         loadData();
+        loadStorageStats();
       } catch (err) {
         router.replace("/login");
       } finally {
@@ -354,6 +419,7 @@ export default function AdminPage() {
           targetCallback(data.url);
         }
         showNotice("Đã tải ảnh lên thành công!");
+        loadStorageStats();
       } else {
         showNotice(data.error || "Không thể tải ảnh", "error");
       }
@@ -362,6 +428,71 @@ export default function AdminPage() {
     } finally {
       setIsUploading(false);
     }
+  };
+
+  // Project Gallery Handlers
+  const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setIsUploadingGallery(true);
+    try {
+      const uploadedUrls: string[] = [];
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await res.json();
+        if (data.url) {
+          uploadedUrls.push(data.url);
+        }
+      }
+
+      if (uploadedUrls.length > 0) {
+        setProjectForm((prev) => ({
+          ...prev,
+          gallery: [...(prev.gallery || []), ...uploadedUrls],
+        }));
+        showNotice(`Đã tải lên ${uploadedUrls.length} ảnh vào thư viện!`);
+        loadStorageStats();
+      }
+    } catch (err: any) {
+      showNotice(err.message || "Lỗi tải ảnh thư viện", "error");
+    } finally {
+      setIsUploadingGallery(false);
+      e.target.value = "";
+    }
+  };
+
+  const handleAddGalleryUrl = () => {
+    if (!newGalleryUrl.trim()) return;
+    setProjectForm((prev) => ({
+      ...prev,
+      gallery: [...(prev.gallery || []), newGalleryUrl.trim()],
+    }));
+    setNewGalleryUrl("");
+    showNotice("Đã thêm ảnh vào thư viện!");
+  };
+
+  const handleRemoveGalleryImage = (indexToRemove: number) => {
+    setProjectForm((prev) => ({
+      ...prev,
+      gallery: (prev.gallery || []).filter((_, idx) => idx !== indexToRemove),
+    }));
+  };
+
+  const handleSetGalleryAsThumbnail = (url: string) => {
+    setProjectForm((prev) => ({
+      ...prev,
+      thumbnail: url,
+    }));
+    showNotice("Đã đặt làm ảnh đại diện!");
   };
 
   // Project Actions
@@ -394,6 +525,53 @@ export default function AdminPage() {
         showNotice("Đã xóa dự án thành công");
         setSelectedProjectIds((prev) => prev.filter((item) => item !== id));
         loadData();
+      }
+    } catch (err: any) {
+      showNotice(err.message, "error");
+    }
+  };
+
+  const handleToggleFeaturedProject = async (project: Project) => {
+    const newFeatured = !project.featured;
+    try {
+      const res = await fetch("/api/projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...project, featured: newFeatured }),
+      });
+      if (res.ok) {
+        setProjects((prev) =>
+          prev.map((p) => (p.id === project.id ? { ...p, featured: newFeatured } : p))
+        );
+        showNotice(
+          newFeatured
+            ? "Đã BẬT hiển thị dự án trên trang chủ!"
+            : "Đã TẮT hiển thị dự án trên trang chủ!"
+        );
+      }
+    } catch (err: any) {
+      showNotice(err.message, "error");
+    }
+  };
+
+  const handleTogglePublishProject = async (project: Project) => {
+    const currentPublished = project.published !== false;
+    const newPublished = !currentPublished;
+    try {
+      const res = await fetch("/api/projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...project, published: newPublished }),
+      });
+      if (res.ok) {
+        setProjects((prev) =>
+          prev.map((p) => (p.id === project.id ? { ...p, published: newPublished } : p))
+        );
+        showNotice(
+          newPublished
+            ? "Đã CÔNG KHAI dự án lên toàn bộ website!"
+            : "Đã ẨN dự án khỏi toàn bộ website (ẩn trang chủ, trang công trình & link chi tiết)!"
+        );
       }
     } catch (err: any) {
       showNotice(err.message, "error");
@@ -959,9 +1137,18 @@ export default function AdminPage() {
   };
 
   // Filtered lists
-  const filteredProjects = projects.filter((p) =>
-    projectSearch ? p.title.toLowerCase().includes(projectSearch.toLowerCase()) || p.categoryName.toLowerCase().includes(projectSearch.toLowerCase()) || p.location.toLowerCase().includes(projectSearch.toLowerCase()) : true
-  );
+  const filteredProjects = projects.filter((p) => {
+    const matchSearch = projectSearch
+      ? p.title.toLowerCase().includes(projectSearch.toLowerCase()) ||
+        p.categoryName.toLowerCase().includes(projectSearch.toLowerCase()) ||
+        (p.location && p.location.toLowerCase().includes(projectSearch.toLowerCase())) ||
+        (p.client && p.client.toLowerCase().includes(projectSearch.toLowerCase()))
+      : true;
+    if (!matchSearch) return false;
+    if (projectFilterStatus === "published") return p.published !== false;
+    if (projectFilterStatus === "hidden") return p.published === false;
+    return true;
+  });
 
   const filteredNews = news.filter((n) => {
     const matchSearch = newsSearch
@@ -1059,6 +1246,149 @@ export default function AdminPage() {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Storage Monitor Widget with dropdown popover */}
+          <div className="relative" ref={storagePopoverRef}>
+            <button
+              onClick={() => setShowStoragePopover(!showStoragePopover)}
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-2.5 py-1.5 rounded-[3px] bg-slate-50 hover:bg-slate-100 border border-slate-200/90 text-xs font-medium text-slate-700 transition-all cursor-pointer shadow-2xs group"
+              title="Xem chi tiết dung lượng Cloudflare D1 và Cloudinary CDN"
+            >
+              {/* D1 badge */}
+              <div className="flex items-center gap-1 sm:gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0" />
+                <Database className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                <span className="font-mono text-[11px] font-bold text-slate-700 hidden sm:inline">
+                  D1:
+                </span>
+                <span className="font-mono text-[11px] font-semibold text-slate-800">
+                  {storageStats?.d1?.fileSizeFormatted || "..."}
+                </span>
+              </div>
+
+              <div className="h-3 w-px bg-slate-300 hidden sm:block" />
+
+              {/* Cloudinary CDN badge */}
+              <div className="flex items-center gap-1 sm:gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 shrink-0" />
+                <CloudRain className="w-3.5 h-3.5 text-cyan-600 shrink-0" />
+                <span className="font-mono text-[11px] font-bold text-slate-700 hidden sm:inline">
+                  CDN:
+                </span>
+                <span className="font-mono text-[11px] font-semibold text-slate-800">
+                  {storageStats?.cloudinary?.storageFormatted || "..."}
+                </span>
+              </div>
+
+              {isLoadingStorage ? (
+                <Loader2 className="w-3 h-3 text-slate-400 animate-spin ml-0.5" />
+              ) : (
+                <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${showStoragePopover ? "rotate-180 text-slate-700" : ""}`} />
+              )}
+            </button>
+
+            {/* Storage Dropdown Popover */}
+            {showStoragePopover && (
+              <div className="absolute right-0 sm:right-auto sm:left-0 md:right-0 md:left-auto mt-2 w-80 sm:w-96 bg-white rounded-[4px] border border-slate-200 shadow-xl z-50 p-4 text-xs text-slate-700">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-slate-900 text-xs">Hạ tầng lưu trữ đám mây</span>
+                    <span className="text-[10px] bg-slate-100 text-slate-600 font-medium px-1.5 py-0.5 rounded-[2px]">Real-time</span>
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      loadStorageStats();
+                    }}
+                    disabled={isLoadingStorage}
+                    className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-500 hover:text-[#ed3237] transition-colors cursor-pointer disabled:opacity-50"
+                    title="Làm mới thông số dung lượng"
+                  >
+                    <RefreshCw className={`w-3 h-3 ${isLoadingStorage ? "animate-spin text-[#ed3237]" : ""}`} />
+                    <span>Làm mới</span>
+                  </button>
+                </div>
+
+                {/* D1 Section */}
+                <div className="p-3 rounded-[3px] bg-indigo-50/50 border border-indigo-100 mb-2.5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-[2px] bg-indigo-100 text-indigo-700">
+                        <Database className="w-3.5 h-3.5" />
+                      </div>
+                      <div>
+                        <div className="font-bold text-slate-800 text-[11px]">Cloudflare D1 Database</div>
+                        <div className="text-[10px] text-slate-500 font-mono">DB: {storageStats?.d1?.name || "web-thanhphu"} ({storageStats?.d1?.numTables || 0} bảng)</div>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-bold text-indigo-700 bg-indigo-100/80 px-1.5 py-0.5 rounded-[2px]">
+                      {storageStats?.d1?.region || "APAC"}
+                    </span>
+                  </div>
+
+                  <div className="mt-2.5">
+                    <div className="flex justify-between text-[11px] mb-1">
+                      <span className="text-slate-600">Dung lượng đã dùng:</span>
+                      <span className="font-bold text-slate-900 font-mono">
+                        {storageStats?.d1?.fileSizeFormatted || "0 B"} / {storageStats?.d1?.maxSizeFormatted || "500 MB"}
+                      </span>
+                    </div>
+                    <div className="w-full bg-indigo-100/70 rounded-full h-1.5 overflow-hidden">
+                      <div
+                        className="bg-indigo-600 h-1.5 rounded-full transition-all duration-500"
+                        style={{ width: `${Math.max(storageStats?.d1?.usedPercent || 0, 0.5)}%` }}
+                      />
+                    </div>
+                    <div className="flex justify-between items-center text-[10px] text-slate-500 mt-1">
+                      <span>Định dạng: Edge SQLite Serverless</span>
+                      <span className="font-mono text-indigo-700 font-semibold">{storageStats?.d1?.usedPercent || 0}%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Cloudinary CDN Section */}
+                <div className="p-3 rounded-[3px] bg-cyan-50/50 border border-cyan-100 mb-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-[2px] bg-cyan-100 text-cyan-700">
+                        <CloudRain className="w-3.5 h-3.5" />
+                      </div>
+                      <div>
+                        <div className="font-bold text-slate-800 text-[11px]">Cloudinary CDN Media</div>
+                        <div className="text-[10px] text-slate-500 font-mono">Gói: {storageStats?.cloudinary?.plan || "Free"} ({storageStats?.cloudinary?.objectsCount || 0} tệp ảnh)</div>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-bold text-cyan-700 bg-cyan-100/80 px-1.5 py-0.5 rounded-[2px]">
+                      WebP Auto
+                    </span>
+                  </div>
+
+                  <div className="mt-2.5">
+                    <div className="flex justify-between text-[11px] mb-1">
+                      <span className="text-slate-600">Dung lượng lưu trữ:</span>
+                      <span className="font-bold text-slate-900 font-mono">
+                        {storageStats?.cloudinary?.storageFormatted || "0 B"}
+                      </span>
+                    </div>
+                    <div className="w-full bg-cyan-100/70 rounded-full h-1.5 overflow-hidden">
+                      <div
+                        className="bg-cyan-600 h-1.5 rounded-full transition-all duration-500"
+                        style={{ width: `${Math.max(storageStats?.cloudinary?.creditsUsedPercent || 0, 1)}%` }}
+                      />
+                    </div>
+                    <div className="flex justify-between items-center text-[10px] text-slate-500 mt-1">
+                      <span>Băng thông: <strong className="text-slate-700 font-mono">{storageStats?.cloudinary?.bandwidthFormatted || "0 B"}</strong></span>
+                      <span className="font-mono text-cyan-700 font-semibold">Credits: {storageStats?.cloudinary?.creditsUsedPercent || 0}%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-slate-100 text-[10px] text-slate-400 text-center">
+                  Cập nhật trực tiếp từ Cloudflare D1 & Cloudinary Admin API
+                </div>
+              </div>
+            )}
+          </div>
+
           {currentUser && (
             <div className="flex items-center gap-2 px-2.5 py-1 rounded-[3px] bg-slate-50 border border-slate-200 text-xs">
               <div className="w-5 h-5 rounded-[2px] bg-[#ed3237] text-white flex items-center justify-center font-bold text-[10px]">
@@ -1262,13 +1592,10 @@ export default function AdminPage() {
                           setActiveTab("projects");
                           setProjectForm({
                             title: "",
-                            category: "ham",
-                            categoryName: "Hầm Xuyên Núi",
+                            category: "dan-dung-cao-tang",
+                            categoryName: "Dân Dụng & Cao Tầng",
                             client: "",
                             location: "",
-                            year: "2026",
-                            value: "",
-                            scale: "",
                             thumbnail: "https://images.unsplash.com/photo-1541888946425-d0fbb1861564?auto=format&fit=crop&w=1200&q=80",
                             gallery: [],
                             description: "",
@@ -1388,13 +1715,34 @@ export default function AdminPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                           <h4 className="text-xs font-bold text-slate-800">Cloudflare D1 Database</h4>
-                          <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.2 rounded-[2px] border border-emerald-200">
-                            Sẵn sàng
+                          <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded-[2px] border ${
+                            storageStats?.d1?.status === "ok"
+                              ? "text-emerald-600 bg-emerald-50 border-emerald-200"
+                              : "text-amber-600 bg-amber-50 border-amber-200"
+                          }`}>
+                            {storageStats?.d1?.status === "ok" ? "Sẵn sàng" : "Đang kiểm tra"}
                           </span>
                         </div>
                         <p className="text-[11px] text-slate-500 mt-1">
                           Lưu trữ cơ sở dữ liệu Edge Serverless thời gian thực.
                         </p>
+
+                        <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs">
+                          <span className="text-slate-500 text-[11px]">Dung lượng đã dùng:</span>
+                          <span className="font-mono font-bold text-slate-800 text-xs">
+                            {storageStats?.d1?.fileSizeFormatted || "..."} / {storageStats?.d1?.maxSizeFormatted || "500 MB"}
+                          </span>
+                        </div>
+                        <div className="w-full bg-slate-100 rounded-full h-1.5 mt-1.5 overflow-hidden">
+                          <div
+                            className="bg-indigo-600 h-1.5 rounded-full transition-all duration-500"
+                            style={{ width: `${Math.max(storageStats?.d1?.usedPercent || 0, 0.5)}%` }}
+                          />
+                        </div>
+                        <div className="flex justify-between items-center text-[10px] text-slate-400 mt-1">
+                          <span>{storageStats?.d1?.numTables || 0} bảng dữ liệu ({storageStats?.d1?.region || "APAC"})</span>
+                          <span className="font-mono font-semibold text-indigo-600">{storageStats?.d1?.usedPercent || 0}%</span>
+                        </div>
                       </div>
                     </div>
 
@@ -1412,6 +1760,23 @@ export default function AdminPage() {
                         <p className="text-[11px] text-slate-500 mt-1">
                           Tối ưu hóa hình ảnh công trình và phân phối qua CDN tốc độ cao.
                         </p>
+
+                        <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs">
+                          <span className="text-slate-500 text-[11px]">Dung lượng lưu trữ:</span>
+                          <span className="font-mono font-bold text-slate-800 text-xs">
+                            {storageStats?.cloudinary?.storageFormatted || "..."} ({storageStats?.cloudinary?.objectsCount || 0} tệp ảnh)
+                          </span>
+                        </div>
+                        <div className="w-full bg-slate-100 rounded-full h-1.5 mt-1.5 overflow-hidden">
+                          <div
+                            className="bg-cyan-600 h-1.5 rounded-full transition-all duration-500"
+                            style={{ width: `${Math.max(storageStats?.cloudinary?.creditsUsedPercent || 0, 1)}%` }}
+                          />
+                        </div>
+                        <div className="flex justify-between items-center text-[10px] text-slate-400 mt-1">
+                          <span>Băng thông: <strong className="text-slate-600 font-mono">{storageStats?.cloudinary?.bandwidthFormatted || "0 B"}</strong></span>
+                          <span className="font-mono font-semibold text-cyan-600">Credits: {storageStats?.cloudinary?.creditsUsedPercent || 0}%</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1457,8 +1822,13 @@ export default function AdminPage() {
                   {/* Header bar */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                      <h2 className="text-base font-bold text-slate-900">Quản lý công trình</h2>
-                      <p className="text-xs text-slate-500">Danh sách các dự án thi công của Thành Phú</p>
+                      <div className="flex items-center gap-2">
+                        <h2 className="text-base font-bold text-slate-900">Quản lý công trình</h2>
+                        <span className="text-[11px] font-bold text-slate-500 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-[2px]">
+                          Tổng: {projects.length}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-500 mt-0.5">Danh sách các dự án thi công của Thành Phú</p>
                     </div>
                     {!isEditingProject && (
                       <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -1480,14 +1850,12 @@ export default function AdminPage() {
                               categoryName: "Dân Dụng & Cao Tầng",
                               client: "",
                               location: "",
-                              year: "2026",
-                              value: "",
-                              scale: "",
                               thumbnail: "https://images.unsplash.com/photo-1541888946425-d0fbb1861564?auto=format&fit=crop&w=1200&q=80",
                               gallery: [],
                               description: "",
                               highlights: ["An toàn tuyệt đối 100%", "Tiến độ thi công đúng hạn"],
                               featured: true,
+                              published: true,
                             });
                             setIsEditingProject(true);
                           }}
@@ -1499,6 +1867,71 @@ export default function AdminPage() {
                       </div>
                     )}
                   </div>
+
+                  {/* Filter Toolbar & Quick Select */}
+                  {!isEditingProject && (
+                    <div className="flex flex-wrap items-center justify-between gap-3 p-2 rounded-[3px] bg-slate-50 border border-slate-200">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <button
+                          type="button"
+                          onClick={() => setProjectFilterStatus("all")}
+                          className={`px-2.5 py-1 rounded-[2px] text-xs font-semibold transition-colors cursor-pointer ${
+                            projectFilterStatus === "all"
+                              ? "bg-white text-slate-900 border border-slate-300 shadow-2xs"
+                              : "text-slate-500 hover:text-slate-800"
+                          }`}
+                        >
+                          Tất cả ({projects.length})
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setProjectFilterStatus("published")}
+                          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-[2px] text-xs font-semibold transition-colors cursor-pointer ${
+                            projectFilterStatus === "published"
+                              ? "bg-emerald-50 text-emerald-800 border border-emerald-300 shadow-2xs"
+                              : "text-slate-500 hover:text-slate-800"
+                          }`}
+                        >
+                          <Eye className="w-3 h-3 text-emerald-600" />
+                          <span>Công khai</span>
+                          <span className="text-[10px] opacity-80">
+                            ({projects.filter((p) => p.published !== false).length})
+                          </span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setProjectFilterStatus("hidden")}
+                          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-[2px] text-xs font-semibold transition-colors cursor-pointer ${
+                            projectFilterStatus === "hidden"
+                              ? "bg-rose-50 text-rose-800 border border-rose-300 shadow-2xs"
+                              : "text-slate-500 hover:text-slate-800"
+                          }`}
+                        >
+                          <EyeOff className="w-3 h-3 text-rose-600" />
+                          <span>Đã ẩn</span>
+                          <span className="text-[10px] opacity-80">
+                            ({projects.filter((p) => p.published === false).length})
+                          </span>
+                        </button>
+                      </div>
+
+                      {filteredProjects.length > 0 && (
+                        <label className="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer select-none px-2.5 py-1 rounded-[3px] bg-white border border-slate-200 hover:bg-slate-50 transition-colors">
+                          <input
+                            type="checkbox"
+                            aria-label="Chọn tất cả công trình"
+                            checked={
+                              filteredProjects.length > 0 &&
+                              filteredProjects.every((p) => selectedProjectIds.includes(p.id))
+                            }
+                            onChange={handleToggleSelectAllProjects}
+                            className="w-4 h-4 rounded-[2px] border-slate-300 text-[#ed3237] focus:ring-[#ed3237] cursor-pointer accent-[#ed3237]"
+                          />
+                          <span>Chọn tất cả ({filteredProjects.length})</span>
+                        </label>
+                      )}
+                    </div>
+                  )}
 
                   {/* Bulk Action Bar */}
                   {!isEditingProject && selectedProjectIds.length > 0 && (
@@ -1595,13 +2028,13 @@ export default function AdminPage() {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                         <div>
                           <label className="block text-xs font-semibold text-slate-700 mb-1">Địa điểm</label>
                           <input
                             type="text"
                             placeholder="Tỉnh/Thành phố..."
-                            value={projectForm.location}
+                            value={projectForm.location || ""}
                             onChange={(e) => setProjectForm({ ...projectForm, location: e.target.value })}
                             className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
                           />
@@ -1611,56 +2044,24 @@ export default function AdminPage() {
                           <input
                             type="text"
                             placeholder="Chủ đầu tư..."
-                            value={projectForm.client}
+                            value={projectForm.client || ""}
                             onChange={(e) => setProjectForm({ ...projectForm, client: e.target.value })}
                             className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
                           />
                         </div>
-                        <div>
-                          <label className="block text-xs font-semibold text-slate-700 mb-1">Năm thi công</label>
-                          <input
-                            type="text"
-                            placeholder="2023 - 2026"
-                            value={projectForm.year}
-                            onChange={(e) => setProjectForm({ ...projectForm, year: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
-                          />
-                        </div>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div>
-                          <label className="block text-xs font-semibold text-slate-700 mb-1">Giá trị gói thầu</label>
-                          <input
-                            type="text"
-                            placeholder="Ví dụ: 3.500 Tỷ VNĐ"
-                            value={projectForm.value}
-                            onChange={(e) => setProjectForm({ ...projectForm, value: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs font-semibold text-slate-700 mb-1">Quy mô kỹ thuật</label>
-                          <input
-                            type="text"
-                            placeholder="Quy mô dự án..."
-                            value={projectForm.scale}
-                            onChange={(e) => setProjectForm({ ...projectForm, scale: e.target.value })}
-                            className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
-                          />
-                        </div>
-                      </div>
-
+                      {/* Ảnh đại diện chính */}
                       <div>
                         <label className="block text-xs font-semibold text-slate-700 mb-1">
-                          Link ảnh đại diện (Cloudinary / URL) *
+                          Link ảnh đại diện chính (Cloudinary / URL) *
                         </label>
                         <div className="flex gap-2">
                           <input
                             type="text"
                             required
                             placeholder="https://..."
-                            value={projectForm.thumbnail}
+                            value={projectForm.thumbnail || ""}
                             onChange={(e) => setProjectForm({ ...projectForm, thumbnail: e.target.value })}
                             className="flex-1 px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none font-mono"
                           />
@@ -1675,16 +2076,237 @@ export default function AdminPage() {
                             />
                           </label>
                         </div>
+                        {projectForm.thumbnail && (
+                          <div className="mt-2 relative w-24 h-16 rounded-[2px] overflow-hidden border border-slate-200">
+                            <Image src={projectForm.thumbnail} alt="Thumbnail preview" fill className="object-cover" />
+                          </div>
+                        )}
                       </div>
 
+                      {/* Thư viện hình ảnh công trình (Gallery) */}
+                      <div className="p-4 rounded-[3px] bg-slate-50/70 border border-slate-200/90 space-y-3">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <label className="text-xs font-bold text-slate-800">
+                                Thư viện hình ảnh công trình (Gallery)
+                              </label>
+                              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-[2px] bg-indigo-50 text-indigo-700 border border-indigo-200">
+                                {projectForm.gallery?.length || 0} ảnh
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-500 mt-0.5">
+                              Tải lên nhiều hình ảnh thi công, tiến độ thực tế hoặc phối cảnh cho công trình này
+                            </p>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-[#3e4095] hover:bg-[#32347a] text-white text-xs font-semibold shadow-2xs transition-colors shrink-0">
+                              {isUploadingGallery ? (
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              ) : (
+                                <Upload className="w-3.5 h-3.5" />
+                              )}
+                              <span>{isUploadingGallery ? "Đang tải ảnh..." : "Tải nhiều ảnh lên"}</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                disabled={isUploadingGallery}
+                                className="hidden"
+                                onChange={handleGalleryUpload}
+                              />
+                            </label>
+                          </div>
+                        </div>
+
+                        {/* Thêm link URL thủ công */}
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            placeholder="Hoặc dán đường dẫn ảnh (URL / Cloudinary) vào đây..."
+                            value={newGalleryUrl}
+                            onChange={(e) => setNewGalleryUrl(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                e.preventDefault();
+                                handleAddGalleryUrl();
+                              }
+                            }}
+                            className="flex-1 px-3 py-1.5 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none font-mono"
+                          />
+                          <button
+                            type="button"
+                            onClick={handleAddGalleryUrl}
+                            className="px-3 py-1.5 rounded-[3px] bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold transition-colors flex items-center gap-1 shrink-0 cursor-pointer"
+                          >
+                            <Plus className="w-3.5 h-3.5" />
+                            <span>Thêm link</span>
+                          </button>
+                        </div>
+
+                        {/* Grid danh sách ảnh trong Gallery */}
+                        {projectForm.gallery && projectForm.gallery.length > 0 ? (
+                          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2.5 pt-2">
+                            {projectForm.gallery.map((imgUrl, idx) => {
+                              const isCurrentThumbnail = projectForm.thumbnail === imgUrl;
+                              return (
+                                <div
+                                  key={idx}
+                                  className={`relative group rounded-[3px] overflow-hidden border bg-white aspect-4/3 shadow-2xs transition-all ${
+                                    isCurrentThumbnail ? "border-[#ed3237] ring-2 ring-red-200" : "border-slate-200 hover:border-slate-300"
+                                  }`}
+                                >
+                                  <Image
+                                    src={imgUrl}
+                                    alt={`Gallery ${idx + 1}`}
+                                    fill
+                                    className="object-cover"
+                                  />
+                                  {isCurrentThumbnail && (
+                                    <span className="absolute top-1 left-1 z-10 text-[9px] font-bold bg-[#ed3237] text-white px-1.5 py-0.2 rounded-[2px] shadow-xs">
+                                      Ảnh đại diện
+                                    </span>
+                                  )}
+                                  {/* Overlay controls */}
+                                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 p-1 z-20">
+                                    {!isCurrentThumbnail && (
+                                      <button
+                                        type="button"
+                                        onClick={() => handleSetGalleryAsThumbnail(imgUrl)}
+                                        className="p-1.5 rounded-[2px] bg-white/90 hover:bg-white text-slate-700 hover:text-[#ed3237] text-[10px] font-semibold transition-colors cursor-pointer"
+                                        title="Đặt làm ảnh đại diện"
+                                      >
+                                        <Sparkles className="w-3.5 h-3.5" />
+                                      </button>
+                                    )}
+                                    <button
+                                      type="button"
+                                      onClick={() => handleRemoveGalleryImage(idx)}
+                                      className="p-1.5 rounded-[2px] bg-red-600 hover:bg-red-700 text-white transition-colors cursor-pointer"
+                                      title="Xóa ảnh này khỏi thư viện"
+                                    >
+                                      <Trash2 className="w-3.5 h-3.5" />
+                                    </button>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <div className="py-4 text-center border border-dashed border-slate-200 rounded-[3px] bg-white/50 text-slate-400 text-xs">
+                            Chưa có ảnh nào trong thư viện. Bấm &quot;Tải nhiều ảnh lên&quot; để chọn các bức ảnh cho công trình.
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Trình soạn thảo mô tả công trình TinyMCE */}
                       <div>
-                        <label className="block text-xs font-semibold text-slate-700 mb-1">Mô tả công trình</label>
-                        <textarea
-                          rows={3}
-                          value={projectForm.description}
-                          onChange={(e) => setProjectForm({ ...projectForm, description: e.target.value })}
-                          className="w-full px-3 py-2 rounded-[3px] bg-white border border-slate-200 text-slate-800 text-xs focus:border-[#ed3237] focus:outline-none"
+                        <div className="flex items-center justify-between mb-1.5">
+                          <label className="block text-xs font-semibold text-slate-700">
+                            Mô tả chi tiết công trình (Trình soạn thảo TinyMCE)
+                          </label>
+                          <span className="text-[10px] font-bold text-[#ed3237] bg-red-50 border border-red-200 px-1.5 py-0.5 rounded-[3px]">
+                            TinyMCE 7 (Kéo chỉnh ảnh)
+                          </span>
+                        </div>
+                        <TinyMCEEditor
+                          value={projectForm.description || ""}
+                          onChange={(content) => setProjectForm((prev) => ({ ...prev, description: content }))}
+                          placeholder="Soạn thảo mô tả chi tiết công trình tại đây (hỗ trợ kéo chỉnh ảnh 8 góc, bảng biểu, căn lề, trích dẫn)..."
                         />
+                      </div>
+
+                      {/* Cụm thiết lập trạng thái: Công khai/Ẩn toàn bộ & Hiển thị trên trang chủ */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                        {/* 1. Trạng thái hiển thị toàn bộ website (Công khai / Ẩn) */}
+                        <div
+                          className={`p-3.5 rounded-[3px] border transition-colors ${
+                            projectForm.published !== false
+                              ? "bg-emerald-50/50 border-emerald-200"
+                              : "bg-rose-50/50 border-rose-200"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                                <span>Trạng thái công trình:</span>
+                                {projectForm.published !== false ? (
+                                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 border border-emerald-300 px-2 py-0.5 rounded-[2px] inline-flex items-center gap-1">
+                                    <Eye className="w-3 h-3" />
+                                    <span>CÔNG KHAI</span>
+                                  </span>
+                                ) : (
+                                  <span className="text-[10px] font-bold text-rose-700 bg-rose-100 border border-rose-300 px-2 py-0.5 rounded-[2px] inline-flex items-center gap-1">
+                                    <EyeOff className="w-3 h-3" />
+                                    <span>ĐÃ ẨN TOÀN BỘ</span>
+                                  </span>
+                                )}
+                              </label>
+                              <p className="text-[11px] text-slate-500 mt-1">
+                                {projectForm.published !== false
+                                  ? "Công trình hiển thị công khai trên website, khách hàng có thể xem."
+                                  : "Ẩn hoàn toàn khỏi trang chủ, trang công trình và link trực tiếp (chỉ admin thấy)."}
+                              </p>
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setProjectForm((prev) => ({
+                                  ...prev,
+                                  published: prev.published === false ? true : false,
+                                }))
+                              }
+                              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                                projectForm.published !== false ? "bg-emerald-500" : "bg-slate-300"
+                              }`}
+                            >
+                              <span
+                                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
+                                  projectForm.published !== false ? "translate-x-5" : "translate-x-0"
+                                }`}
+                              />
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* 2. Bật / Tắt hiển thị trên trang chủ */}
+                        <div className="p-3.5 rounded-[3px] bg-slate-50 border border-slate-200 flex items-center justify-between">
+                          <div>
+                            <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                              <span>Hiển thị trên trang chủ:</span>
+                              {projectForm.featured ? (
+                                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 border border-emerald-300 px-2 py-0.5 rounded-[2px]">
+                                  Đang BẬT
+                                </span>
+                              ) : (
+                                <span className="text-[10px] font-bold text-slate-500 bg-slate-200 border border-slate-300 px-2 py-0.5 rounded-[2px]">
+                                  Đang TẮT
+                                </span>
+                              )}
+                            </label>
+                            <p className="text-[11px] text-slate-500 mt-1">
+                              {projectForm.featured
+                                ? "Công trình sẽ xuất hiện tại khu vực Dự án tiêu biểu trên trang chủ."
+                                : "Ẩn khỏi trang chủ (vẫn xem được trong trang công trình nếu đang công khai)."}
+                            </p>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => setProjectForm((prev) => ({ ...prev, featured: !prev.featured }))}
+                            className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                              projectForm.featured ? "bg-[#ed3237]" : "bg-slate-300"
+                            }`}
+                          >
+                            <span
+                              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
+                                projectForm.featured ? "translate-x-5" : "translate-x-0"
+                              }`}
+                            />
+                          </button>
+                        </div>
                       </div>
 
                       <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
@@ -1723,25 +2345,31 @@ export default function AdminPage() {
                               <th className="py-2.5 px-3.5">Tên công trình</th>
                               <th className="py-2.5 px-3.5">Hạng mục</th>
                               <th className="py-2.5 px-3.5">Địa điểm</th>
-                              <th className="py-2.5 px-3.5">Năm</th>
+                              <th className="py-2.5 px-3.5">Thư viện ảnh</th>
+                              <th className="py-2.5 px-3.5">Trạng thái</th>
                               <th className="py-2.5 px-3.5 text-right w-24">Thao tác</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-slate-100 text-slate-700">
                             {filteredProjects.length === 0 ? (
                               <tr>
-                                <td colSpan={7} className="py-8 text-center text-slate-400 text-xs">
+                                <td colSpan={8} className="py-8 text-center text-slate-400 text-xs">
                                   Không tìm thấy công trình nào
                                 </td>
                               </tr>
                             ) : (
                               filteredProjects.map((p) => {
                                 const isSelected = selectedProjectIds.includes(p.id);
+                                const isPublished = p.published !== false;
                                 return (
                                   <tr
                                     key={p.id}
                                     className={`transition-colors ${
-                                      isSelected ? "bg-red-50/60 hover:bg-red-50/80" : "hover:bg-slate-50/70"
+                                      isSelected
+                                        ? "bg-red-50/60 hover:bg-red-50/80"
+                                        : !isPublished
+                                        ? "bg-rose-50/20 hover:bg-rose-50/30"
+                                        : "hover:bg-slate-50/70"
                                     }`}
                                   >
                                     <td className="py-2.5 px-3 text-center">
@@ -1756,6 +2384,11 @@ export default function AdminPage() {
                                     <td className="py-2.5 px-3.5">
                                       <div className="relative w-12 h-9 rounded-[2px] overflow-hidden border border-slate-200">
                                         <Image src={p.thumbnail} alt="" fill className="object-cover" />
+                                        {!isPublished && (
+                                          <div className="absolute inset-0 bg-slate-900/50 flex items-center justify-center">
+                                            <EyeOff className="w-3.5 h-3.5 text-white/90" />
+                                          </div>
+                                        )}
                                       </div>
                                     </td>
                                     <td className="py-2.5 px-3.5 font-semibold text-slate-900 max-w-xs truncate">
@@ -1767,11 +2400,74 @@ export default function AdminPage() {
                                       </span>
                                     </td>
                                     <td className="py-2.5 px-3.5 text-slate-500">{p.location}</td>
-                                    <td className="py-2.5 px-3.5 text-slate-500">{p.year}</td>
+                                    <td className="py-2.5 px-3.5">
+                                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200/80 px-2 py-0.5 rounded-[2px]">
+                                        <ImageIcon className="w-3 h-3 text-indigo-500" />
+                                        <span>{p.gallery?.length || 0} ảnh</span>
+                                      </span>
+                                    </td>
+                                    <td className="py-2.5 px-3.5">
+                                      <div className="flex items-center gap-1.5 flex-wrap">
+                                        {/* Toggle công khai / ẩn */}
+                                        <button
+                                          type="button"
+                                          onClick={() => handleTogglePublishProject(p)}
+                                          title={
+                                            isPublished
+                                              ? "Bấm để ẩn công trình khỏi toàn bộ website"
+                                              : "Bấm để mở công khai công trình lên website"
+                                          }
+                                          className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] text-[10px] font-bold border transition-all cursor-pointer ${
+                                            isPublished
+                                              ? "bg-slate-50 text-slate-600 border-slate-300 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-300"
+                                              : "bg-rose-100 text-rose-700 border-rose-300 hover:bg-emerald-100 hover:text-emerald-700 hover:border-emerald-300"
+                                          }`}
+                                        >
+                                          {isPublished ? (
+                                            <>
+                                              <EyeOff className="w-3 h-3 text-slate-500" />
+                                              <span>Ẩn</span>
+                                            </>
+                                          ) : (
+                                            <>
+                                              <Eye className="w-3 h-3 text-rose-600" />
+                                              <span>Hiện lại</span>
+                                            </>
+                                          )}
+                                        </button>
+
+                                        {/* Toggle hiển thị trên trang chủ */}
+                                        <button
+                                          type="button"
+                                          onClick={() => handleToggleFeaturedProject(p)}
+                                          title={
+                                            p.featured
+                                              ? "Bấm để tắt hiển thị trên trang chủ"
+                                              : "Bấm để bật hiển thị trên trang chủ"
+                                          }
+                                          className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] text-[10px] font-bold border transition-all cursor-pointer ${
+                                            p.featured
+                                              ? "bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100"
+                                              : "bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200"
+                                          }`}
+                                        >
+                                          <span
+                                            className={`w-1.5 h-1.5 rounded-full ${
+                                              p.featured ? "bg-emerald-500" : "bg-slate-400"
+                                            }`}
+                                          />
+                                          <span>{p.featured ? "Trang chủ" : "Tắt trang chủ"}</span>
+                                        </button>
+                                      </div>
+                                    </td>
                                     <td className="py-2.5 px-3.5 text-right space-x-1">
                                       <button
                                         onClick={() => {
-                                          setProjectForm(p);
+                                          setProjectForm({
+                                            ...p,
+                                            featured: p.featured ?? true,
+                                            published: p.published !== false,
+                                          });
                                           setIsEditingProject(true);
                                         }}
                                         className="p-1.5 rounded-[3px] border border-slate-200 hover:bg-slate-100 text-slate-600 transition-colors"
@@ -3803,9 +4499,53 @@ export default function AdminPage() {
               {/* TAB: MEDIA & CLOUDINARY */}
               {activeTab === "media" && (
                 <div className="space-y-4 max-w-4xl">
-                  <div>
-                    <h2 className="text-base font-bold text-slate-900">Tải ảnh lên CDN</h2>
-                    <p className="text-xs text-slate-500">Tải hình ảnh để nhận liên kết trực tiếp dùng cho bài viết và dự án</p>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <h2 className="text-base font-bold text-slate-900">Quản lý CDN & Thư viện Media</h2>
+                      <p className="text-xs text-slate-500">Tải hình ảnh để nhận liên kết trực tiếp dùng cho bài viết và dự án</p>
+                    </div>
+                    <button
+                      onClick={loadStorageStats}
+                      disabled={isLoadingStorage}
+                      className="self-start sm:self-auto inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[3px] bg-white border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
+                    >
+                      <RefreshCw className={`w-3.5 h-3.5 ${isLoadingStorage ? "animate-spin text-[#ed3237]" : "text-slate-500"}`} />
+                      <span>Cập nhật dung lượng CDN</span>
+                    </button>
+                  </div>
+
+                  {/* CDN Live Stats Grid */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div className="p-3 bg-white rounded-[3px] border border-slate-200/90 shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Dung lượng lưu trữ</div>
+                      <div className="text-base font-bold text-slate-900 font-mono mt-0.5">
+                        {storageStats?.cloudinary?.storageFormatted || "..."}
+                      </div>
+                      <div className="text-[10px] text-slate-400 mt-0.5">Cloudinary Storage</div>
+                    </div>
+                    <div className="p-3 bg-white rounded-[3px] border border-slate-200/90 shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Số tệp hình ảnh</div>
+                      <div className="text-base font-bold text-slate-900 font-mono mt-0.5">
+                        {storageStats?.cloudinary?.objectsCount || 0} tệp
+                      </div>
+                      <div className="text-[10px] text-slate-400 mt-0.5">Đã tải lên & đồng bộ</div>
+                    </div>
+                    <div className="p-3 bg-white rounded-[3px] border border-slate-200/90 shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Băng thông phân phối</div>
+                      <div className="text-base font-bold text-slate-900 font-mono mt-0.5">
+                        {storageStats?.cloudinary?.bandwidthFormatted || "..."}
+                      </div>
+                      <div className="text-[10px] text-slate-400 mt-0.5">Lưu lượng tải tháng này</div>
+                    </div>
+                    <div className="p-3 bg-white rounded-[3px] border border-slate-200/90 shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Hạn mức Credits</div>
+                      <div className="text-base font-bold text-cyan-600 font-mono mt-0.5">
+                        {storageStats?.cloudinary?.creditsUsedPercent || 0}%
+                      </div>
+                      <div className="text-[10px] text-slate-400 mt-0.5">
+                        {storageStats?.cloudinary?.creditsUsed || 0} / {storageStats?.cloudinary?.creditsLimit || 25} credits
+                      </div>
+                    </div>
                   </div>
 
                   {/* Uploader Box */}
