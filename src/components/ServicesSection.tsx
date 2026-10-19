@@ -213,7 +213,7 @@ export default function ServicesSection() {
       icon: Layers,
       title: "Cửa Nhựa Lõi Thép & Cửa Nhôm Kính",
       desc: "Sản xuất, thi công lắp đặt cửa nhựa lõi thép uPVC và hệ cửa nhôm kính cao cấp.",
-      image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+      image: "/san-xuat-cua-nhua-upvc-nhom-kinh.png",
       bullets: [
         "Cửa nhựa uPVC lõi thép gia cường",
         "Cửa nhôm kính Xingfa & hệ châu Âu",

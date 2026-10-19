@@ -90,7 +90,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       shortDesc: "Nhà xưởng gia công trực tiếp và thi công lắp đặt hệ cửa nhựa uPVC gia cường lõi thép, hệ cửa nhôm kính, vách kính mặt dựng cao cấp.",
       fullDesc:
         "Thành Phú vận hành nhà xưởng gia công cơ khí chuyên nghiệp, sản xuất trực tiếp và lắp đặt hoàn thiện các sản phẩm cửa nhựa lõi thép uPVC và hệ cửa nhôm kính kiến trúc cao cấp. Dây chuyền cắt ép góc công nghệ cao bảo đảm độ kín khít tuyệt đối, cách âm, cách nhiệt vượt trội, chống ăn mòn và thẩm mỹ sắc nét cho mọi công trình dân dụng, tòa nhà cao tầng và biệt thự.",
-      image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80",
+      image: "/san-xuat-cua-nhua-upvc-nhom-kinh.png",
       iconName: "layers",
       techHighlights: [
         "Sản xuất cửa nhựa uPVC profile cao cấp với lõi thép mạ kẽm gia cường chống cong vênh",
