@@ -110,20 +110,26 @@ export default {
       origWarn(...args);
     };
     try {
-      const res = await defaultWorker.fetch(request, env, ctx);
+      let res = await defaultWorker.fetch(request, env, ctx);
+      if (res.status === 404 && env && env.ASSETS) {
+        const assetRes = await env.ASSETS.fetch(request);
+        if (assetRes.status < 400) {
+          return assetRes;
+        }
+      }
       if (res.status >= 500) {
         const text = await res.clone().text().catch(() => "");
         if (text.includes("=== CLOUDFLARE PAGES 500 ERROR DETAILS ===") || text.length > 50) {
           return res;
         }
-        return new Response("=== CLOUDFLARE PAGES 500 ERROR DETAILS ===\\n\\n" + (errorLogs.join("\\n\\n") || ("Response body: " + text + "\\nStatus: " + res.status)), {
+        return new Response("=== CLOUDFLARE PAGES 500 ERROR DETAILS ===\n\n" + (errorLogs.join("\n\n") || ("Response body: " + text + "\nStatus: " + res.status)), {
           status: res.status,
           headers: { "content-type": "text/plain; charset=utf-8" },
         });
       }
       return res;
     } catch (fatal) {
-      return new Response("=== CLOUDFLARE PAGES UNCAUGHT EXCEPTION ===\\n" + (fatal?.stack || fatal?.message || String(fatal)) + "\\n\\n=== LOGS ===\\n" + errorLogs.join("\\n\\n"), {
+      return new Response("=== CLOUDFLARE PAGES UNCAUGHT EXCEPTION ===\n" + (fatal?.stack || fatal?.message || String(fatal)) + "\n\n=== LOGS ===\n" + errorLogs.join("\n\n"), {
         status: 500,
         headers: { "content-type": "text/plain; charset=utf-8" },
       });
@@ -142,7 +148,13 @@ export default {
   console.warn("⚠ .open-next/worker.js not found!");
 }
 
-// 4. Copy static assets from .open-next/assets to .open-next root so Cloudflare Pages serves them
+// 4. Copy static assets from public and .open-next/assets to .open-next root so Cloudflare Pages serves them
+const publicDir = path.join(process.cwd(), "public");
+if (fs.existsSync(publicDir)) {
+  fs.cpSync(publicDir, openNextDir, { recursive: true });
+  console.log("✓ Synced public directory to .open-next root");
+}
+
 if (fs.existsSync(assetsDir)) {
   const items = fs.readdirSync(assetsDir);
   for (const item of items) {
@@ -155,11 +167,25 @@ if (fs.existsSync(assetsDir)) {
 }
 
 // 5. Generate _routes.json to route dynamic paths to _worker.js and static files to CDN
+const publicExcludes = [];
+if (fs.existsSync(publicDir)) {
+  const files = fs.readdirSync(publicDir);
+  for (const f of files) {
+    publicExcludes.push("/" + f);
+  }
+}
+
 const routes = {
   version: 1,
   include: ["/*"],
-  exclude: ["/_next/static/*", "/logo*.png", "/favicon.ico", "/icon*.png", "/apple-icon*.png", "/robots.txt"],
+  exclude: Array.from(new Set([
+    "/_next/static/*",
+    ...publicExcludes,
+    "/favicon.ico",
+    "/robots.txt",
+  ])).slice(0, 99),
 };
 
 fs.writeFileSync(routesDest, JSON.stringify(routes, null, 2));
-console.log("✓ Generated .open-next/_routes.json");
+console.log("✓ Generated .open-next/_routes.json with public static files:", publicExcludes.length, "items");
+
