@@ -171,7 +171,11 @@ const publicExcludes = [];
 if (fs.existsSync(publicDir)) {
   const files = fs.readdirSync(publicDir);
   for (const f of files) {
-    publicExcludes.push("/" + f);
+    const routeRule = "/" + f;
+    // Cloudflare limits each rule in _routes.json to max 100 characters and valid URL chars
+    if (routeRule.length < 100 && !/[;,\s]/.test(f)) {
+      publicExcludes.push(routeRule);
+    }
   }
 }
 
@@ -183,7 +187,7 @@ const routes = {
     ...publicExcludes,
     "/favicon.ico",
     "/robots.txt",
-  ])).slice(0, 99),
+  ])).filter((r) => r.length < 100).slice(0, 99),
 };
 
 fs.writeFileSync(routesDest, JSON.stringify(routes, null, 2));
