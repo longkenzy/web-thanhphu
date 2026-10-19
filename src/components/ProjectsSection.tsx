@@ -219,7 +219,11 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
         {/* Projects Grid with 3D Tilt Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {filteredProjects.map((project, idx) => (
-            <div key={project.id} className={`reveal-scale delay-${((idx % 3) + 1) * 100} h-full`}>
+            <div
+              key={project.id}
+              className={`reveal-scale delay-${((idx % 3) + 1) * 100} h-full`}
+              suppressHydrationWarning
+            >
               <Project3DCard
                 project={project}
               />

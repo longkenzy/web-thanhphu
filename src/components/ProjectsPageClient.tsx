@@ -497,6 +497,7 @@ export default function ProjectsPageClient({
                   <div
                     key={project.id}
                     className={`reveal-scale delay-${((idx % 3) + 1) * 100}`}
+                    suppressHydrationWarning
                   >
                     <Project3DItem
                       project={project}

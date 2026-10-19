@@ -47,12 +47,14 @@ export default function ScrollObserver() {
       });
     };
 
-    // Initial scan with small delay to allow DOM render
-    const timer = setTimeout(scanAndObserve, 50);
+    // Initial scan with small delay to allow DOM render and hydration
+    const timer = setTimeout(scanAndObserve, 100);
 
     // Watch for dynamic DOM changes (tab switching, modal opens, data loading)
+    let debounceTimer: ReturnType<typeof setTimeout> | null = null;
     const mutationObserver = new MutationObserver(() => {
-      scanAndObserve();
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(scanAndObserve, 150);
     });
 
     mutationObserver.observe(document.body, {
@@ -62,6 +64,7 @@ export default function ScrollObserver() {
 
     return () => {
       clearTimeout(timer);
+      if (debounceTimer) clearTimeout(debounceTimer);
       observer.disconnect();
       mutationObserver.disconnect();
     };
