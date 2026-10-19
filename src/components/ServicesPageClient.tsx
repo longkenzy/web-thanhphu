@@ -44,7 +44,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       shortDesc: "Tổng thầu thi công xây lắp mới, cải tạo, sửa chữa các công trình dân dụng, khu đô thị, văn phòng và nhà xưởng công nghiệp quy mô lớn.",
       fullDesc:
         "Thành Phú đảm nhận vai trò tổng thầu thi công xây dựng trọn gói từ giai đoạn thi công móng, kết cấu bê tông cốt thép, khung nhà xưởng công nghiệp đến lắp đặt hoàn thiện và sửa chữa nâng cấp công trình. Chúng tôi áp dụng quy trình kiểm soát chất lượng đạt chuẩn ISO 9001:2015, bảo đảm công trình đạt tiến độ nhanh, độ bền kết cấu vững chắc và thẩm mỹ hiện đại.",
-      image: "https://images.unsplash.com/photo-1541888946425-d0fbb1861564?auto=format&fit=crop&w=1200&q=80",
+      image: "/xay-dung-dan-dung-cong-nghiep.png",
       iconName: "building",
       techHighlights: [
         "Thi công xây dựng mới các công trình dân dụng: tòa nhà văn phòng, khu căn hộ, nhà ở dân dụng",

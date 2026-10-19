@@ -187,7 +187,7 @@ export default function ServicesSection() {
       icon: Building2,
       title: "Công Trình Dân Dụng & Công Nghiệp",
       desc: "Xây dựng, thi công lắp đặt, sửa chữa các công trình dân dụng và công trình công nghiệp.",
-      image: "https://images.unsplash.com/photo-1541888946425-d0fbb1861564?auto=format&fit=crop&w=800&q=80",
+      image: "/xay-dung-dan-dung-cong-nghiep.png",
       bullets: [
         "Xây dựng mới & cải tạo sửa chữa",
         "Nhà cao tầng, văn phòng, nhà xưởng",
