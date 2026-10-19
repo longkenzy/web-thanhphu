@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, ArrowUpRight, Calendar, Layers, ArrowRight } from "lucide-react";
+import { ArrowUpRight, Calendar, Layers, ArrowRight } from "lucide-react";
 import { Project } from "@/types";
 import { decodeHtmlEntities } from "@/lib/textUtils";
 
@@ -94,7 +94,8 @@ function Project3DCard({
               fill
               className="object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/15" />
+            {/* Light hover tint only - no heavy dark gray overlay */}
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
 
             {/* Category Pill in Deep Blue */}
             <div
@@ -120,25 +121,19 @@ function Project3DCard({
               <ArrowUpRight className="w-4 h-4" />
             </div>
 
-            {/* Location & Year at bottom of image - wraps freely without ellipsis */}
-            <div
-              className="absolute bottom-2.5 left-3 right-3 flex items-end justify-between text-[11px] text-white z-20 gap-2"
-              style={{
-                transform: isHovered ? "translateZ(10px)" : "translateZ(0px)",
-                transition: "transform 0.2s ease-out",
-              }}
-            >
-              <div className="flex items-start gap-1.5 drop-shadow flex-1 min-w-0">
-                <MapPin className="w-3.5 h-3.5 text-[#ed3237] shrink-0 mt-0.5" />
-                <span className="font-medium leading-snug break-words">{decodeHtmlEntities(project.location)}</span>
+            {/* Year badge (if present) - location removed */}
+            {project.year ? (
+              <div
+                className="absolute bottom-2.5 right-2.5 z-20 flex items-center gap-1 px-2 py-0.5 bg-black/60 text-white text-[11px] font-medium rounded-[2px] shadow-sm"
+                style={{
+                  transform: isHovered ? "translateZ(10px)" : "translateZ(0px)",
+                  transition: "transform 0.2s ease-out",
+                }}
+              >
+                <Calendar className="w-3 h-3 text-[#ed3237]" />
+                <span>{project.year}</span>
               </div>
-              {project.year ? (
-                <div className="flex items-center gap-1 drop-shadow shrink-0 ml-1.5 self-end">
-                  <Calendar className="w-3.5 h-3.5 text-slate-300" />
-                  <span className="font-medium">{project.year}</span>
-                </div>
-              ) : null}
-            </div>
+            ) : null}
           </div>
 
           {/* Body Content with 3D Depth - Only Title, wraps cleanly without ellipsis */}

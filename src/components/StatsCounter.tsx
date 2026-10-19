@@ -50,90 +50,78 @@ function Stat3DItem({
     setGlare({ x: 50, y: 50, opacity: 0 });
   };
 
-  const shadowX = -rotate.y * 0.8;
-  const shadowY = rotate.x * 0.8 + 8;
-
   return (
-    <div
-      style={{ perspective: "1000px" }}
-      className={`relative ${isHovered ? "z-30" : "z-10"}`}
-    >
+    <div className="relative h-full">
       <div
         ref={cardRef}
         onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        style={{
-          transform: isHovered
-            ? `perspective(1000px) rotateX(${rotate.x.toFixed(2)}deg) rotateY(${rotate.y.toFixed(2)}deg) translateZ(8px) scale3d(1.012, 1.012, 1.012)`
-            : "perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)",
-          boxShadow: isHovered
-            ? `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 18px -4px rgba(237, 50, 55, 0.2), 0 6px 14px -3px rgba(15, 23, 42, 0.08)`
-            : "none",
-          transition: isHovered
-            ? "transform 0.12s ease-out, box-shadow 0.15s ease-out"
-            : "transform 0.45s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.45s cubic-bezier(0.23, 1, 0.32, 1)",
-          transformStyle: "preserve-3d",
-        }}
-        className={`p-4 sm:p-5 bg-white rounded-[3px] border border-transparent transition-colors duration-200 cursor-pointer overflow-hidden relative select-none ${
-          isHovered ? "!border-[#ed3237]/50 bg-white" : "hover:bg-red-50/20"
+        className={`h-full p-4 sm:p-5 transition-colors duration-200 cursor-pointer overflow-hidden relative select-none ${
+          isHovered ? "bg-red-50/25" : "bg-white hover:bg-slate-50/60"
         }`}
       >
+        {/* Top Accent Line khi hover */}
+        <div
+          className={`absolute top-0 left-0 right-0 h-[3px] bg-[#ed3237] transition-all duration-300 origin-center ${
+            isHovered ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+          }`}
+        />
+
         {/* Dynamic Light Sheen / Glare Overlay */}
         <div
-          className="pointer-events-none absolute inset-0 z-30 transition-opacity duration-300"
+          className="pointer-events-none absolute inset-0 z-20 transition-opacity duration-300"
           style={{
             opacity: glare.opacity,
-            background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(237, 50, 55, 0.2) 0%, rgba(255, 255, 255, 0.35) 35%, transparent 70%)`,
+            background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(237, 50, 55, 0.15) 0%, rgba(255, 255, 255, 0.4) 35%, transparent 70%)`,
           }}
         />
 
-        {/* 3D Top Row: Icon + Value */}
+        {/* Nội dung bên trong với hiệu ứng 3D Parallax mượt mà */}
         <div
-          className="flex items-center gap-3 mb-2"
           style={{
-            transform: isHovered ? "translateZ(12px)" : "translateZ(0px)",
-            transition: "transform 0.2s ease-out",
+            transform: isHovered
+              ? `perspective(1000px) rotateX(${rotate.x.toFixed(2)}deg) rotateY(${rotate.y.toFixed(2)}deg) translateY(-2px)`
+              : "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)",
+            transition: isHovered
+              ? "transform 0.12s ease-out"
+              : "transform 0.45s cubic-bezier(0.23, 1, 0.32, 1)",
+            transformStyle: "preserve-3d",
           }}
         >
+          {/* Top Row: Icon + Value */}
+          <div className="flex items-center gap-3 mb-2">
+            <div
+              className={`p-2 rounded-[3px] transition-all duration-300 ${
+                isHovered
+                  ? "bg-[#ed3237] text-white shadow-md shadow-[#ed3237]/30 scale-105"
+                  : "bg-red-50 text-[#ed3237]"
+              }`}
+            >
+              <Icon className="w-5 h-5" />
+            </div>
+            <div
+              className={`text-2xl sm:text-3xl font-extrabold tracking-tight transition-colors duration-200 ${
+                isHovered ? "text-[#ed3237]" : "text-slate-900"
+              }`}
+            >
+              {item.value}
+            </div>
+          </div>
+
+          {/* Title */}
           <div
-            className={`p-2 rounded-[3px] transition-all duration-300 ${
-              isHovered
-                ? "bg-[#ed3237] text-white shadow-md shadow-[#ed3237]/30 scale-106"
-                : "bg-red-50 text-[#ed3237]"
+            className={`text-sm sm:text-base font-bold transition-colors duration-200 ${
+              isHovered ? "text-slate-900" : "text-slate-800"
             }`}
           >
-            <Icon className="w-5 h-5" />
+            {item.label}
           </div>
-          <div
-            className={`text-2xl sm:text-3xl font-extrabold tracking-tight transition-colors duration-200 ${
-              isHovered ? "text-[#ed3237]" : "text-slate-900"
-            }`}
-          >
-            {item.value}
+
+          {/* Subtitle / Description */}
+          <div className="text-xs text-slate-500 mt-0.5 line-clamp-1 font-normal">
+            {item.desc}
           </div>
-        </div>
-
-        {/* 3D Title */}
-        <div
-          className="text-sm sm:text-base font-bold text-slate-800"
-          style={{
-            transform: isHovered ? "translateZ(10px)" : "translateZ(0px)",
-            transition: "transform 0.2s ease-out",
-          }}
-        >
-          {item.label}
-        </div>
-
-        {/* 3D Subtitle / Description */}
-        <div
-          className="text-xs text-slate-500 mt-0.5 line-clamp-1 font-normal"
-          style={{
-            transform: isHovered ? "translateZ(8px)" : "translateZ(0px)",
-            transition: "transform 0.2s ease-out",
-          }}
-        >
-          {item.desc}
         </div>
       </div>
     </div>
@@ -170,7 +158,7 @@ export default function StatsCounter() {
 
   return (
     <section className="relative z-20 py-3 sm:py-5 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal-on-scroll">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 bg-white border border-slate-200 rounded-[3px] shadow-sm divide-x divide-y lg:divide-y-0 divide-slate-200">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 bg-white border border-slate-200 rounded-[3px] shadow-sm divide-x divide-y lg:divide-y-0 divide-slate-200 overflow-hidden">
         {stats.map((item, idx) => (
           <div key={idx} className={`reveal-on-scroll delay-${(idx + 1) * 100}`}>
             <Stat3DItem item={item} />

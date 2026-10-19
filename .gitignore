@@ -23,6 +23,8 @@
 # misc
 .DS_Store
 *.pem
+toanhavanphong.png
+public/toanhavanphong.png
 
 # debug
 npm-debug.log*

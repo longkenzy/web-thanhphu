@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Image from "next/image";
 import { Eye, Target, Gem, Sparkles, Quote } from "lucide-react";
 import { CompanySettings } from "@/types";
 
@@ -100,118 +101,7 @@ function TiltCard({
   );
 }
 
-// Architectural & Mechanical Blueprint Graphic for Machinery Cards matching Image 4
-function EquipmentBlueprint({
-  item,
-}: {
-  item: {
-    badge: string;
-    overlayTitle: string;
-    overlaySub: string;
-    subText: string;
-    title: string;
-    desc: string;
-    type: string;
-  };
-}) {
-  return (
-    <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-[#111827]">
-      {/* Blueprint Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:24px_24px] opacity-60 pointer-events-none" />
 
-      {/* Silhouettes & SVGs based on equipment type */}
-      {item.type === "crane" && (
-        <>
-          <div className="absolute bottom-0 left-0 right-0 h-32 flex items-end justify-around px-2 opacity-30 pointer-events-none">
-            <div className="w-10 h-28 bg-slate-600 rounded-t-sm" />
-            <div className="w-12 h-32 bg-slate-500 rounded-t-sm" />
-            <div className="w-8 h-20 bg-slate-600 rounded-t-sm" />
-            <div className="w-14 h-26 bg-slate-500 rounded-t-sm" />
-          </div>
-          <div className="absolute top-2 right-4 w-44 h-44 opacity-50 pointer-events-none">
-            <svg viewBox="0 0 100 100" fill="none" stroke="#f59e0b" className="w-full h-full stroke-[1.2]">
-              <line x1="50" y1="5" x2="50" y2="95" strokeWidth="1.5" />
-              <line x1="8" y1="24" x2="92" y2="24" strokeWidth="1.5" />
-              <line x1="50" y1="5" x2="92" y2="24" />
-              <line x1="50" y1="5" x2="8" y2="24" />
-              <line x1="50" y1="24" x2="70" y2="50" strokeDasharray="2 2" />
-              <circle cx="50" cy="24" r="3" fill="#ed3237" stroke="#fff" strokeWidth="1" />
-            </svg>
-          </div>
-        </>
-      )}
-
-      {item.type === "pump" && (
-        <>
-          <div className="absolute bottom-0 left-0 right-0 h-24 flex items-end px-4 gap-3 opacity-30 pointer-events-none">
-            <div className="w-24 h-16 bg-slate-600 rounded-t-sm" />
-            <div className="w-32 h-20 bg-slate-500 rounded-t-sm" />
-            <div className="flex-1 h-12 bg-slate-600 rounded-t-sm" />
-          </div>
-          <div className="absolute top-2 right-2 w-48 h-44 opacity-55 pointer-events-none">
-            <svg viewBox="0 0 120 100" fill="none" stroke="#f59e0b" className="w-full h-full stroke-[1.4]">
-              <rect x="75" y="70" width="38" height="15" fill="#1e293b" stroke="#f59e0b" strokeWidth="1" />
-              <circle cx="83" cy="85" r="4" fill="#334155" stroke="#f59e0b" />
-              <circle cx="103" cy="85" r="4" fill="#334155" stroke="#f59e0b" />
-              <line x1="82" y1="70" x2="60" y2="40" strokeWidth="2" stroke="#f59e0b" />
-              <line x1="60" y1="40" x2="35" y2="18" strokeWidth="2" stroke="#f59e0b" />
-              <line x1="35" y1="18" x2="10" y2="35" strokeWidth="1.8" stroke="#f59e0b" />
-              <line x1="10" y1="35" x2="10" y2="65" strokeWidth="1.5" stroke="#ed3237" strokeDasharray="3 2" />
-              <circle cx="82" cy="70" r="2.5" fill="#ed3237" />
-              <circle cx="60" cy="40" r="2.5" fill="#f59e0b" />
-              <circle cx="35" cy="18" r="2.5" fill="#f59e0b" />
-            </svg>
-          </div>
-        </>
-      )}
-
-      {item.type === "workshop" && (
-        <>
-          <div className="absolute bottom-0 left-0 right-0 h-28 flex items-end justify-between px-3 opacity-30 pointer-events-none">
-            <div className="w-16 h-24 bg-slate-600" />
-            <div className="w-24 h-28 bg-slate-500" />
-            <div className="w-20 h-20 bg-slate-600" />
-          </div>
-          <div className="absolute top-2 right-4 w-44 h-44 opacity-50 pointer-events-none">
-            <svg viewBox="0 0 100 100" fill="none" stroke="#f59e0b" className="w-full h-full stroke-[1.2]">
-              <polygon points="10,40 50,15 90,40" strokeWidth="1.8" />
-              <line x1="10" y1="40" x2="90" y2="40" strokeWidth="1.5" />
-              <line x1="50" y1="15" x2="50" y2="40" strokeWidth="1.2" />
-              <line x1="30" y1="40" x2="50" y2="15" />
-              <line x1="70" y1="40" x2="50" y2="15" />
-              <line x1="15" y1="40" x2="15" y2="85" strokeWidth="2" />
-              <line x1="85" y1="40" x2="85" y2="85" strokeWidth="2" />
-              <circle cx="50" cy="15" r="3" fill="#ed3237" stroke="#fff" strokeWidth="1" />
-            </svg>
-          </div>
-        </>
-      )}
-
-      {/* Red Category Badge matching Image 4 */}
-      <div className="absolute top-3 left-3 z-20">
-        <span className="px-2.5 py-0.5 rounded-[2px] bg-[#ed3237] text-white text-[11px] font-bold uppercase tracking-wider shadow">
-          {item.badge}
-        </span>
-      </div>
-
-      {/* Dark Blueprint Overlay Text Box matching Image 4 */}
-      <div className="absolute bottom-3 left-3 right-3 z-20 p-3 rounded-[2px] bg-[#182133]/90 border-l-[3.5px] border-[#ed3237] backdrop-blur-sm space-y-0.5">
-        <div className="text-xs sm:text-sm font-bold text-white leading-tight truncate">
-          {item.overlayTitle}
-        </div>
-        <div className="text-[10px] font-bold text-[#f59e0b] uppercase tracking-wider">
-          {item.overlaySub}
-        </div>
-        <div className="text-[9px] text-slate-400 truncate">
-          {item.subText}
-        </div>
-      </div>
-
-      {/* Subtle Dark Vignette */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-transparent to-black/20 pointer-events-none" />
-    </div>
-  );
-}
 
 export default function AboutPageClient({ settings }: AboutPageClientProps) {
   // Timeline Milestones matching Image 3
@@ -242,36 +132,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
     },
   ];
 
-  // Heavy Equipment & Facilities matching Image 4
-  const machineryItems = [
-    {
-      badge: "CƠ GIỚI",
-      overlayTitle: "Dàn Cẩu Tháp 8 - 16 Tấn",
-      overlaySub: "12 CẨU THÁP TỰ NÂNG ĐỒNG BỘ",
-      subText: "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ • ISO 9001:2015",
-      title: "Cẩu Tháp & Vận Thăng Lồng Tải Trọng Lớn",
-      desc: "Dàn 12 cẩu tháp tự nâng tải trọng 8 – 16 tấn cùng hệ thống vận thăng đôi đạt chuẩn kiểm định an toàn quốc gia.",
-      type: "crane",
-    },
-    {
-      badge: "THIẾT BỊ BÊ TÔNG",
-      overlayTitle: "Trạm Bơm & Cốp Pha Nhôm",
-      overlaySub: "XE BƠM CẦN 52M & VÁN KHUÔN ĐỒNG BỘ",
-      subText: "THÀNH PHÚ • ISO 9001:2015",
-      title: "Trạm Bơm & Cốp Pha Nhôm Nhập Khẩu",
-      desc: "Xe bơm bê tông cần 52m, hệ ván khuôn cốp pha nhôm liền khối giúp bề mặt bê tông láng mịn không cần trát vữa dày.",
-      type: "pump",
-    },
-    {
-      badge: "NHÀ XƯỞNG",
-      overlayTitle: "Xưởng Sản Xuất Kết Cấu Thép",
-      overlaySub: "CÔNG SUẤT 5.000 TẤN THÉP/NĂM",
-      subText: "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ • ISO 9001:2015",
-      title: "Nhà Xưởng Chế Tạo Kết Cấu Thép",
-      desc: "Dây chuyền cắt CNC plasma, máy hàn tự động dầm H và xưởng lắp ráp cấu kiện nhôm kính công suất 5.000 tấn thép/năm.",
-      type: "workshop",
-    },
-  ];
+
 
   return (
     <div className="bg-white text-slate-800 pt-20 sm:pt-24 selection:bg-[#ed3237] selection:text-white">
@@ -333,53 +194,38 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
               </div>
             </div>
 
-            {/* Right Column: 3D High-Tech Graphic Card with Crane Blueprint & Floating 380+ Badge matching Image 1 */}
-            <div className="lg:col-span-5 relative reveal-fade-right">
-              <TiltCard className="rounded-[4px] overflow-hidden bg-[#111827] border border-slate-800 shadow-2xl">
-                <div className="relative p-6 sm:p-8 min-h-[380px] sm:min-h-[420px] flex flex-col justify-between overflow-hidden">
-                  {/* Subtle Grid blueprint background */}
-                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f293d_1px,transparent_1px),linear-gradient(to_bottom,#1f293d_1px,transparent_1px)] bg-[size:28px_28px] opacity-50 pointer-events-none" />
+            {/* Right Column: Company Building Image with TiltCard & Floating 380+ Badge */}
+            <div className="lg:col-span-5 relative reveal-fade-right group">
+              <TiltCard className="rounded-[4px] overflow-hidden bg-slate-900 border border-slate-200 shadow-xl">
+                <div className="relative min-h-[360px] sm:min-h-[420px] aspect-[4/3] sm:aspect-[16/12] w-full overflow-hidden">
+                  <Image
+                    src="https://res.cloudinary.com/x13kyocz/image/upload/v1792392592/thanhphu_about/toanhavanphong.png"
+                    alt="Tòa nhà văn phòng Công ty Cổ phần Đầu tư Xây lắp Thành Phú"
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                  {/* Subtle Gradient Overlays for contrast and depth */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent pointer-events-none" />
 
-                  {/* Silhouettes of high-rise bars in varying heights */}
-                  <div className="absolute bottom-0 left-0 right-0 h-64 flex items-end justify-around px-4 opacity-40 pointer-events-none">
-                    <div className="w-12 h-36 bg-slate-700/60 rounded-t-sm" />
-                    <div className="w-14 h-52 bg-slate-600/60 rounded-t-sm" />
-                    <div className="w-12 h-28 bg-slate-700/60 rounded-t-sm" />
-                    <div className="w-16 h-44 bg-slate-600/60 rounded-t-sm" />
-                    <div className="w-10 h-20 bg-slate-700/60 rounded-t-sm" />
-                  </div>
-
-                  {/* Architectural Silhouette / Crane wireframe graphic matching screenshot */}
-                  <div className="absolute top-4 right-4 w-52 h-52 opacity-40 pointer-events-none">
-                    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" className="text-amber-400 w-full h-full stroke-[1.2]">
-                      <line x1="50" y1="5" x2="50" y2="95" stroke="#f59e0b" strokeWidth="1.5" />
-                      <line x1="10" y1="25" x2="90" y2="25" stroke="#f59e0b" strokeWidth="1.5" />
-                      <line x1="50" y1="5" x2="90" y2="25" />
-                      <line x1="50" y1="5" x2="10" y2="25" />
-                      <circle cx="50" cy="25" r="3.5" fill="#ed3237" stroke="#ffffff" strokeWidth="1" />
-                    </svg>
-                  </div>
-
-                  {/* Top Red Badge matching Image 1: THÀNH PHÚ XD */}
-                  <div className="relative z-10" style={{ transform: "translateZ(14px)" }}>
+                  {/* Top Red Badge: THÀNH PHÚ XD */}
+                  <div className="absolute top-4 left-4 z-10" style={{ transform: "translateZ(14px)" }}>
                     <span className="inline-block px-3 py-1 rounded-[2px] bg-[#ed3237] text-white text-[11px] font-bold uppercase tracking-wider shadow-md">
                       THÀNH PHÚ XD
                     </span>
                   </div>
 
-                  {/* Bottom Text Panel with Red Left Indicator matching Image 1 */}
+                  {/* Bottom Text Panel with Red Left Indicator */}
                   <div
-                    className="relative z-10 p-5 rounded-[3px] bg-[#182133]/90 border-l-4 border-[#ed3237] backdrop-blur-md space-y-1 mt-20"
+                    className="absolute bottom-4 left-4 right-4 z-10 p-3.5 sm:p-4 rounded-[3px] bg-slate-950/80 border-l-4 border-[#ed3237] backdrop-blur-md space-y-0.5"
                     style={{ transform: "translateZ(12px)" }}
                   >
-                    <h3 className="text-lg sm:text-xl font-black text-white leading-tight">
-                      Công Trình Thi Công Tiêu Biểu
+                    <h3 className="text-base sm:text-lg font-black text-white leading-tight">
+                      Trụ sở văn phòng làm việc
                     </h3>
-                    <div className="text-xs font-bold uppercase tracking-wider text-[#ed3237]">
-                      TỔNG THẦU THI CÔNG XÂY LẮP
-                    </div>
-                    <div className="text-[11px] text-slate-400 font-light pt-1">
-                      CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ • ISO 9001:2015
+                    <div className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#ed3237]">
+                      CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ
                     </div>
                   </div>
                 </div>
@@ -730,51 +576,7 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
         </div>
       </section>
 
-      {/* 5. NĂNG LỰC CƠ GIỚI / HỆ THỐNG TRANG THIẾT BỊ THI CÔNG HIỆN ĐẠI (PHẦN 4 - KHỚP HÌNH 4) */}
-      <section className="py-14 sm:py-18 lg:py-20 bg-white relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header matching Image 4 */}
-          <div className="text-center max-w-3xl mx-auto space-y-2.5 mb-10 sm:mb-14 reveal-on-scroll">
-            <div>
-              <span className="inline-block px-4 py-1.5 rounded-[2px] bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
-                NĂNG LỰC CƠ GIỚI
-              </span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 uppercase tracking-tight">
-              HỆ THỐNG TRANG THIẾT BỊ THI CÔNG HIỆN ĐẠI
-            </h2>
-            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto font-normal">
-              Trang bị đồng bộ máy móc chuyên dụng, giảm thiểu phụ thuộc bên ngoài và tối ưu tiến độ.
-            </p>
-          </div>
 
-          {/* 3 Heavy Equipment Cards matching Image 4 */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {machineryItems.map((item, idx) => (
-              <div key={idx} className={`reveal-scale delay-${(idx + 1) * 150}`}>
-                <TiltCard
-                  className="bg-white rounded-[3px] border border-slate-200 overflow-hidden flex flex-col justify-between shadow-sm group cursor-pointer h-full"
-                >
-                  <div>
-                    {/* Top Graphic Blueprint Banner matching Image 4 */}
-                    <EquipmentBlueprint item={item} />
-
-                    {/* Body Content below matching Image 4 */}
-                    <div className="p-5 sm:p-6 space-y-2" style={{ transform: "translateZ(8px)" }}>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors leading-snug">
-                        {item.title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                </TiltCard>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

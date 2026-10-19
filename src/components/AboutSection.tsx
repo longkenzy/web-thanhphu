@@ -14,8 +14,8 @@ export default function AboutSection() {
             {/* Image Box with zoom on hover */}
             <div className="relative rounded-[3px] overflow-hidden shadow-lg aspect-[16/11] w-full bg-slate-100 border border-slate-200">
               <Image
-                src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80"
-                alt="Tập thể cán bộ công nhân viên Công ty Thành Phú"
+                src="https://res.cloudinary.com/x13kyocz/image/upload/v1792392592/thanhphu_about/toanhavanphong.png"
+                alt="Tòa nhà văn phòng Công ty Thành Phú"
                 fill
                 priority
                 className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
