@@ -44,7 +44,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       shortDesc: "Tổng thầu thi công xây lắp mới, cải tạo, sửa chữa các công trình dân dụng, khu đô thị, văn phòng và nhà xưởng công nghiệp quy mô lớn.",
       fullDesc:
         "Thành Phú đảm nhận vai trò tổng thầu thi công xây dựng trọn gói từ giai đoạn thi công móng, kết cấu bê tông cốt thép, khung nhà xưởng công nghiệp đến lắp đặt hoàn thiện và sửa chữa nâng cấp công trình. Chúng tôi áp dụng quy trình kiểm soát chất lượng đạt chuẩn ISO 9001:2015, bảo đảm công trình đạt tiến độ nhanh, độ bền kết cấu vững chắc và thẩm mỹ hiện đại.",
-      image: "https://res.cloudinary.com/x13kyocz/image/upload/v1792390123/thanhphu_services/bpizlqch8an5xub7tysb.png",
+      image: "https://res.cloudinary.com/x13kyocz/image/upload/v1792390731/thanhphu_services/xay_dung_dan_dung_cong_nghiep.png",
       iconName: "building",
       techHighlights: [
         "Thi công xây dựng mới các công trình dân dụng: tòa nhà văn phòng, khu căn hộ, nhà ở dân dụng",
@@ -67,7 +67,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       shortDesc: "Thi công đường giao thông, cầu đường bộ, san lấp mặt bằng, mạng lưới cấp thoát nước ngầm và hạ tầng kỹ thuật đô thị, KCN.",
       fullDesc:
         "Với kinh nghiệm triển khai nhiều dự án hạ tầng trọng điểm và sở hữu đoàn cơ giới hùng hậu, Thành Phú trực tiếp thi công các công trình giao thông đường bộ, cầu giao thông và hạ tầng kỹ thuật đồng bộ cho các khu công nghiệp, khu đô thị. Chúng tôi thi công mạng lưới cấp thoát nước mưa, thoát nước thải, cống hộp bê tông ly tâm và trạm xử lý nước đạt chuẩn bảo vệ môi trường.",
-      image: "https://res.cloudinary.com/x13kyocz/image/upload/v1792390124/thanhphu_services/ehf8wgvnskveqmubifph.png",
+      image: "https://res.cloudinary.com/x13kyocz/image/upload/v1792390732/thanhphu_services/xay_dung_giao_thong_ha_tang.png",
       iconName: "route",
       techHighlights: [
         "Thi công xây dựng các công trình giao thông cầu và đường bộ, nút giao thông kết nối",
@@ -90,7 +90,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       shortDesc: "Nhà xưởng gia công trực tiếp và thi công lắp đặt hệ cửa nhựa uPVC gia cường lõi thép, hệ cửa nhôm kính, vách kính mặt dựng cao cấp.",
       fullDesc:
         "Thành Phú vận hành nhà xưởng gia công cơ khí chuyên nghiệp, sản xuất trực tiếp và lắp đặt hoàn thiện các sản phẩm cửa nhựa lõi thép uPVC và hệ cửa nhôm kính kiến trúc cao cấp. Dây chuyền cắt ép góc công nghệ cao bảo đảm độ kín khít tuyệt đối, cách âm, cách nhiệt vượt trội, chống ăn mòn và thẩm mỹ sắc nét cho mọi công trình dân dụng, tòa nhà cao tầng và biệt thự.",
-      image: "https://res.cloudinary.com/x13kyocz/image/upload/v1792390125/thanhphu_services/lniu5ccp5brkdlis5img.png",
+      image: "https://res.cloudinary.com/x13kyocz/image/upload/v1792390733/thanhphu_services/san_xuat_cua_nhua_upvc_nhom_kinh.png",
       iconName: "layers",
       techHighlights: [
         "Sản xuất cửa nhựa uPVC profile cao cấp với lõi thép mạ kẽm gia cường chống cong vênh",
@@ -113,7 +113,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       shortDesc: "Cung cấp, cho thuê máy móc thiết bị cơ giới thi công và phân phối các loại vật liệu xây dựng hoàn thiện chất lượng cao.",
       fullDesc:
         "Nhằm chủ động nguồn lực và hỗ trợ đối tác tối ưu chi phí, Thành Phú triển khai mảng kinh doanh, cho thuê máy móc thiết bị cơ giới xây dựng và cung ứng vật liệu xây dựng chính hãng. Chúng tôi sở hữu kho bãi thiết bị đa dạng, được kiểm định an toàn định kỳ cùng nguồn vật liệu phong phú, nguồn gốc minh bạch, sẵn sàng đáp ứng tiến độ thi công khắt khe của các nhà thầu và chủ đầu tư.",
-      image: "https://res.cloudinary.com/x13kyocz/image/upload/v1792390126/thanhphu_services/pnnq4izupxdgczp7dvmj.webp",
+      image: "https://res.cloudinary.com/x13kyocz/image/upload/v1792390733/thanhphu_services/kinh_doanh_may_moc_thiet_bi_vat_lieu.webp",
       iconName: "wrench",
       techHighlights: [
         "Kinh doanh và cho thuê thiết bị cơ giới thi công: cẩu tháp, vận thăng, xe bơm bê tông, máy đào, xe lu",
