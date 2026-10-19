@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Building2, Factory, Route, Hammer, Check, ArrowRight } from "lucide-react";
+import { Building2, Route, Layers, Wrench, Check, ArrowRight } from "lucide-react";
 
 // Advanced Interactive 3D Tilt Card Component with Parallax Depth & Dynamic Light Sheen
 function Service3DCard({
@@ -183,56 +183,56 @@ function Service3DCard({
 export default function ServicesSection() {
   const services = [
     {
-      tag: "DÂN DỤNG",
+      tag: "DÂN DỤNG & CÔNG NGHIỆP",
       icon: Building2,
-      title: "Xây Dựng Dân Dụng & Cao Tầng",
-      desc: "Thi công tòa nhà văn phòng, khu chung cư cao cấp, trung tâm thương mại và biệt thự.",
-      image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
+      title: "Công Trình Dân Dụng & Công Nghiệp",
+      desc: "Xây dựng, thi công lắp đặt, sửa chữa các công trình dân dụng và công trình công nghiệp.",
+      image: "https://images.unsplash.com/photo-1541888946425-d0fbb1861564?auto=format&fit=crop&w=800&q=80",
       bullets: [
-        "Thi công phần thô & hoàn thiện",
-        "Tầng hầm kỹ thuật phức tạp",
-        "Bê tông cốt thép chuẩn ISO",
+        "Xây dựng mới & cải tạo sửa chữa",
+        "Nhà cao tầng, văn phòng, nhà xưởng",
+        "Kết cấu bê tông & thép tiền chế",
       ],
-      link: "#projects",
+      link: "/linh-vuc-hoat-dong#dan-dung-cong-nghiep",
     },
     {
-      tag: "CÔNG NGHIỆP",
-      icon: Factory,
-      title: "Công Trình Công Nghiệp & Nhà Xưởng",
-      desc: "Xây dựng nhà xưởng sản xuất, kho vận logistics và khu chế xuất công nghệ cao.",
-      image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
-      bullets: [
-        "Khẩu độ lớn, vượt nhịp thông thoáng",
-        "Nền epoxy chịu tải trọng cao",
-        "Thông gió & PCCC chuẩn mực",
-      ],
-      link: "#projects",
-    },
-    {
-      tag: "HẠ TẦNG",
+      tag: "GIAO THÔNG & HẠ TẦNG",
       icon: Route,
-      title: "Hạ Tầng Kỹ Thuật & Giao Thông",
-      desc: "Thi công hệ thống đường nội khu, cấp thoát nước đô thị và san lấp mặt bằng.",
+      title: "Giao Thông, Hạ Tầng & Cấp Thoát Nước",
+      desc: "Xây dựng công trình giao thông (Cầu - Đường bộ), các công trình hạ tầng kỹ thuật, cấp thoát nước.",
       image: "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?auto=format&fit=crop&w=800&q=80",
       bullets: [
-        "Cống hộp bê tông ly tâm",
-        "Thảm nhựa đường asphalt cao cấp",
-        "Hệ thống điện & chiếu sáng",
+        "Công trình cầu & đường bộ",
+        "Hạ tầng kỹ thuật khu đô thị, KCN",
+        "Hệ thống cấp thoát nước ngầm",
       ],
-      link: "#projects",
+      link: "/linh-vuc-hoat-dong#giao-thong-ha-tang",
     },
     {
-      tag: "KẾT CẤU & CƠ ĐIỆN",
-      icon: Hammer,
-      title: "Kết Cấu Thép & Nhôm Kính Kiến Trúc",
-      desc: "Gia công khung thép tiền chế, vách kính mặt dựng facade kính hộp an toàn.",
+      tag: "NHÔM KÍNH & uPVC",
+      icon: Layers,
+      title: "Cửa Nhựa Lõi Thép & Cửa Nhôm Kính",
+      desc: "Sản xuất, thi công lắp đặt cửa nhựa lõi thép uPVC và hệ cửa nhôm kính cao cấp.",
+      image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+      bullets: [
+        "Cửa nhựa uPVC lõi thép gia cường",
+        "Cửa nhôm kính Xingfa & hệ châu Âu",
+        "Vách kính mặt dựng kiến trúc cao cấp",
+      ],
+      link: "/linh-vuc-hoat-dong#nhom-kinh-upvc",
+    },
+    {
+      tag: "THIẾT BỊ & VẬT LIỆU",
+      icon: Wrench,
+      title: "Máy Móc Thiết Bị & Vật Liệu Xây Dựng",
+      desc: "Kinh doanh máy móc thiết bị cơ giới thi công và phân phối các loại vật liệu xây dựng.",
       image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
       bullets: [
-        "Cấu kiện nhôm kính định hình",
-        "Cửa uPVC cách âm cách nhiệt",
-        "Cơ điện MEP đồng bộ",
+        "Kinh doanh & cho thuê thiết bị cơ giới",
+        "Vật liệu xây dựng thô & hoàn thiện",
+        "Kiểm định an toàn & giao hàng tận nơi",
       ],
-      link: "#projects",
+      link: "/linh-vuc-hoat-dong#thiet-bi-vat-lieu",
     },
   ];
 
@@ -250,7 +250,7 @@ export default function ServicesSection() {
             LĨNH VỰC HOẠT ĐỘNG CHÍNH
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto font-normal">
-            Cung cấp giải pháp tổng thể từ quy hoạch, thiết kế, sản xuất cấu kiện đến trực tiếp thi công hoàn thiện.
+            Mục tiêu hàng đầu của THÀNH PHÚ là cung cấp các dịch vụ chuyên nghiệp và hiệu quả nhất trong lĩnh vực Xây dựng - Dân dụng - Trang trí nội ngoại thất.
           </p>
         </div>
 

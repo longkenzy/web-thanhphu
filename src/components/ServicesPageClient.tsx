@@ -8,13 +8,14 @@ import {
   ShieldCheck,
   CheckCircle2,
   HardHat,
-  Mountain,
-  Route,
   Building2,
-  Compass,
+  Route,
   Layers,
   Wrench,
   Factory,
+  ArrowRight,
+  Phone,
+  Sparkles,
 } from "lucide-react";
 import { CompanySettings } from "@/types";
 
@@ -37,160 +38,110 @@ interface ServiceDetail {
 export default function ServicesPageClient({ settings }: ServicesPageClientProps) {
   const servicesData: ServiceDetail[] = [
     {
-      id: "ham-xuyen-nui",
-      tag: "NĂNG LỰC ĐỘT PHÁ",
-      title: "Thi Công Hầm Đường Bộ & Hầm Xuyên Núi",
-      shortDesc: "Đơn vị tổng thầu thi công hầm đường bộ hàng đầu Việt Nam, làm chủ công nghệ đào hầm NATM tiên tiến của Áo.",
+      id: "dan-dung-cong-nghiep",
+      tag: "DÂN DỤNG & CÔNG NGHIỆP",
+      title: "Xây dựng, thi công lắp đặt, sửa chữa các công trình dân dụng, công trình công nghiệp",
+      shortDesc: "Tổng thầu thi công xây lắp mới, cải tạo, sửa chữa các công trình dân dụng, khu đô thị, văn phòng và nhà xưởng công nghiệp quy mô lớn.",
       fullDesc:
-        "Với bề dày kinh nghiệm và đội ngũ chuyên gia đào hầm kỳ cựu, Thành Phú tự hào là đơn vị tiên phong tham gia khoan đào và hoàn thiện những cung hầm đường bộ xuyên núi hiểm trở nhất miền Trung. Chúng tôi kiểm soát tuyệt đối an toàn địa chất bằng quy trình trắc đạc đo chuyển vị chính xác đến từng milimet và thi công chống đỡ tức thời.",
+        "Thành Phú đảm nhận vai trò tổng thầu thi công xây dựng trọn gói từ giai đoạn thi công móng, kết cấu bê tông cốt thép, khung nhà xưởng công nghiệp đến lắp đặt hoàn thiện và sửa chữa nâng cấp công trình. Chúng tôi áp dụng quy trình kiểm soát chất lượng đạt chuẩn ISO 9001:2015, bảo đảm công trình đạt tiến độ nhanh, độ bền kết cấu vững chắc và thẩm mỹ hiện đại.",
       image: "https://images.unsplash.com/photo-1541888946425-d0fbb1861564?auto=format&fit=crop&w=1200&q=80",
-      iconName: "mountain",
+      iconName: "building",
       techHighlights: [
-        "Phương pháp NATM (New Austrian Tunnelling Method) chuẩn quốc tế",
-        "Kỹ thuật khoan nổ mịn (Smooth Blasting) hạn chế rung chấn tầng đá xung quanh",
-        "Hệ vì kèo thép vòm I, neo đá Swellex và phun vữa bê tông gia cố chịu lực cao",
-        "Thi công vỏ hầm vĩnh cửu bằng ván khuôn hầm thủy lực liên tục",
-        "Hệ thống thông gió phản lực, thoát hiểm, PCCC và chiếu sáng hầm thông minh",
+        "Thi công xây dựng mới các công trình dân dụng: tòa nhà văn phòng, khu căn hộ, nhà ở dân dụng",
+        "Xây dựng công trình công nghiệp: nhà xưởng sản xuất, kho bãi logistics, kết cấu thép khẩu độ lớn",
+        "Thi công lắp đặt hoàn thiện nội ngoại thất, hệ thống kỹ thuật công trình đồng bộ",
+        "Dịch vụ bảo dưỡng, sửa chữa, cải tạo và nâng cấp chuyển đổi công năng các công trình hiện hữu",
+        "Quản lý chất lượng thi công theo tiêu chuẩn ISO 9001:2015 và kiểm soát an toàn OHSAS 18001",
       ],
       equipmentList: [
-        "Máy khoan hầm Jumbo 2 cần - 3 cần điều khiển thủy lực tự động (Atlas Copco / Sandvik)",
-        "Robot phun bê tông ướt công suất lớn chuyên dụng cho hầm",
-        "Xe xúc lật ngầm gầu lớn và xe tải chuyên dụng vận chuyển đá hầm",
-        "Hệ thống quạt thông gió công nghiệp cưỡng bức đường kính 2.2m",
+        "Dàn cẩu tháp tự nâng tải trọng 8 – 16 tấn và hệ thống vận thăng lồng an toàn",
+        "Xe bơm bê tông cần 52m cùng hệ cốp pha nhôm liền khối hiện đại",
+        "Máy xoa nền bê tông đôi laser phẳng, máy cắt uốn cốt thép thủy lực tự động",
+        "Trang thiết bị trắc đạc laser và kiểm định độ chịu lực kết cấu chính xác",
       ],
     },
     {
-      id: "duong-cao-toc",
-      tag: "HUYẾT MẠCH GIAO THÔNG",
-      title: "Thi Công Đường Cao Tốc & Quốc Lộ Trọng Điểm",
-      shortDesc: "Thi công nền mặt đường bê tông nhựa Polymer, giải tỏa áp lực giao thông trên các trục huyết mạch quốc gia.",
+      id: "giao-thong-ha-tang",
+      tag: "GIAO THÔNG & HẠ TẦNG",
+      title: "Xây dựng các công trình giao thông (Cầu - Đường bộ). Các công trình hạ tầng kỹ thuật, cấp thoát nước",
+      shortDesc: "Thi công đường giao thông, cầu đường bộ, san lấp mặt bằng, mạng lưới cấp thoát nước ngầm và hạ tầng kỹ thuật đô thị, KCN.",
       fullDesc:
-        "Thành Phú tham gia thi công các gói thầu hạ tầng giao thông quy mô lớn trên tuyến Cao tốc Bắc - Nam và các đoạn huyết mạch Quốc lộ 1. Với dây chuyền trải thảm tự động hiện đại và quy trình kiểm soát chất lượng khắt khe, chúng tôi mang đến những cung đường êm thuận, thoát nước tối ưu và tuổi thọ vận hành bền vững.",
+        "Với kinh nghiệm triển khai nhiều dự án hạ tầng trọng điểm và sở hữu đoàn cơ giới hùng hậu, Thành Phú trực tiếp thi công các công trình giao thông đường bộ, cầu giao thông và hạ tầng kỹ thuật đồng bộ cho các khu công nghiệp, khu đô thị. Chúng tôi thi công mạng lưới cấp thoát nước mưa, thoát nước thải, cống hộp bê tông ly tâm và trạm xử lý nước đạt chuẩn bảo vệ môi trường.",
       image: "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?auto=format&fit=crop&w=1200&q=80",
       iconName: "route",
       techHighlights: [
-        "Thảm bê tông nhựa Polyme cải tiến chịu tải trọng trục siêu nặng và nhiệt độ cao",
-        "Công nghệ cào bóc tái sinh nguội (Cold Recycling) mặt đường bảo vệ môi trường",
-        "Xử lý nền đất yếu bằng cọc cát đầm chặt, bấc thấm gia tải và vải địa kỹ thuật cường độ cao",
-        "Đúc dải phân cách bê tông khuôn trượt liên tục (Slipform Paver)",
-        "Hoàn thiện hệ thống an toàn giao thông: Biển báo phản quang 3M, vạch sơn nhiệt dẻo phản quang",
+        "Thi công xây dựng các công trình giao thông cầu và đường bộ, nút giao thông kết nối",
+        "Thảm bê tông nhựa asphalt, đổ bê tông xi măng mặt đường chất lượng cao, thoát nước êm thuận",
+        "Xây dựng hoàn thiện hệ thống hạ tầng kỹ thuật cho các khu đô thị và khu công nghiệp",
+        "Lắp đặt mạng lưới cống hộp bê tông cốt thép, đường ống cấp nước sạch và thoát nước ngầm",
+        "San lấp mặt bằng khối lượng lớn với hệ thống máy móc cơ giới công suất cao",
       ],
       equipmentList: [
-        "Trạm trộn bê tông nhựa nóng công suất 160 - 240 tấn/giờ điều khiển tự động",
-        "Máy rải thảm chuyên dụng Vogele có hệ thống cảm biến cao độ siêu âm",
-        "Dàn lu rung bánh thép kép Hamm, lu lốp phối hợp kiểm soát độ chặt K98",
-        "Thiết bị đo độ bằng phẳng mặt đường laser tự động",
+        "Đoàn xe ủi công suất lớn D6, D85 và máy đào bánh xích gầu 0.9 – 1.6 m³",
+        "Dàn xe lu rung 16 – 25 tấn, máy rải thảm chuyên dụng kiểm soát độ chặt K98",
+        "Cần cẩu bánh lốp và bánh xích lắp đặt cống hộp, cấu kiện dầm bê tông đúc sẵn",
+        "Thiết bị trắc đạc định vị GPS cao độ và máy đo độ nén chặt nền móng",
       ],
     },
     {
-      id: "cau-can-vuot-song",
-      tag: "KẾT CẤU CHÍNH XÁC",
-      title: "Xây Dựng Cầu Cạn, Cầu Vượt Sông & Nút Giao Phức Tạp",
-      shortDesc: "Thi công kết cấu dầm Super T bê tông dự ứng lực, móng cọc khoan nhồi sâu và cầu đúc hẫng cân bằng khẩu độ lớn.",
+      id: "nhom-kinh-upvc",
+      tag: "NHÔM KÍNH & uPVC",
+      title: "Sản xuất, thi công lắp đặt cửa nhựa lõi thép uPVC; cửa nhôm kính",
+      shortDesc: "Nhà xưởng gia công trực tiếp và thi công lắp đặt hệ cửa nhựa uPVC gia cường lõi thép, hệ cửa nhôm kính, vách kính mặt dựng cao cấp.",
       fullDesc:
-        "Chúng tôi sở hữu năng lực toàn diện trong việc thi công các công trình cầu cạn trên cao tốc, cầu vượt sông lớn với độ tĩnh không cao. Từ các trụ tháp sừng sững cắm sâu vào tầng đá lòng sông đến các nhịp dầm đúc hẫng vươn dài, mỗi công trình đều là sự kết tinh giữa kỷ luật công nghệ và tinh thần vượt khó của người kỹ sư Thành Phú.",
-      image: "https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=1200&q=80",
-      iconName: "compass",
-      techHighlights: [
-        "Khoan cọc nhồi đường kính lớn D1500 - D2000mm ngàm sâu trong đá gốc dưới lòng nước",
-        "Thi công đúc hẫng cân bằng (Cast-in-place Balanced Cantilever) khẩu độ nhịp hơn 120m",
-        "Sản xuất và lao lắp dầm Super T, dầm I bê tông dự ứng lực nhịp 33m - 40m",
-        "Kiểm soát chính xác lực căng cáp dự ứng lực và độ vồng dầm bằng cảm biến thủy lực kỹ thuật số",
-        "Chống thấm bản mặt cầu và lắp khe co giãn răng lược biên độ co giãn lớn",
-      ],
-      equipmentList: [
-        "Dàn khoan cọc nhồi xoay thủy lực Bauer / Sany lực xoắn lớn",
-        "Giá long môn lao dầm tải trọng 120 - 180 tấn",
-        "Hệ thống xe đúc hẫng di động hiện đại",
-        "Cần cẩu bánh xích tải trọng từ 80 đến 250 tấn",
-      ],
-    },
-    {
-      id: "dia-ky-thuat-mai-doc",
-      tag: "AN TOÀN BỀN VỮNG",
-      title: "Gia Cố Mái Dốc, Neo Đất Đá & Xử Lý Sạt Trượt Đèo Núi",
-      shortDesc: "Ứng dụng các giải pháp địa kỹ thuật chuyên sâu để bảo vệ an toàn cho các tuyến giao thông huyết mạch qua đèo hiểm trở.",
-      fullDesc:
-        "Những cung đường đèo núi miền Trung thường xuyên đối mặt với nguy cơ sạt lở dữ dội trong mùa mưa lũ. Thành Phú là đơn vị có bề dày thực chiến trong việc xử lý các vị trí sạt trượt nguy hiểm, khoan neo đá sâu, giằng cáp dự ứng lực và phun vữa bảo vệ mái dốc taluy, giữ vững mạch máu giao thông an toàn tuyệt đối.",
-      image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
+        "Thành Phú vận hành nhà xưởng gia công cơ khí chuyên nghiệp, sản xuất trực tiếp và lắp đặt hoàn thiện các sản phẩm cửa nhựa lõi thép uPVC và hệ cửa nhôm kính kiến trúc cao cấp. Dây chuyền cắt ép góc công nghệ cao bảo đảm độ kín khít tuyệt đối, cách âm, cách nhiệt vượt trội, chống ăn mòn và thẩm mỹ sắc nét cho mọi công trình dân dụng, tòa nhà cao tầng và biệt thự.",
+      image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80",
       iconName: "layers",
       techHighlights: [
-        "Khoan neo thanh thép cường độ cao và neo cáp dự ứng lực sâu 15m - 30m trong tầng đá",
-        "Phun vữa bê tông gia cố (Shotcrete) cốt sợi thép bảo vệ bề mặt chống phong hóa",
-        "Hệ thống lưới thép cường độ cao (Tecco/Rockfall Barrier) ngăn đá lăn đá rơi",
-        "Xây dựng tường chắn đất có cốt (MSE Wall), rọ đá liên hoàn thoát nước áp lực âm",
-        "Hệ thống rãnh đỉnh, bậc dốc thoát lũ ngăn chặn xói mòn chân cơ mái taluy",
+        "Sản xuất cửa nhựa uPVC profile cao cấp với lõi thép mạ kẽm gia cường chống cong vênh",
+        "Gia công lắp đặt cửa nhôm kính định hình (hệ Xingfa, hệ nhôm rãnh C châu Âu) chuẩn xác",
+        "Thi công vách kính mặt dựng, lan can kính cường lực, mái kính an toàn cho công trình cao ốc",
+        "Phụ kiện kim khí đồng bộ nhập khẩu, hệ gioăng cao su EPDM kép chống thấm nước và cách âm",
+        "Kiểm định chất lượng nghiêm ngặt về khả năng chịu lực gió, áp lực nước và độ bền vận hành",
       ],
       equipmentList: [
-        "Máy khoan đập đáy và máy khoan neo chuyên dụng trên địa hình dốc đứng",
-        "Bơm vữa áp lực cao kiểm soát dung dịch vữa trương nở không co ngót",
-        "Máy phun vữa khô/ướt áp lực khí nén Aliva",
-        "Dàn giáo treo và sàn thao tác an toàn cơ động cao",
+        "Máy cắt nhôm 2 đầu kỹ thuật số và máy cắt thanh profile uPVC tự động độ chính xác cao",
+        "Máy ép góc thủy lực kỹ thuật số, máy hàn cửa nhựa đa điểm liền mạch",
+        "Máy phay đố, máy khoét khóa CNC công nghệ Đức",
+        "Thiết bị hít kính chân không chuyên dụng phục vụ lắp dựng mặt dựng trên cao an toàn",
       ],
     },
     {
-      id: "ha-tang-do-thi-kcn",
-      tag: "QUY MÔ ĐỒNG BỘ",
-      title: "Hạ Tầng Kỹ Thuật Đô Thị & Khu Công Nghiệp",
-      shortDesc: "Thi công san lấp mặt bằng, hệ thống thoát nước ngầm, giao thông nội khu và các công trình ngầm hạ tầng.",
+      id: "thiet-bi-vat-lieu",
+      tag: "THIẾT BỊ & VẬT LIỆU",
+      title: "Kinh doanh máy móc thiết bị và vật liệu xây dựng",
+      shortDesc: "Cung cấp, cho thuê máy móc thiết bị cơ giới thi công và phân phối các loại vật liệu xây dựng hoàn thiện chất lượng cao.",
       fullDesc:
-        "Chúng tôi mang đến giải pháp tổng thể cho hạ tầng kỹ thuật các khu công nghiệp, khu chế xuất và khu đô thị mới. Bằng việc sở hữu đội xe máy xúc đào, ủi, lu đông đảo, Thành Phú bảo đảm hoàn thành tiến độ san lấp mặt bằng hàng triệu mét khối và hạ ngầm đồng bộ hệ thống cấp thoát nước, điện chiếu sáng đúng cam kết chất lượng.",
+        "Nhằm chủ động nguồn lực và hỗ trợ đối tác tối ưu chi phí, Thành Phú triển khai mảng kinh doanh, cho thuê máy móc thiết bị cơ giới xây dựng và cung ứng vật liệu xây dựng chính hãng. Chúng tôi sở hữu kho bãi thiết bị đa dạng, được kiểm định an toàn định kỳ cùng nguồn vật liệu phong phú, nguồn gốc minh bạch, sẵn sàng đáp ứng tiến độ thi công khắt khe của các nhà thầu và chủ đầu tư.",
       image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
       iconName: "wrench",
       techHighlights: [
-        "San lấp mặt bằng diện tích lớn với trắc đạc GPS định vị cao độ chính xác",
-        "Lắp đặt cống hộp bê tông cốt thép đúc sẵn khẩu độ lớn chịu tải xe container",
-        "Mạng lưới cấp nước cứu hỏa và thoát nước mưa - nước thải tách riêng",
-        "Thảm bê tông nhựa hoặc đổ bê tông xi măng đường trục chính và nhánh nội bộ KCN",
-        "Trạm xử lý nước thải công nghiệp tập trung đạt chuẩn xả thải môi trường",
+        "Kinh doanh và cho thuê thiết bị cơ giới thi công: cẩu tháp, vận thăng, xe bơm bê tông, máy đào, xe lu",
+        "Phân phối vật liệu xây dựng thô và hoàn thiện: thép xây dựng, xi măng, cát đá, gạch xây, sơn phủ",
+        "Cung cấp vật tư nhôm thanh định hình, thanh profile uPVC và phụ kiện kim khí ngành cửa",
+        "Đầy đủ chứng nhận kiểm định chất lượng, chứng chỉ xuất xưởng (CO/CQ) cho mọi chủng loại hàng hóa",
+        "Chính sách bảo dưỡng, hỗ trợ kỹ thuật vận hành và vận chuyển linh hoạt tận chân công trường",
       ],
       equipmentList: [
-        "Đoàn xe ủi công suất lớn D6, D85 và máy đào gầu 0.9 - 1.6 m3",
-        "Xe lu rung 16 - 25 tấn bảo đảm độ chặt nền móng",
-        "Cần cẩu tự hành lắp đặt cống hộp khẩu độ nặng",
-        "Trạm nghiền sàng đá và trạm trộn bê tông xi măng thương phẩm",
-      ],
-    },
-    {
-      id: "dan-dung-nha-xuong",
-      tag: "KẾT CẤU BỀN VỮNG",
-      title: "Xây Dựng Dân Dụng & Nhà Xưởng Kết Cấu Thép",
-      shortDesc: "Gia công lắp dựng khung thép tiền chế khẩu độ lớn, nhà xưởng kho vận logistics và công trình nhà điều hành.",
-      fullDesc:
-        "Bên cạnh lĩnh vực giao thông hạ tầng, Thành Phú phát triển mạnh mảng xây dựng dân dụng kỹ thuật và nhà xưởng công nghiệp quy mô lớn. Với năng lực chế tạo cấu kiện thép chuẩn mực và biện pháp thi công lắp dựng khoa học, các công trình nhà máy luôn đạt tối ưu về tiến độ, thẩm mỹ và an toàn chịu lực.",
-      image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80",
-      iconName: "building",
-      techHighlights: [
-        "Khung nhà thép tiền chế vượt nhịp lớn (khẩu độ trên 45m không cột giữa)",
-        "Sàn bê tông công nghiệp phủ hardener / mài bóng epoxy chịu tải trọng cơ giới nặng",
-        "Vách panel cách âm cách nhiệt chống cháy lan đạt chuẩn kiểm định PCCC",
-        "Mái lợp seamlock chống bão, hệ thống cửa trời lấy sáng và thông gió đối lưu tự nhiên",
-        "Hệ thống cơ điện MEP, trạm biến áp và hệ thống tiếp địa an toàn",
-      ],
-      equipmentList: [
-        "Dàn cẩu xích và cẩu bánh lốp lắp dựng khung giàn thép tải trọng 25 - 50 tấn",
-        "Máy xoa nền bê tông đôi laser điều khiển từ xa",
-        "Máy cắt, chấn, hàn tự động công nghệ cao gia công kết cấu",
-        "Xe nâng người cắt kéo thi công trên cao an toàn",
+        "Kho bãi tập kết thiết bị cơ giới rộng rãi cùng xưởng bảo dưỡng, sửa chữa cơ khí chuyên sâu",
+        "Đoàn xe đầu kéo, xe tải cẩu vận chuyển máy móc thiết bị cơ động đến các tỉnh thành",
+        "Hệ thống kho lưu trữ vật liệu xây dựng khô ráo, phương tiện bốc dỡ xe nâng công nghiệp",
+        "Đội ngũ kỹ thuật viên cơ giới hỗ trợ chuyển giao công nghệ và xử lý sự cố kỹ thuật 24/7",
       ],
     },
   ];
 
   const getServiceIcon = (name: string) => {
     switch (name) {
-      case "mountain":
-        return <Mountain className="w-5 h-5" />;
+      case "building":
+        return <Building2 className="w-5 h-5" />;
       case "route":
         return <Route className="w-5 h-5" />;
-      case "compass":
-        return <Compass className="w-5 h-5" />;
       case "layers":
         return <Layers className="w-5 h-5" />;
       case "wrench":
-        return <Wrench className="w-5 h-5" />;
-      case "building":
       default:
-        return <Building2 className="w-5 h-5" />;
+        return <Wrench className="w-5 h-5" />;
     }
   };
 
@@ -220,9 +171,26 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
             <HardHat className="w-3.5 h-3.5" />
             <span>Năng lực cốt lõi</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight uppercase">
             LĨNH VỰC HOẠT ĐỘNG
           </h1>
+        </div>
+
+        {/* Strategic Goal Statement matching user prompt */}
+        <div className="bg-white rounded-[4px] p-6 sm:p-8 lg:p-9 shadow-sm mb-10 reveal-on-scroll">
+          <div className="flex items-start gap-3.5">
+            <div className="w-11 h-11 rounded-full bg-red-50 text-[#ed3237] flex items-center justify-center shrink-0 mt-0.5">
+              <Sparkles className="w-5 h-5 stroke-[2.2]" />
+            </div>
+            <div className="space-y-2.5">
+              <div className="text-xs font-bold text-[#ed3237] uppercase tracking-wider">
+                MỤC TIÊU HÀNG ĐẦU CỦA THÀNH PHÚ
+              </div>
+              <p className="text-sm sm:text-base text-slate-700 leading-relaxed font-normal">
+                Mục tiêu hàng đầu của <strong className="font-bold text-slate-900">THÀNH PHÚ</strong> là cung cấp các dịch vụ chuyên nghiệp và hiệu quả nhất trong lĩnh vực: <strong className="font-bold text-[#ed3237]">Xây dựng - Dân dụng - Trang trí nội ngoại thất</strong>. Cụ thể là: Các công trình dân dụng &amp; công nghiệp; các công trình giao thông; hạ tầng kỹ thuật; cấp thoát nước; nhôm kính; cửa nhựa lõi thép uPVC; kinh doanh máy móc thiết bị và vật liệu xây dựng.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Main Services Deep-Dive Listing */}
@@ -234,7 +202,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
               <article
                 key={service.id}
                 id={service.id}
-                className="bg-white rounded-[3px] border border-slate-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden"
+                className="bg-white rounded-[4px] shadow-sm hover:shadow-md transition-shadow overflow-hidden reveal-on-scroll"
               >
                 <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
                   {/* Visual / Image Side (5 cols) */}
@@ -249,11 +217,11 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
                       fill
                       className="object-cover hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-black/20" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-black/20" />
 
                     {/* Top Badge */}
                     <div className="absolute top-3 left-3 z-10">
-                      <span className="px-2.5 py-1 bg-[#3e4095] text-white text-[11px] font-extrabold uppercase tracking-wider rounded-[3px] shadow">
+                      <span className="px-3 py-1 bg-[#ed3237] text-white text-[11px] font-extrabold uppercase tracking-wider rounded-[2px] shadow">
                         {service.tag}
                       </span>
                     </div>
@@ -261,11 +229,11 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
                     {/* Bottom Image Overlay Details */}
                     <div className="absolute bottom-3 left-3 right-3 z-10 text-white">
                       <div className="flex items-center gap-2 mb-1">
-                        <div className="w-6 h-6 rounded-[3px] bg-[#ed3237] text-white flex items-center justify-center shrink-0 shadow">
+                        <div className="w-7 h-7 rounded-[3px] bg-[#3e4095] text-white flex items-center justify-center shrink-0 shadow">
                           {getServiceIcon(service.iconName)}
                         </div>
-                        <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
-                          {service.title}
+                        <span className="text-xs font-bold uppercase tracking-wider text-slate-200 line-clamp-1">
+                          {service.tag}
                         </span>
                       </div>
                     </div>
@@ -279,12 +247,12 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
                   >
                     <div className="space-y-4">
                       {/* Header */}
-                      <div className="space-y-1.5">
+                      <div className="space-y-2">
                         <div className="flex items-center gap-2 text-xs font-bold text-[#ed3237] uppercase tracking-wider">
                           <HardHat className="w-3.5 h-3.5" />
-                          <span>Chuyên Môn Kỹ Thuật</span>
+                          <span>LĨNH VỰC HOẠT ĐỘNG #{index + 1}</span>
                         </div>
-                        <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-snug">
+                        <h2 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight leading-snug">
                           {service.title}
                         </h2>
                         <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed pt-1">
@@ -296,32 +264,32 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
                       <div className="pt-2">
                         <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
                           <ShieldCheck className="w-4 h-4 text-[#3e4095]" />
-                          <span>Năng lực công nghệ & Tiêu chuẩn áp dụng</span>
+                          <span>Năng lực thực hiện &amp; Hạng mục chuyên môn</span>
                         </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700">
                           {service.techHighlights.map((hl, hlIdx) => (
                             <div
                               key={hlIdx}
-                              className="flex items-start gap-1.5 bg-slate-50 p-2 rounded-[3px] border border-slate-100"
+                              className="flex items-start gap-2 bg-slate-50 p-2.5 rounded-[3px]"
                             >
                               <CheckCircle2 className="w-3.5 h-3.5 text-[#ed3237] shrink-0 mt-0.5" />
-                              <span className="leading-tight font-medium">{hl}</span>
+                              <span className="leading-snug font-medium">{hl}</span>
                             </div>
                           ))}
                         </div>
                       </div>
 
-                      {/* Key Equipment / Machine Fleets */}
+                      {/* Key Equipment / Facilities */}
                       <div className="pt-1">
                         <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                           <Factory className="w-4 h-4 text-[#ed3237]" />
-                          <span>Thiết bị cơ giới & Dây chuyền chủ lực</span>
+                          <span>Hạ tầng nhà xưởng &amp; Thiết bị chuyên dụng</span>
                         </h3>
-                        <ul className="space-y-1 text-xs text-slate-600">
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs text-slate-600">
                           {service.equipmentList.map((eq, eqIdx) => (
                             <li key={eqIdx} className="flex items-start gap-2">
-                              <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 shrink-0" />
-                              <span>{eq}</span>
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#3e4095] mt-1.5 shrink-0" />
+                              <span className="leading-snug">{eq}</span>
                             </li>
                           ))}
                         </ul>
@@ -332,6 +300,34 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
               </article>
             );
           })}
+        </div>
+
+        {/* Bottom Contact CTA Box */}
+        <div className="mt-12 bg-white rounded-[4px] p-6 sm:p-8 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6 reveal-on-scroll">
+          <div className="space-y-1 text-center sm:text-left">
+            <h3 className="text-lg sm:text-xl font-black text-slate-900">
+              Cần Tư Vấn &amp; Hợp Tác Triển Khai Dự Án?
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 font-normal">
+              Đội ngũ kỹ sư và chuyên viên kỹ thuật của Thành Phú luôn sẵn sàng phục vụ và giải đáp tận tình.
+            </p>
+          </div>
+          <div className="flex items-center gap-3 shrink-0 flex-wrap justify-center">
+            <Link
+              href="/lien-he"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#ed3237] hover:bg-[#d0282d] text-white text-xs sm:text-sm font-bold uppercase tracking-wider rounded-[3px] shadow transition-colors"
+            >
+              <span>LIÊN HỆ BÁO GIÁ</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a
+              href={`tel:${(settings.hotline || settings.phone || "").replace(/\s+/g, "")}`}
+              className="inline-flex items-center gap-2 px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold rounded-[3px] transition-colors"
+            >
+              <Phone className="w-4 h-4 text-[#ed3237]" />
+              <span>{settings.hotline || settings.phone || "(028) 3553 0675"}</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>

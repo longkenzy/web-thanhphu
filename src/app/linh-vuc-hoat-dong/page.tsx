@@ -10,19 +10,21 @@ export async function generateMetadata(): Promise<Metadata> {
   const settings = await db.getSettings();
 
   return {
-    title: `LĨNH VỰC HOẠT ĐỘNG | NĂNG LỰC TỔNG THẦU | ${settings.name}`,
+    title: `LĨNH VỰC HOẠT ĐỘNG | ${settings.name}`,
     description:
-      "Chuyên môn cốt lõi của Thành Phú: Thi công hầm đường bộ xuyên núi (công nghệ NATM), đường cao tốc, cầu cạn kết cấu phức tạp, gia cố mái dốc taluy chống sạt trượt và hạ tầng kỹ thuật trọng điểm quốc gia.",
+      "Mục tiêu hàng đầu của THÀNH PHÚ là cung cấp các dịch vụ chuyên nghiệp và hiệu quả nhất trong lĩnh vực: Xây dựng dân dụng & công nghiệp; các công trình giao thông (Cầu - Đường bộ); hạ tầng kỹ thuật; cấp thoát nước; nhôm kính; cửa nhựa lõi thép uPVC; kinh doanh máy móc thiết bị và vật liệu xây dựng.",
     keywords: [
       "lĩnh vực hoạt động Thành Phú",
-      "thi công hầm đường bộ",
-      "khoan hầm NATM",
-      "thi công cao tốc Bắc Nam",
-      "xây dựng cầu cạn",
-      "gia cố mái ta luy",
-      "xử lý sạt trượt",
+      "xây dựng công trình dân dụng",
+      "xây dựng công trình công nghiệp",
+      "xây dựng công trình giao thông",
+      "thi công cầu đường bộ",
+      "hạ tầng kỹ thuật cấp thoát nước",
+      "cửa nhựa lõi thép uPVC",
+      "cửa nhôm kính",
+      "kinh doanh máy móc thiết bị xây dựng",
+      "vật liệu xây dựng Thành Phú",
       "Thành Phú",
-      "năng lực tổng thầu hạ tầng",
     ],
     alternates: {
       canonical: "https://trunghaico.vn/linh-vuc-hoat-dong",
@@ -30,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: `LĨNH VỰC HOẠT ĐỘNG | ${settings.name}`,
       description:
-        "Làm chủ công nghệ đào hầm hiện đại, thi công đường cao tốc, cầu đường và các đại công trình hạ tầng giao thông huyết mạch quốc gia.",
+        "Xây dựng dân dụng & công nghiệp; công trình giao thông (Cầu - Đường bộ); hạ tầng kỹ thuật; cấp thoát nước; cửa nhựa lõi thép uPVC; nhôm kính; kinh doanh thiết bị & vật liệu xây dựng.",
       url: "https://trunghaico.vn/linh-vuc-hoat-dong",
       siteName: settings.name,
       locale: "vi_VN",
@@ -48,7 +50,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: `LĨNH VỰC HOẠT ĐỘNG | ${settings.name}`,
       description:
-        "Hạ tầng giao thông, hầm xuyên núi, cầu đường và giải pháp địa kỹ thuật cao cấp.",
+        "Dịch vụ chuyên nghiệp trong lĩnh vực Xây dựng - Dân dụng - Trang trí nội ngoại thất - Hạ tầng kỹ thuật.",
       images: ["/logo.png"],
     },
   };
@@ -66,7 +68,7 @@ export default async function LinhVucHoatDongPage() {
         url: "https://trunghaico.vn/linh-vuc-hoat-dong",
         name: `LĨNH VỰC HOẠT ĐỘNG | ${settings.name}`,
         description:
-          "Tổng thầu thi công hạ tầng giao thông, hầm đường bộ xuyên núi và kết cấu kỹ thuật phức tạp.",
+          "Dịch vụ chuyên nghiệp của THÀNH PHÚ trong lĩnh vực xây dựng dân dụng & công nghiệp, giao thông, hạ tầng kỹ thuật, nhôm kính uPVC và thiết bị vật tư xây dựng.",
         isPartOf: {
           "@type": "WebSite",
           "@id": "https://trunghaico.vn/#website",
