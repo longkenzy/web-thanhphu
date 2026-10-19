@@ -15,10 +15,10 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: [
       "Liên hệ Thành Phú",
       "Địa chỉ Công ty Thành Phú",
-      "Thành Phú JSC",
-      "Trụ sở Thành Phú JSC",
+      "Thành Phú",
+      "Trụ sở Thành Phú",
       "Số điện thoại Thành Phú",
-      "Bản đồ Thành Phú JSC",
+      "Bản đồ Thành Phú",
       "Nhà thầu xây dựng Thành Phú",
     ],
     alternates: {
@@ -90,7 +90,7 @@ export default async function ContactPage() {
         "@type": "Organization",
         "@id": "https://trunghaico.vn/#organization",
         name: settings.name,
-        alternateName: settings.shortName || "Thành Phú JSC",
+        alternateName: settings.shortName || "Thành Phú",
         url: "https://trunghaico.vn",
         logo: "https://trunghaico.vn/logo.png",
         telephone: settings.hotline || settings.phone || "(028) 3553 0675",

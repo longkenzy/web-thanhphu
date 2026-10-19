@@ -28,7 +28,7 @@ export default function Footer({ settings }: FooterProps) {
               <div className="relative h-12 w-48 sm:h-14 sm:w-56 transition-transform duration-300 group-hover:scale-105">
                 <Image
                   src="/logo.png"
-                  alt="Thành Phú JSC Logo"
+                  alt="Thành Phú Logo"
                   fill
                   sizes="(max-width: 640px) 192px, 224px"
                   className="object-contain object-left drop-shadow"

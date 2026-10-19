@@ -10,11 +10,11 @@ export const revalidate = 0;
 export const metadata: Metadata = {
   title: "Giới Thiệu Doanh Nghiệp | CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ",
   description:
-    "Hơn 15 năm hình thành và phát triển. Công ty Cổ phần Đầu tư Xây lắp Thành Phú (Thành Phú JSC) là tổng thầu uy tín thi công hạ tầng giao thông, hầm đường bộ xuyên núi và kết cấu kỹ thuật cao hàng đầu Việt Nam.",
+    "Hơn 15 năm hình thành và phát triển. Công ty Cổ phần Đầu tư Xây lắp Thành Phú là tổng thầu uy tín thi công hạ tầng giao thông, hầm đường bộ xuyên núi và kết cấu kỹ thuật cao hàng đầu Việt Nam.",
   keywords: [
     "giới thiệu Thành Phú",
     "Công ty Cổ phần Đầu tư Xây lắp Thành Phú",
-    "Thành Phú JSC",
+    "Thành Phú",
     "hồ sơ năng lực Thành Phú",
     "nhà thầu thi công hạ tầng giao thông",
     "thi công hầm đường bộ",
@@ -25,11 +25,11 @@ export const metadata: Metadata = {
     canonical: "https://trunghaico.vn/gioi-thieu",
   },
   openGraph: {
-    title: "Giới Thiệu Doanh Nghiệp | THÀNH PHÚ JSC",
+    title: "Giới Thiệu Doanh Nghiệp | THÀNH PHÚ",
     description:
       "Hơn 15 năm hình thành và phát triển, hoàn thành hơn 380 công trình trên toàn quốc. Đơn vị tiên phong thi công hạ tầng giao thông trọng điểm.",
     url: "https://trunghaico.vn/gioi-thieu",
-    siteName: "Thành Phú JSC",
+    siteName: "Thành Phú",
     locale: "vi_VN",
     type: "website",
     images: [
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Giới Thiệu Doanh Nghiệp | THÀNH PHÚ JSC",
+    title: "Giới Thiệu Doanh Nghiệp | THÀNH PHÚ",
     description:
       "Hơn 15 năm kiến tạo diện mạo đô thị và hạ tầng giao thông trọng điểm quốc gia.",
     images: ["/logo.png"],
@@ -68,7 +68,7 @@ export default async function GioiThieuPage() {
           "@type": "WebSite",
           "@id": "https://trunghaico.vn/#website",
           url: "https://trunghaico.vn",
-          name: "Thành Phú JSC",
+          name: "Thành Phú",
         },
         inLanguage: "vi-VN",
       },

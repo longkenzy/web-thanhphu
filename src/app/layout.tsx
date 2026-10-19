@@ -11,7 +11,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ | THÀNH PHÚ JSC",
+  title: "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ | THÀNH PHÚ",
   description:
     "Nhà thầu hàng đầu Việt Nam về thi công hạ tầng giao thông, hầm đường bộ qua Đèo Cả, Cù Mông, Phước Tượng - Phú Gia, Quốc lộ 1 và các công trình giao thông trọng điểm.",
   icons: {
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: "CÔNG TY CỔ PHẦN ĐẦU TƯ XÂY LẮP THÀNH PHÚ",
     description: "Nhà thầu tiên phong trong xây dựng công trình giao thông trọng điểm quốc gia.",
     url: "https://trunghaico.vn",
-    siteName: "Thành Phú JSC",
+    siteName: "Thành Phú",
     locale: "vi_VN",
     type: "website",
   },

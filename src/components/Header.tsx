@@ -204,7 +204,7 @@ export default function Header({
                 <div className="relative h-10 w-40 sm:h-12 sm:w-48 lg:h-[52px] lg:w-[195px] xl:h-[56px] xl:w-[210px] transition-transform duration-300 group-hover:scale-105">
                   <Image
                     src="/logo.png"
-                    alt="Thành Phú JSC Logo"
+                    alt="Thành Phú Logo"
                     fill
                     priority
                     sizes="(max-width: 640px) 160px, (max-width: 1024px) 195px, 210px"

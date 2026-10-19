@@ -29,14 +29,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!post || post.published === false) {
     return {
-      title: "Không tìm thấy bài viết | Thành Phú JSC",
+      title: "Không tìm thấy bài viết | Thành Phú",
     };
   }
 
   const pageUrl = `https://trunghaico.vn/tin-tuc/${post.slug || post.id}`;
 
   return {
-    title: `${post.title} | Thành Phú JSC`,
+    title: `${post.title} | Thành Phú`,
     description: post.summary,
     openGraph: {
       title: post.title,
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         const ts = parseDateToTimestamp(post.date);
         return ts > 0 ? new Date(ts).toISOString() : post.date;
       })(),
-      authors: [post.author || "Thành Phú JSC"],
+      authors: [post.author || "Thành Phú"],
     },
     twitter: {
       card: "summary_large_image",
@@ -205,7 +205,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
                 </div>
 
                 <div className="text-xs text-slate-400 font-mono">
-                  Bản quyền © Thành Phú JSC
+                  Bản quyền © Thành Phú
                 </div>
               </div>
 

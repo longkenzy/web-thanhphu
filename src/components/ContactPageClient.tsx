@@ -73,13 +73,13 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
         <div className="mb-8 text-center sm:text-left">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-red-50 text-[#ed3237] text-[11px] font-bold uppercase tracking-wider mb-2.5 border border-red-100">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>KẾT NỐI VÀ HỢP TÁC • THÀNH PHÚ JSC</span>
+            <span>KẾT NỐI VÀ HỢP TÁC • THÀNH PHÚ</span>
           </div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
             Thông Tin Liên Hệ &amp; Trụ Sở Chính
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 mt-2 max-w-3xl leading-relaxed">
-            Thành Phú JSC luôn sẵn sàng giải đáp, tiếp nhận thông tin đối tác và tư vấn các giải pháp kỹ thuật tối ưu
+            Thành Phú luôn sẵn sàng giải đáp, tiếp nhận thông tin đối tác và tư vấn các giải pháp kỹ thuật tối ưu
             cho mọi công trình trên toàn quốc.
           </p>
         </div>
@@ -96,7 +96,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                 </div>
                 <div className="min-w-0">
                   <span className="text-[10px] font-bold text-[#ed3237] tracking-wider uppercase block">
-                    {settings.shortName || "THÀNH PHÚ JSC"}
+                    {settings.shortName || "THÀNH PHÚ"}
                   </span>
                   <h2 className="text-xs sm:text-[13px] font-black text-slate-900 leading-snug line-clamp-2">
                     {companyName}

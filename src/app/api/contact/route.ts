@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Gửi thông tin liên hệ thành công! Thành Phú JSC sẽ phản hồi sớm nhất.",
+      message: "Gửi thông tin liên hệ thành công! Thành Phú sẽ phản hồi sớm nhất.",
     });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });

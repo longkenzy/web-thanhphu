@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `TIN TỨC & SỰ KIỆN DOANH NGHIỆP | ${settings.name}`,
     description:
-      "Cập nhật những hoạt động nổi bật, tiến độ thi công các công trình trọng điểm, an toàn lao động và thông tin doanh nghiệp Thành Phú JSC.",
+      "Cập nhật những hoạt động nổi bật, tiến độ thi công các công trình trọng điểm, an toàn lao động và thông tin doanh nghiệp Thành Phú.",
     keywords: [
       "Tin tức Thành Phú",
       "Sự kiện Thành Phú",
@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: `TIN TỨC & SỰ KIỆN DOANH NGHIỆP | ${settings.name}`,
       description:
-        "Cập nhật thông tin mới nhất về các dự án thi công hầm đường bộ, cầu cạn và các chuyển động của Thành Phú JSC.",
+        "Cập nhật thông tin mới nhất về các dự án thi công hầm đường bộ, cầu cạn và các chuyển động của Thành Phú.",
       url: "https://trunghaico.vn/tin-tuc",
       siteName: settings.name,
       locale: "vi_VN",

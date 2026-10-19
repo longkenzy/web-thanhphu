@@ -542,7 +542,7 @@ export default function NewsPageClient({ initialNews }: NewsPageClientProps) {
                         <span>Xem chi tiết</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
-                      <span className="text-[11px] text-slate-400 font-medium">Thành Phú JSC</span>
+                      <span className="text-[11px] text-slate-400 font-medium">Thành Phú</span>
                     </div>
                   </article>
                 ))}

@@ -42,7 +42,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       title: "Thi Công Hầm Đường Bộ & Hầm Xuyên Núi",
       shortDesc: "Đơn vị tổng thầu thi công hầm đường bộ hàng đầu Việt Nam, làm chủ công nghệ đào hầm NATM tiên tiến của Áo.",
       fullDesc:
-        "Với bề dày kinh nghiệm và đội ngũ chuyên gia đào hầm kỳ cựu, Thành Phú JSC tự hào là đơn vị tiên phong tham gia khoan đào và hoàn thiện những cung hầm đường bộ xuyên núi hiểm trở nhất miền Trung. Chúng tôi kiểm soát tuyệt đối an toàn địa chất bằng quy trình trắc đạc đo chuyển vị chính xác đến từng milimet và thi công chống đỡ tức thời.",
+        "Với bề dày kinh nghiệm và đội ngũ chuyên gia đào hầm kỳ cựu, Thành Phú tự hào là đơn vị tiên phong tham gia khoan đào và hoàn thiện những cung hầm đường bộ xuyên núi hiểm trở nhất miền Trung. Chúng tôi kiểm soát tuyệt đối an toàn địa chất bằng quy trình trắc đạc đo chuyển vị chính xác đến từng milimet và thi công chống đỡ tức thời.",
       image: "https://images.unsplash.com/photo-1541888946425-d0fbb1861564?auto=format&fit=crop&w=1200&q=80",
       iconName: "mountain",
       techHighlights: [
@@ -65,7 +65,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       title: "Thi Công Đường Cao Tốc & Quốc Lộ Trọng Điểm",
       shortDesc: "Thi công nền mặt đường bê tông nhựa Polymer, giải tỏa áp lực giao thông trên các trục huyết mạch quốc gia.",
       fullDesc:
-        "Thành Phú JSC tham gia thi công các gói thầu hạ tầng giao thông quy mô lớn trên tuyến Cao tốc Bắc - Nam và các đoạn huyết mạch Quốc lộ 1. Với dây chuyền trải thảm tự động hiện đại và quy trình kiểm soát chất lượng khắt khe, chúng tôi mang đến những cung đường êm thuận, thoát nước tối ưu và tuổi thọ vận hành bền vững.",
+        "Thành Phú tham gia thi công các gói thầu hạ tầng giao thông quy mô lớn trên tuyến Cao tốc Bắc - Nam và các đoạn huyết mạch Quốc lộ 1. Với dây chuyền trải thảm tự động hiện đại và quy trình kiểm soát chất lượng khắt khe, chúng tôi mang đến những cung đường êm thuận, thoát nước tối ưu và tuổi thọ vận hành bền vững.",
       image: "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?auto=format&fit=crop&w=1200&q=80",
       iconName: "route",
       techHighlights: [
@@ -111,7 +111,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       title: "Gia Cố Mái Dốc, Neo Đất Đá & Xử Lý Sạt Trượt Đèo Núi",
       shortDesc: "Ứng dụng các giải pháp địa kỹ thuật chuyên sâu để bảo vệ an toàn cho các tuyến giao thông huyết mạch qua đèo hiểm trở.",
       fullDesc:
-        "Những cung đường đèo núi miền Trung thường xuyên đối mặt với nguy cơ sạt lở dữ dội trong mùa mưa lũ. Thành Phú JSC là đơn vị có bề dày thực chiến trong việc xử lý các vị trí sạt trượt nguy hiểm, khoan neo đá sâu, giằng cáp dự ứng lực và phun vữa bảo vệ mái dốc taluy, giữ vững mạch máu giao thông an toàn tuyệt đối.",
+        "Những cung đường đèo núi miền Trung thường xuyên đối mặt với nguy cơ sạt lở dữ dội trong mùa mưa lũ. Thành Phú là đơn vị có bề dày thực chiến trong việc xử lý các vị trí sạt trượt nguy hiểm, khoan neo đá sâu, giằng cáp dự ứng lực và phun vữa bảo vệ mái dốc taluy, giữ vững mạch máu giao thông an toàn tuyệt đối.",
       image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
       iconName: "layers",
       techHighlights: [

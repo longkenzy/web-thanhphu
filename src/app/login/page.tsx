@@ -164,7 +164,7 @@ export default function LoginPage() {
                   <div className="relative bg-white px-3.5 py-1.5 rounded-[3px] shadow border border-slate-200">
                     <Image
                       src="/logo.png"
-                      alt="Thành Phú JSC Logo"
+                      alt="Thành Phú Logo"
                       width={150}
                       height={38}
                       className="h-8 w-auto object-contain"

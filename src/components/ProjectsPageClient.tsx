@@ -217,7 +217,7 @@ function Project3DItem({
 
           {/* Action Footer */}
           <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span className="text-[11px] text-slate-400 font-medium">Thành Phú JSC</span>
+            <span className="text-[11px] text-slate-400 font-medium">Thành Phú</span>
             <span className="inline-flex items-center gap-1 text-[#ed3237] font-bold group-hover:translate-x-1 transition-transform">
               <span>Xem chi tiết</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -312,7 +312,7 @@ export default function ProjectsPageClient({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 1. TOP BREADCRUMB */}
         <nav aria-label="Breadcrumb" className="mb-6">
-          <h1 className="sr-only">Công trình & Dự án - Thành Phú JSC</h1>
+          <h1 className="sr-only">Công trình & Dự án - Thành Phú</h1>
           <ol className="flex items-center flex-wrap gap-1.5 text-xs text-slate-500 font-medium">
             <li className="flex items-center gap-1.5">
               <Link
