@@ -383,9 +383,9 @@ export default function Header({
           />
 
           {/* Drawer container: Sharp straight edges, NO border-radius, clean border-l */}
-          <div className="fixed top-0 right-0 bottom-0 w-[84%] max-w-[340px] bg-white flex flex-col justify-between shadow-2xl z-10 border-l border-slate-200 animate-drawer-in">
+          <div className="fixed top-0 right-0 bottom-0 w-[88%] max-w-[360px] bg-white flex flex-col justify-between shadow-2xl z-10 border-l border-slate-200 animate-drawer-in">
             {/* 1. Header with Logo & Sharp Close Button */}
-            <div className="px-4 py-3.5 bg-white border-b border-slate-200 flex items-center justify-between">
+            <div className="px-5 py-4 bg-white border-b border-slate-200 flex items-center justify-between">
               <Link
                 href="/"
                 onClick={() => setMobileMenuOpen(false)}
@@ -394,23 +394,23 @@ export default function Header({
                 <Image
                   src="/logo.png"
                   alt="Thành Phú"
-                  width={140}
-                  height={36}
-                  className="h-8 w-auto object-contain"
+                  width={145}
+                  height={38}
+                  className="h-8.5 w-auto object-contain"
                   priority
                 />
               </Link>
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-8 h-8 border border-slate-200 text-slate-600 hover:text-white hover:bg-[#ed3237] hover:border-[#ed3237] flex items-center justify-center transition-colors"
+                className="w-9 h-9 border border-slate-200 text-slate-600 hover:text-white hover:bg-[#ed3237] hover:border-[#ed3237] flex items-center justify-center transition-colors"
                 aria-label="Đóng menu"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* 2. Scrollable Navigation List: Clean Sharp Borders, No Border Radius, No Icons */}
+            {/* 2. Scrollable Navigation List: Clean Sharp Borders, Spacious Padding */}
             <div className="flex-1 overflow-y-auto no-scrollbar">
               {navLinks.map((item) => {
                 if (item.children) {
@@ -431,7 +431,7 @@ export default function Header({
                       <button
                         type="button"
                         onClick={() => toggleMobileSubmenu(item.name)}
-                        className={`w-full flex items-center justify-between px-4 py-3 text-xs uppercase font-bold tracking-wider transition-colors ${
+                        className={`w-full flex items-center justify-between px-5 py-3.5 sm:py-4 text-[13px] uppercase font-bold tracking-wider transition-colors ${
                           isDropdownActive
                             ? "bg-red-50 text-[#ed3237] border-l-4 border-l-[#ed3237]"
                             : "bg-white hover:bg-slate-50 text-slate-800 border-l-4 border-l-transparent"
@@ -455,7 +455,7 @@ export default function Header({
                                 key={sub.name}
                                 href={sub.href}
                                 onClick={() => setMobileMenuOpen(false)}
-                                className={`flex items-center justify-between pl-7 pr-4 py-2.5 text-xs transition-colors ${
+                                className={`flex items-center justify-between pl-8 pr-5 py-3 text-[13px] transition-colors ${
                                   isSubActive
                                     ? "bg-white text-[#ed3237] font-bold border-l-2 border-l-[#ed3237]"
                                     : "text-slate-600 hover:text-[#ed3237] hover:bg-white"
@@ -484,7 +484,7 @@ export default function Header({
                     key={item.name}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center justify-between px-4 py-3 text-xs uppercase font-bold tracking-wider border-b border-slate-100 transition-colors ${
+                    className={`flex items-center justify-between px-5 py-3.5 sm:py-4 text-[13px] uppercase font-bold tracking-wider border-b border-slate-100 transition-colors ${
                       isActive
                         ? "bg-red-50 text-[#ed3237] border-l-4 border-l-[#ed3237]"
                         : "bg-white hover:bg-slate-50 text-slate-800 border-l-4 border-l-transparent"
@@ -497,11 +497,11 @@ export default function Header({
               })}
             </div>
 
-            {/* 3. Bottom Action Section: Sharp Borders, No Border Radius */}
-            <div className="p-4 bg-slate-50 border-t border-slate-200 space-y-3">
+            {/* 3. Bottom Action Section: Sharp Borders, Spacious Padding */}
+            <div className="p-4 sm:p-5 bg-slate-50 border-t border-slate-200 space-y-3">
               <a
                 href={`tel:${hotline.replace(/\s+/g, "")}`}
-                className="flex items-center justify-center gap-2 w-full py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-[#ed3237] hover:bg-[#d0282d] border border-[#ed3237] transition-colors"
+                className="flex items-center justify-center gap-2 w-full py-3 text-xs sm:text-[13px] font-bold uppercase tracking-wider text-white bg-[#ed3237] hover:bg-[#d0282d] border border-[#ed3237] transition-colors shadow-sm"
               >
                 <Phone className="w-3.5 h-3.5 fill-current animate-phone-ring" />
                 <span>Hotline: {hotline}</span>
