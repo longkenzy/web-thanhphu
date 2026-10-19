@@ -187,7 +187,7 @@ export default function ServicesSection() {
       icon: Building2,
       title: "Công Trình Dân Dụng & Công Nghiệp",
       desc: "Xây dựng, thi công lắp đặt, sửa chữa các công trình dân dụng và công trình công nghiệp.",
-      image: "/xay-dung-dan-dung-cong-nghiep.png",
+      image: "https://res.cloudinary.com/x13kyocz/image/upload/v1792390123/thanhphu_services/bpizlqch8an5xub7tysb.png",
       bullets: [
         "Xây dựng mới & cải tạo sửa chữa",
         "Nhà cao tầng, văn phòng, nhà xưởng",
@@ -200,7 +200,7 @@ export default function ServicesSection() {
       icon: Route,
       title: "Giao Thông, Hạ Tầng & Cấp Thoát Nước",
       desc: "Xây dựng công trình giao thông (Cầu - Đường bộ), các công trình hạ tầng kỹ thuật, cấp thoát nước.",
-      image: "/xay-dung-giao-thong-ha-tang.png",
+      image: "https://res.cloudinary.com/x13kyocz/image/upload/v1792390124/thanhphu_services/ehf8wgvnskveqmubifph.png",
       bullets: [
         "Công trình cầu & đường bộ",
         "Hạ tầng kỹ thuật khu đô thị, KCN",
@@ -213,7 +213,7 @@ export default function ServicesSection() {
       icon: Layers,
       title: "Cửa Nhựa Lõi Thép & Cửa Nhôm Kính",
       desc: "Sản xuất, thi công lắp đặt cửa nhựa lõi thép uPVC và hệ cửa nhôm kính cao cấp.",
-      image: "/san-xuat-cua-nhua-upvc-nhom-kinh.png",
+      image: "https://res.cloudinary.com/x13kyocz/image/upload/v1792390125/thanhphu_services/lniu5ccp5brkdlis5img.png",
       bullets: [
         "Cửa nhựa uPVC lõi thép gia cường",
         "Cửa nhôm kính Xingfa & hệ châu Âu",
@@ -226,7 +226,7 @@ export default function ServicesSection() {
       icon: Wrench,
       title: "Máy Móc Thiết Bị & Vật Liệu Xây Dựng",
       desc: "Kinh doanh máy móc thiết bị cơ giới thi công và phân phối các loại vật liệu xây dựng.",
-      image: "/kinh-doanh-may-moc-thiet-bi-vat-lieu-xay-dung.webp",
+      image: "https://res.cloudinary.com/x13kyocz/image/upload/v1792390126/thanhphu_services/pnnq4izupxdgczp7dvmj.webp",
       bullets: [
         "Kinh doanh & cho thuê thiết bị cơ giới",
         "Vật liệu xây dựng thô & hoàn thiện",
