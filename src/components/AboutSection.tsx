@@ -67,7 +67,7 @@ export default function AboutSection() {
                   TẦM NHÌN
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                  Trở thành tổng thầu xây lắp công trình giao thông uy tín hàng đầu khu vực phía Nam và cả nước.
+                  Trở thành một trong những công ty hàng đầu Việt Nam và Khu vực trong lĩnh vực thiết kế, xây dựng dân dụng &amp; công nghiệp; giao thông; hạ tầng kỹ thuật; cấp thoát nước; trang trí nội thất.
                 </p>
               </div>
 
@@ -77,7 +77,7 @@ export default function AboutSection() {
                   SỨ MỆNH
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                  Kiến tạo những công trình kiên cố, an toàn, mang lại hiệu quả đầu tư tối ưu cho khách hàng.
+                  Xây dựng những công trình quy mô lớn với công nghệ hiện đại, đạt tiến độ, chất lượng và thẩm mỹ cao; cung cấp sản phẩm và dịch vụ tốt nhất đem lại sự hài lòng cho khách hàng.
                 </p>
               </div>
             </div>

@@ -31,6 +31,7 @@ export default function TinyMCEEditor({
         }}
         init={{
           height: height,
+          entity_encoding: "raw",
           menubar: "file edit view insert format tools table",
           plugins: [
             "advlist",

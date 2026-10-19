@@ -177,21 +177,21 @@ export default function PartnersSection({ partners }: PartnersSectionProps) {
   const duplicatedPartners = [...displayItems, ...displayItems];
 
   return (
-    <section id="partners" className="py-14 sm:py-18 lg:py-24 bg-white relative overflow-hidden">
+    <section id="partners" className="py-8 sm:py-10 lg:py-14 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header căn giữa theo mẫu thiết kế */}
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 reveal-on-scroll">
-          <div className="inline-block mb-3 sm:mb-4">
-            <span className="inline-flex items-center justify-center px-4 py-1.5 rounded-[3px] bg-[#ed3237] text-white text-xs sm:text-[13px] font-bold uppercase tracking-wider shadow-sm">
+        {/* Section Heading - Compact & Modern with Brand Colors */}
+        <div className="max-w-3xl mb-6 sm:mb-8 reveal-on-scroll">
+          <div className="mb-3.5 sm:mb-4">
+            <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
               ĐỐI TÁC TIN CẬY
             </span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 uppercase tracking-tight mb-3">
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight">
             CHỦ ĐẦU TƯ &amp; ĐỐI TÁC CHIẾN LƯỢC
           </h2>
 
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal mt-2">
             Đồng hành cùng các tập đoàn bất động sản và doanh nghiệp đầu ngành uy tín tại Việt Nam.
           </p>
         </div>

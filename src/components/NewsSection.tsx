@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Calendar, User, ArrowRight } from "lucide-react";
 import { NewsPost } from "@/types";
+import { decodeHtmlEntities, stripHtml } from "@/lib/textUtils";
 
 interface NewsSectionProps {
   initialNews: NewsPost[];
@@ -23,8 +24,8 @@ export default function NewsSection({ initialNews }: NewsSectionProps) {
     <section id="news" className="py-6 sm:py-8 lg:py-10 bg-slate-100/70 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading - Compact & Modern with Brand Colors */}
-        <div className="space-y-2 max-w-3xl mb-6 sm:mb-8 reveal-on-scroll">
-          <div>
+        <div className="max-w-3xl mb-6 sm:mb-8 reveal-on-scroll">
+          <div className="mb-3.5 sm:mb-4">
             <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
               THÔNG TIN & SỰ KIỆN
             </span>
@@ -32,7 +33,7 @@ export default function NewsSection({ initialNews }: NewsSectionProps) {
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight">
             TIN TỨC CÔNG TRÌNH & DOANH NGHIỆP
           </h2>
-          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal">
+          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal mt-2">
             Cập nhật những chuyển động mới nhất về tiến độ thi công, phong trào thi đua và hoạt động của Thành Phú.
           </p>
         </div>
@@ -73,11 +74,11 @@ export default function NewsSection({ initialNews }: NewsSectionProps) {
                   </div>
 
                   <h3 className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors line-clamp-2 leading-snug">
-                    {post.title}
+                    {decodeHtmlEntities(post.title)}
                   </h3>
 
                   <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed font-normal">
-                    {post.summary}
+                    {stripHtml(post.summary)}
                   </p>
                 </div>
               </div>

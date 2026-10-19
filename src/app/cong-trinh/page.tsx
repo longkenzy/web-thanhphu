@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProjectsPageClient from "@/components/ProjectsPageClient";
+import { stripHtml, decodeHtmlEntities } from "@/lib/textUtils";
 
 export const revalidate = 0;
 
@@ -86,8 +87,8 @@ export default async function ProjectsPage() {
         itemListElement: projects.map((p, idx) => ({
           "@type": "ListItem",
           position: idx + 1,
-          name: p.title,
-          description: p.description,
+          name: decodeHtmlEntities(p.title),
+          description: stripHtml(p.description),
           url: `https://trunghaico.vn/cong-trinh#${p.slug}`,
           image: p.thumbnail,
         })),

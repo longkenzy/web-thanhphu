@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin, ArrowUpRight, Calendar, Layers, ArrowRight } from "lucide-react";
 import { Project } from "@/types";
+import { decodeHtmlEntities } from "@/lib/textUtils";
 
 interface ProjectsSectionProps {
   initialProjects: Project[];
@@ -55,7 +56,7 @@ function Project3DCard({
   const shadowY = rotate.x * 0.8 + 8;
 
   return (
-    <Link href={`/cong-trinh/${project.slug}`} style={{ perspective: "1000px" }} className="block w-full cursor-pointer">
+    <Link href={`/cong-trinh/${project.slug}`} style={{ perspective: "1000px" }} className="block w-full h-full cursor-pointer">
       <div
         ref={cardRef}
         onMouseEnter={handleMouseEnter}
@@ -73,7 +74,7 @@ function Project3DCard({
             : "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
           transformStyle: "preserve-3d",
         }}
-        className="group cursor-pointer rounded-[3px] bg-white border border-slate-200 hover:border-[#ed3237]/60 overflow-hidden flex flex-col justify-between shadow-sm relative select-none"
+        className="group cursor-pointer rounded-[3px] bg-white border border-slate-200 hover:border-[#ed3237]/60 overflow-hidden flex flex-col justify-between shadow-sm relative select-none h-full"
       >
         {/* Dynamic Light Sheen Overlay */}
         <div
@@ -85,15 +86,15 @@ function Project3DCard({
         />
 
         {/* Image & Badges with 3D Depth */}
-        <div style={{ transform: "translateZ(6px)", transformStyle: "preserve-3d" }}>
-          <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-slate-100">
+        <div style={{ transform: "translateZ(6px)", transformStyle: "preserve-3d" }} className="flex flex-col flex-1 justify-between">
+          <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-100 shrink-0">
             <Image
               src={project.thumbnail}
               alt={project.title}
               fill
               className="object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/15" />
 
             {/* Category Pill in Deep Blue */}
             <div
@@ -104,7 +105,7 @@ function Project3DCard({
               }}
             >
               <span className="px-2.5 py-0.5 rounded-[2px] bg-[#3e4095] text-white text-[11px] font-bold uppercase tracking-wider shadow">
-                {project.categoryName}
+                {decodeHtmlEntities(project.categoryName)}
               </span>
             </div>
 
@@ -119,20 +120,20 @@ function Project3DCard({
               <ArrowUpRight className="w-4 h-4" />
             </div>
 
-            {/* Location & Year at bottom of image */}
+            {/* Location & Year at bottom of image - wraps freely without ellipsis */}
             <div
-              className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[11px] text-white z-20"
+              className="absolute bottom-2.5 left-3 right-3 flex items-end justify-between text-[11px] text-white z-20 gap-2"
               style={{
                 transform: isHovered ? "translateZ(10px)" : "translateZ(0px)",
                 transition: "transform 0.2s ease-out",
               }}
             >
-              <div className="flex items-center gap-1 drop-shadow">
-                <MapPin className="w-3.5 h-3.5 text-[#ed3237]" />
-                <span className="truncate font-medium">{project.location}</span>
+              <div className="flex items-start gap-1.5 drop-shadow flex-1 min-w-0">
+                <MapPin className="w-3.5 h-3.5 text-[#ed3237] shrink-0 mt-0.5" />
+                <span className="font-medium leading-snug break-words">{decodeHtmlEntities(project.location)}</span>
               </div>
               {project.year ? (
-                <div className="flex items-center gap-1 drop-shadow">
+                <div className="flex items-center gap-1 drop-shadow shrink-0 ml-1.5 self-end">
                   <Calendar className="w-3.5 h-3.5 text-slate-300" />
                   <span className="font-medium">{project.year}</span>
                 </div>
@@ -140,39 +141,17 @@ function Project3DCard({
             </div>
           </div>
 
-          {/* Body Content with 3D Depth */}
-          <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3" style={{ transform: "translateZ(8px)" }}>
-            <div>
-              <h3
-                className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors line-clamp-2 leading-snug"
-                style={{
-                  transform: isHovered ? "translateZ(12px)" : "translateZ(0px)",
-                  transition: "transform 0.2s ease-out",
-                }}
-              >
-                {project.title}
-              </h3>
-              <p className="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed font-normal">
-                {project.description ? project.description.replace(/<[^>]*>?/gm, "") : ""}
-              </p>
-            </div>
-
-            <div
-              className="pt-3 border-t border-dashed border-slate-200 space-y-1.5"
+          {/* Body Content with 3D Depth - Only Title, wraps cleanly without ellipsis */}
+          <div className="p-4 sm:p-5 flex-1 flex items-center min-h-[64px]" style={{ transform: "translateZ(8px)" }}>
+            <h3
+              className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors leading-snug break-words"
               style={{
-                transform: isHovered ? "translateZ(8px)" : "translateZ(0px)",
+                transform: isHovered ? "translateZ(12px)" : "translateZ(0px)",
                 transition: "transform 0.2s ease-out",
               }}
             >
-
-
-              <div className="flex items-center justify-between text-xs pt-0.5">
-                <span className="text-slate-500">Chủ đầu tư:</span>
-                <span className="font-semibold text-slate-800 truncate max-w-[180px]">
-                  {project.client}
-                </span>
-              </div>
-            </div>
+              {decodeHtmlEntities(project.title)}
+            </h3>
           </div>
         </div>
       </div>
@@ -206,8 +185,8 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
     <section id="projects" className="py-6 sm:py-8 lg:py-10 bg-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading - Compact & Modern */}
-        <div className="space-y-2 max-w-3xl mb-6 sm:mb-8 reveal-on-scroll">
-          <div>
+        <div className="max-w-3xl mb-6 sm:mb-8 reveal-on-scroll">
+          <div className="mb-3.5 sm:mb-4">
             <span className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-[#ed3237] text-white text-xs sm:text-sm font-black uppercase tracking-wider shadow-md shadow-[#ed3237]/30">
               DỰ ÁN TRỌNG ĐIỂM
             </span>
@@ -215,7 +194,7 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight">
             CÔNG TRÌNH TIÊU BIỂU
           </h2>
-          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal">
+          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal mt-2">
             Những dấu ấn kiên cố mang thương hiệu Thành Phú trên khắp các tuyến đường huyết mạch quốc gia.
           </p>
         </div>
@@ -240,7 +219,7 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
         {/* Projects Grid with 3D Tilt Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {filteredProjects.map((project, idx) => (
-            <div key={project.id} className={`reveal-scale delay-${((idx % 3) + 1) * 100}`}>
+            <div key={project.id} className={`reveal-scale delay-${((idx % 3) + 1) * 100} h-full`}>
               <Project3DCard
                 project={project}
               />
@@ -252,10 +231,10 @@ export default function ProjectsSection({ initialProjects }: ProjectsSectionProp
         <div className="text-center pt-8 sm:pt-10 reveal-on-scroll">
           <Link
             href="/cong-trinh"
-            className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-[3px] bg-slate-900 hover:bg-[#ed3237] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-[#ed3237]/25 group"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[3px] bg-white border border-slate-300 hover:border-[#ed3237] text-slate-700 hover:text-[#ed3237] text-xs font-bold uppercase tracking-wider shadow-2xs hover:shadow transition-all group"
           >
-            <span>Xem Toàn Bộ Danh Sách Công Trình</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <span>Xem toàn bộ danh sách công trình</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>

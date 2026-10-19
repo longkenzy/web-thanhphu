@@ -25,6 +25,7 @@ import {
   Paintbrush,
 } from "lucide-react";
 import { Project, CompanySettings } from "@/types";
+import { decodeHtmlEntities } from "@/lib/textUtils";
 
 interface ProjectsPageClientProps {
   initialProjects: Project[];
@@ -168,7 +169,7 @@ function Project3DItem({
             >
               <div className="flex items-center gap-1.5 drop-shadow truncate pr-2">
                 <MapPin className="w-3.5 h-3.5 text-[#ed3237] shrink-0" />
-                <span className="truncate font-medium">{project.location}</span>
+                <span className="truncate font-medium">{decodeHtmlEntities(project.location)}</span>
               </div>
               {project.year ? (
                 <div className="flex items-center gap-1 drop-shadow shrink-0">
@@ -185,14 +186,14 @@ function Project3DItem({
           <div className="space-y-2">
             {/* Title */}
             <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#ed3237] transition-colors leading-snug line-clamp-2">
-              {project.title}
+              {decodeHtmlEntities(project.title)}
             </h3>
 
             {/* Client */}
             {project.client && (
               <div className="flex items-center gap-1.5 text-xs text-slate-500">
                 <Building className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                <span className="truncate font-medium">Chủ đầu tư: <span className="text-slate-700">{project.client}</span></span>
+                <span className="truncate font-medium">Chủ đầu tư: <span className="text-slate-700">{decodeHtmlEntities(project.client)}</span></span>
               </div>
             )}
 
@@ -207,7 +208,7 @@ function Project3DItem({
                     className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[2px] bg-red-50/80 text-[#ed3237] text-[10px] font-semibold"
                   >
                     <CheckCircle2 className="w-2.5 h-2.5 shrink-0" />
-                    <span className="truncate max-w-[200px]">{hl}</span>
+                    <span className="truncate max-w-[200px]">{decodeHtmlEntities(hl)}</span>
                   </span>
                 ))}
               </div>

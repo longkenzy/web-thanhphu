@@ -15,6 +15,7 @@ import {
   Award,
 } from "lucide-react";
 import { Project, CompanySettings } from "@/types";
+import { decodeHtmlEntities } from "@/lib/textUtils";
 import ShareButtons from "@/components/ShareButtons";
 
 interface ProjectDetailViewProps {
@@ -76,7 +77,7 @@ export default function ProjectDetailView({
             </li>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
             <li className="text-[#ed3237] font-semibold truncate max-w-[240px] sm:max-w-md">
-              {project.title}
+              {decodeHtmlEntities(project.title)}
             </li>
           </ol>
         </nav>
@@ -100,11 +101,11 @@ export default function ProjectDetailView({
             <header className="space-y-4 border-b border-slate-100 pb-6">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="px-3 py-1 rounded-[3px] bg-[#3e4095] text-white text-xs font-bold uppercase tracking-wider shadow-2xs">
-                  {project.categoryName}
+                  {decodeHtmlEntities(project.categoryName)}
                 </span>
                 {project.value && (
                   <span className="px-3 py-1 rounded-[3px] bg-amber-50 text-amber-700 border border-amber-200 text-xs font-bold">
-                    {project.value}
+                    {decodeHtmlEntities(project.value)}
                   </span>
                 )}
                 {project.featured && (
@@ -116,7 +117,7 @@ export default function ProjectDetailView({
               </div>
 
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 leading-snug tracking-tight">
-                {project.title}
+                {decodeHtmlEntities(project.title)}
               </h1>
 
               {/* Quick Meta Strip */}
@@ -125,7 +126,7 @@ export default function ProjectDetailView({
                   <MapPin className="w-4 h-4 text-[#ed3237] shrink-0" />
                   <div>
                     <span className="text-[10px] text-slate-400 uppercase font-bold block">Địa điểm</span>
-                    <span className="font-semibold text-slate-800">{project.location}</span>
+                    <span className="font-semibold text-slate-800">{decodeHtmlEntities(project.location)}</span>
                   </div>
                 </div>
 
@@ -134,7 +135,7 @@ export default function ProjectDetailView({
                     <Calendar className="w-4 h-4 text-[#3e4095] shrink-0" />
                     <div>
                       <span className="text-[10px] text-slate-400 uppercase font-bold block">Thời gian thi công</span>
-                      <span className="font-semibold text-slate-800">{project.year}</span>
+                      <span className="font-semibold text-slate-800">{decodeHtmlEntities(project.year)}</span>
                     </div>
                   </div>
                 ) : null}
@@ -144,7 +145,7 @@ export default function ProjectDetailView({
                   <div>
                     <span className="text-[10px] text-slate-400 uppercase font-bold block">Chủ đầu tư</span>
                     <span className="font-semibold text-slate-800 truncate block max-w-full">
-                      {project.client}
+                      {decodeHtmlEntities(project.client)}
                     </span>
                   </div>
                 </div>
@@ -258,13 +259,13 @@ export default function ProjectDetailView({
                       </div>
                       <div className="min-w-0 flex-1 space-y-1">
                         <span className="text-[10px] text-[#3e4095] font-extrabold uppercase tracking-wider block truncate">
-                          {rel.categoryName}
+                          {decodeHtmlEntities(rel.categoryName)}
                         </span>
                         <h4 className="text-xs font-bold text-slate-900 group-hover:text-[#ed3237] line-clamp-2 leading-snug transition-colors">
-                          {rel.title}
+                          {decodeHtmlEntities(rel.title)}
                         </h4>
                         <span className="text-[11px] text-slate-500 font-medium block">
-                          {rel.year ? `${rel.year} • ` : ""}{rel.location}
+                          {rel.year ? `${decodeHtmlEntities(rel.year)} • ` : ""}{decodeHtmlEntities(rel.location)}
                         </span>
                       </div>
                     </Link>

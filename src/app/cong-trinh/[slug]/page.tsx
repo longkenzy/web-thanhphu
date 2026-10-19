@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProjectDetailView from "@/components/ProjectDetailView";
+import { stripHtml, decodeHtmlEntities } from "@/lib/textUtils";
 
 export const revalidate = 0;
 
@@ -98,8 +99,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           url: "https://trunghaico.vn",
           name: settings.name,
         },
-        headline: project.title,
-        description: project.description,
+        headline: decodeHtmlEntities(project.title),
+        description: stripHtml(project.description),
         image: [project.thumbnail, ...(project.gallery || [])],
         datePublished: "2024-01-01T00:00:00+07:00",
         dateModified: new Date().toISOString(),

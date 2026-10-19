@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Eye, Target, Gem } from "lucide-react";
+import { Eye, Target, Gem, Sparkles, Quote } from "lucide-react";
 import { CompanySettings } from "@/types";
 
 interface AboutPageClientProps {
@@ -422,71 +422,181 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
             </p>
           </div>
 
-          {/* 3 Pillars Grid with 3D Tilt Cards matching Image 2 */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {/* Card 1: TẦM NHÌN (Red Top Border) */}
-            <div className="reveal-on-scroll delay-100">
-              <TiltCard className="bg-white rounded-[3px] border border-slate-200 border-t-4 border-t-[#ed3237] p-6 sm:p-8 flex flex-col justify-between shadow-sm h-full">
-                <div className="space-y-4" style={{ transform: "translateZ(10px)" }}>
-                  {/* Red Target/Eye Icon */}
-                  <div className="w-12 h-12 rounded-full bg-red-50 text-[#ed3237] flex items-center justify-center">
-                    <Eye className="w-6 h-6 stroke-[2.5]" />
+          {/* 1. TẦM NHÌN & SỨ MỆNH (Bố cục 2 cột thoáng đãng, loại bỏ hoàn toàn viền rườm rà) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+            {/* TẦM NHÌN */}
+            <div className="bg-white rounded-[4px] p-7 sm:p-9 lg:p-10 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-start space-y-4 reveal-on-scroll">
+              <div className="flex items-center gap-3.5">
+                <div className="w-12 h-12 rounded-full bg-red-50 text-[#ed3237] flex items-center justify-center shrink-0">
+                  <Eye className="w-6 h-6 stroke-[2.2]" />
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-tight">
+                  TẦM NHÌN
+                </h3>
+              </div>
+
+              <p className="text-base sm:text-lg text-slate-800 leading-relaxed font-normal pt-1">
+                Trở thành một trong những công ty hàng đầu Việt Nam và Khu vực trong lĩnh vực thiết kế, xây dựng dân dụng &amp; công nghiệp; giao thông; hạ tầng kỹ thuật; cấp thoát nước; trang trí nội thất.
+              </p>
+            </div>
+
+            {/* SỨ MỆNH */}
+            <div className="bg-white rounded-[4px] p-7 sm:p-9 lg:p-10 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-start space-y-4 reveal-on-scroll">
+              <div className="flex items-center gap-3.5">
+                <div className="w-12 h-12 rounded-full bg-blue-50 text-[#3e4095] flex items-center justify-center shrink-0">
+                  <Target className="w-6 h-6 stroke-[2.2]" />
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-tight">
+                  SỨ MỆNH
+                </h3>
+              </div>
+
+              <div className="space-y-3 pt-1 text-sm sm:text-base text-slate-700 leading-relaxed font-normal">
+                <p>
+                  Xây dựng những công trình quy mô lớn với công nghệ hiện đại, đạt tiến độ, chất lượng và thẩm mỹ cao.
+                </p>
+                <p>
+                  Cung cấp sản phẩm chất lượng và dịch vụ thương mại tốt nhất, đem đến sự hài lòng khách hàng, tạo lợi ích cho nhà đầu tư.
+                </p>
+                <p>
+                  Thực hiện chế độ đãi ngộ hợp lý về vật chất và tinh thần đối với cán bộ công nhân viên, tạo ra giá trị mới cho các cổ đông, đóng góp tích cực cho cộng đồng, góp phần vào sự phát triển kinh tế xã hội của đất nước.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 2. GIÁ TRỊ CỐT LÕI */}
+          <div className="mt-8 sm:mt-10 bg-white rounded-[4px] shadow-sm p-7 sm:p-9 lg:p-10 reveal-on-scroll">
+            <div className="flex items-center gap-3.5 mb-6 sm:mb-8">
+              <div className="w-12 h-12 rounded-full bg-red-50 text-[#ed3237] flex items-center justify-center shrink-0">
+                <Gem className="w-6 h-6 stroke-[2.2]" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-tight">
+                GIÁ TRỊ CỐT LÕI
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+              {[
+                {
+                  num: "01",
+                  title: "Định hướng khách hàng",
+                  desc: "Là nền tảng hoạt động.",
+                },
+                {
+                  num: "02",
+                  title: "Sản phẩm hoàn mỹ",
+                  desc: "Cam kết Chất lượng – Tiến độ - An toàn.",
+                },
+                {
+                  num: "03",
+                  title: "Dịch vụ hoàn hảo",
+                  desc: "Chuyên nghiệp - Sáng tạo - Hiệu quả.",
+                },
+                {
+                  num: "04",
+                  title: "Môi trường làm việc thân thiện",
+                  desc: "Đoàn kết – Hợp tác – Chia sẻ.",
+                },
+                {
+                  num: "05",
+                  title: "Phát triển bền vững",
+                  desc: "Nâng cao chất lượng đời sống của CBCNV.",
+                },
+                {
+                  num: "06",
+                  title: "Trách nhiệm cộng đồng",
+                  desc: "Chia sẻ trách nhiệm cộng đồng.",
+                },
+              ].map((val, idx) => (
+                <div
+                  key={idx}
+                  className="p-5 rounded-[4px] bg-slate-50/80 hover:bg-red-50/30 transition-colors flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2.5">
+                      <span className="text-xs font-black text-[#ed3237] bg-white px-2.5 py-0.5 rounded-[2px] shadow-2xs">
+                        {val.num}
+                      </span>
+                    </div>
+                    <h4 className="text-sm sm:text-base font-bold text-slate-900 mb-1 leading-snug">
+                      {val.title}
+                    </h4>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                      {val.desc}
+                    </p>
                   </div>
-                  <h3 className="text-lg sm:text-xl font-black text-slate-900 uppercase tracking-tight">
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 3. TRIẾT LÝ KINH DOANH */}
+          <div className="mt-8 sm:mt-10 bg-white rounded-[4px] shadow-sm p-7 sm:p-9 lg:p-10 reveal-on-scroll">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 sm:mb-8">
+              <div className="flex items-center gap-3.5">
+                <div className="w-12 h-12 rounded-full bg-red-50 text-[#ed3237] flex items-center justify-center shrink-0">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-tight">
+                  TRIẾT LÝ KINH DOANH
+                </h3>
+              </div>
+              <div className="text-xs sm:text-sm font-bold text-[#ed3237] bg-red-50 px-3.5 py-1.5 rounded-[3px] self-start sm:self-auto">
+                “UY TÍN – TẦM NHÌN – PHÁT TRIỂN”
+              </div>
+            </div>
+
+            {/* 3 Trụ cột: Uy tín - Tầm nhìn - Phát triển */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+              <div className="p-5 rounded-[4px] bg-slate-50/80 hover:bg-slate-100/80 transition-colors">
+                <div className="flex items-center gap-2.5 mb-2.5">
+                  <div className="w-7 h-7 rounded-full bg-[#ed3237] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                    1
+                  </div>
+                  <h4 className="text-sm sm:text-base font-bold text-slate-900 uppercase">
+                    UY TÍN
+                  </h4>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  Là sản phẩm của doanh nghiệp tạo ra được khách hàng công nhận.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-[4px] bg-slate-50/80 hover:bg-slate-100/80 transition-colors">
+                <div className="flex items-center gap-2.5 mb-2.5">
+                  <div className="w-7 h-7 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                    2
+                  </div>
+                  <h4 className="text-sm sm:text-base font-bold text-slate-900 uppercase">
                     TẦM NHÌN
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                    Trở thành một trong những tổng thầu xây lắp công trình dân dụng & công nghiệp hàng đầu khu vực miền Nam, tiên phong áp dụng kỹ thuật số BIM và vật liệu xây dựng bền vững, thân thiện với môi trường.
-                  </p>
+                  </h4>
                 </div>
-              </TiltCard>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  Là các mục tiêu mà doanh nghiệp mong muốn đạt được.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-[4px] bg-slate-50/80 hover:bg-slate-100/80 transition-colors">
+                <div className="flex items-center gap-2.5 mb-2.5">
+                  <div className="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                    3
+                  </div>
+                  <h4 className="text-sm sm:text-base font-bold text-slate-900 uppercase">
+                    PHÁT TRIỂN
+                  </h4>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  Là quy tắc nhân văn mà doanh nghiệp đặt ra để đảm bảo cân bằng lợi ích kinh tế xã hội.
+                </p>
+              </div>
             </div>
 
-            {/* Card 2: SỨ MỆNH (Amber/Gold Top Border matching Image 2) */}
-            <div className="reveal-on-scroll delay-200">
-              <TiltCard className="bg-white rounded-[3px] border border-slate-200 border-t-4 border-t-amber-500 p-6 sm:p-8 flex flex-col justify-between shadow-sm h-full">
-                <div className="space-y-4" style={{ transform: "translateZ(10px)" }}>
-                  {/* Bullseye Icon in Amber */}
-                  <div className="w-12 h-12 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center">
-                    <Target className="w-6 h-6 stroke-[2.5]" />
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-black text-slate-900 uppercase tracking-tight">
-                    SỨ MỆNH
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                    Kiến tạo không gian sống và sản xuất an toàn, kiên cố; mang đến giá trị gia tăng vượt trội và tối ưu hóa ngân sách cho Chủ đầu tư; xây dựng môi trường làm việc chuyên nghiệp, nhân văn cho người lao động.
-                  </p>
-                </div>
-              </TiltCard>
-            </div>
-
-            {/* Card 3: GIÁ TRỊ CỐT LÕI (Dark Slate Top Border matching Image 2) */}
-            <div className="reveal-on-scroll delay-300">
-              <TiltCard className="bg-white rounded-[3px] border border-slate-200 border-t-4 border-t-slate-900 p-6 sm:p-8 flex flex-col justify-between shadow-sm h-full">
-                <div className="space-y-4" style={{ transform: "translateZ(10px)" }}>
-                  {/* Diamond Icon */}
-                  <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-900 flex items-center justify-center">
-                    <Gem className="w-6 h-6 stroke-[2.5]" />
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-black text-slate-900 uppercase tracking-tight">
-                    GIÁ TRỊ CỐT LÕI
-                  </h3>
-                  <ul className="space-y-2 text-xs sm:text-sm text-slate-600 font-normal">
-                    <li className="leading-snug">
-                      <strong className="text-slate-900 font-bold uppercase">UY TÍN:</strong> Giữ trọn chữ tín với đối tác.
-                    </li>
-                    <li className="leading-snug">
-                      <strong className="text-slate-900 font-bold uppercase">TIẾN ĐỘ:</strong> Cam kết đúng hẹn từng hạng mục.
-                    </li>
-                    <li className="leading-snug">
-                      <strong className="text-slate-900 font-bold uppercase">CHẤT LƯỢNG:</strong> Chuẩn mực kỹ thuật là sống còn.
-                    </li>
-                    <li className="leading-snug">
-                      <strong className="text-slate-900 font-bold uppercase">AN TOÀN:</strong> Sinh mệnh con người là trên hết.
-                    </li>
-                  </ul>
-                </div>
-              </TiltCard>
+            {/* Khẳng định triết lý */}
+            <div className="mt-6 p-5 rounded-[4px] bg-slate-50/80">
+              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+                Với triết lý kinh doanh <strong className="text-slate-900 not-italic font-bold">“Uy tín – Tầm nhìn – Phát triển”</strong>, THÀNH PHÚ muốn khẳng định: <span className="text-[#ed3237] font-semibold not-italic">“Tạo được niềm tin từ khách hàng, với tầm nhìn sâu rộng của tập thể Ban Lãnh Đạo công ty, THÀNH PHÚ chắc chắn sẽ phát triển ngày càng bền vững…”</span>
+              </p>
             </div>
           </div>
         </div>
@@ -535,8 +645,93 @@ export default function AboutPageClient({ settings }: AboutPageClientProps) {
         </div>
       </section>
 
-      {/* 4. NĂNG LỰC CƠ GIỚI / HỆ THỐNG TRANG THIẾT BỊ THI CÔNG HIỆN ĐẠI (PHẦN 4 - KHỚP HÌNH 4) */}
+      {/* 4. THÔNG ĐIỆP CỦA CHỦ TỊCH */}
       <section className="py-14 sm:py-18 lg:py-20 bg-slate-50/80 relative">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12 reveal-on-scroll">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 uppercase tracking-tight">
+              THÔNG ĐIỆP CỦA CHỦ TỊCH
+            </h2>
+          </div>
+
+          {/* Letter Container */}
+          <div className="bg-white rounded-[3px] border border-slate-200 shadow-sm p-6 sm:p-10 lg:p-12 relative reveal-on-scroll overflow-hidden">
+            {/* Top Red-Gold-Blue Accent Bar */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#ed3237] via-[#f59e0b] to-[#3e4095]" />
+
+            {/* Letter Header */}
+            <div className="flex items-center gap-3.5 pb-6 mb-6 border-b border-slate-100">
+              <div className="w-11 h-11 rounded-full bg-red-50 text-[#ed3237] flex items-center justify-center shrink-0 border border-red-100">
+                <Quote className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-base sm:text-lg font-black text-slate-900 uppercase tracking-tight">
+                  CÔNG TY CP ĐẦU TƯ XÂY LẮP THÀNH PHÚ
+                </h3>
+              </div>
+            </div>
+
+            {/* Letter Body */}
+            <div className="space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed text-justify font-normal">
+              <p className="font-semibold text-slate-900 text-sm sm:text-base leading-snug">
+                CÔNG TY CP ĐẦU TƯ XÂY LẮP THÀNH PHÚ gửi đến toàn thể các quí vị lời chào trân trọng và cảm ơn sâu sắc vì sự tin tưởng, hợp tác tốt đẹp, bền vững và đồng hành cùng chúng tôi hướng đến thành công.
+              </p>
+
+              <p>
+                Ngay từ khi thành lập, từ những bước đi chập chững đầu tiên, THÀNH PHÚ đã xác định mục tiêu trở thành doanh nghiệp hàng đầu về kinh doanh trong lĩnh vực thiết kế xây dựng dân dụng, công nghiệp, trang trí nội ngoại thất. Ý thức được sứ mệnh cao cả, đầy trách nhiệm và thách thức đó, mỗi thành viên trong đại gia đình THÀNH PHÚ luôn trăn trở trong tim một ngọn lửa thôi thúc, với một tấm lòng trong sáng, với niềm khát khao được cống hiến những gì tốt đẹp nhất cho cuộc đời.
+              </p>
+
+              <p>
+                Từ những ngày đầu thành lập khó khăn gian khổ, cơ sở vật chất thiếu thốn, trang thiết bị thô sơ, toàn thể anh chị em cán bộ công nhân viên THÀNH PHÚ đã cùng Ban Tổng Giám Đốc đoàn kết, nổ lực phấn đấu, cầu thị, vượt lên chính mình, phát huy các thế mạnh để có sự phát triển vượt bậc.
+              </p>
+
+              <p>
+                Trải qua hàng loạt những biến động của thị trường. THÀNH PHÚ vẫn luôn đứng vững và phát triển, khẳng định vị thế của mình trên thị trường Việt Nam, giữ vững niềm tin trong tâm trí khách hàng và các đối tác.
+              </p>
+
+              {/* 5 Core Requirements Highlight Box */}
+              <div className="my-6 p-4 sm:p-5 rounded-[3px] bg-slate-50 border border-slate-200/90 text-center">
+                <p className="text-xs sm:text-sm font-semibold text-slate-700 mb-2">
+                  Là một nhà thầu chuyên nghiệp chúng tôi luôn tâm niệm một dự án phải đáp ứng được 5 (năm) yêu cầu cơ bản. Đó là:
+                </p>
+                <div className="inline-block px-4 py-2 rounded-[2px] bg-red-50 border border-red-200 text-[#ed3237] text-xs sm:text-sm font-black tracking-wide uppercase shadow-2xs">
+                  &ldquo;CHẤT LƯỢNG – AN TOÀN – ĐÚNG TIẾN ĐỘ - BẢO HÀNH – GIÁ HỢP LÝ&rdquo;
+                </div>
+              </div>
+
+              <p>
+                Với đội ngũ quản lý, cán bộ kỹ thuật và công nhân chuyên ngành có kinh nghiệm, năng lực dồi dào, giàu nhiệt huyết kết hợp với hệ thống thiết bị máy móc đồng bộ, hiện đại, và từ cái tâm, cái tầm của những người dám nghĩ, dám làm, dám đi tiên phong. THÀNH PHÚ cam kết sẽ tiếp tục mang đến cho Quý khách hàng, Quý đối tác và các Cổ đông nhiều lợi ích hơn nữa. Chúng tôi có niềm tin vững chắc rằng THÀNH PHÚ đủ cơ sở để đạt những mục tiêu chiến lược đã đề ra, sẵn sàng vươn ra biển lớn và trở thành niềm tự hào của ngành.
+              </p>
+
+              <p>
+                Qua tâm thư này với các tiêu chí phục vụ như trên chúng tôi mong muốn được hợp tác với Chủ đầu tư trong các dự án của quý vị.
+              </p>
+            </div>
+
+            {/* Letter Sign-off */}
+            <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
+              <div className="text-xs text-slate-400 italic">
+                Thành phố Hồ Chí Minh, Việt Nam
+              </div>
+              <div className="text-left sm:text-right space-y-1">
+                <div className="text-xs sm:text-sm font-bold text-slate-900">
+                  Trân trọng!
+                </div>
+                <div className="text-xs font-black text-[#ed3237] uppercase tracking-wider">
+                  CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ
+                </div>
+                <div className="text-xs font-semibold text-slate-600 uppercase">
+                  CÔNG TY CP ĐẦU TƯ XÂY LẮP THÀNH PHÚ
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. NĂNG LỰC CƠ GIỚI / HỆ THỐNG TRANG THIẾT BỊ THI CÔNG HIỆN ĐẠI (PHẦN 4 - KHỚP HÌNH 4) */}
+      <section className="py-14 sm:py-18 lg:py-20 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header matching Image 4 */}
           <div className="text-center max-w-3xl mx-auto space-y-2.5 mb-10 sm:mb-14 reveal-on-scroll">
