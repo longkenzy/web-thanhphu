@@ -226,7 +226,7 @@ export default function ServicesSection() {
       icon: Wrench,
       title: "Máy Móc Thiết Bị & Vật Liệu Xây Dựng",
       desc: "Kinh doanh máy móc thiết bị cơ giới thi công và phân phối các loại vật liệu xây dựng.",
-      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
+      image: "/kinh-doanh-may-moc-thiet-bi-vat-lieu-xay-dung.webp",
       bullets: [
         "Kinh doanh & cho thuê thiết bị cơ giới",
         "Vật liệu xây dựng thô & hoàn thiện",

@@ -113,7 +113,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       shortDesc: "Cung cấp, cho thuê máy móc thiết bị cơ giới thi công và phân phối các loại vật liệu xây dựng hoàn thiện chất lượng cao.",
       fullDesc:
         "Nhằm chủ động nguồn lực và hỗ trợ đối tác tối ưu chi phí, Thành Phú triển khai mảng kinh doanh, cho thuê máy móc thiết bị cơ giới xây dựng và cung ứng vật liệu xây dựng chính hãng. Chúng tôi sở hữu kho bãi thiết bị đa dạng, được kiểm định an toàn định kỳ cùng nguồn vật liệu phong phú, nguồn gốc minh bạch, sẵn sàng đáp ứng tiến độ thi công khắt khe của các nhà thầu và chủ đầu tư.",
-      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
+      image: "/kinh-doanh-may-moc-thiet-bi-vat-lieu-xay-dung.webp",
       iconName: "wrench",
       techHighlights: [
         "Kinh doanh và cho thuê thiết bị cơ giới thi công: cẩu tháp, vận thăng, xe bơm bê tông, máy đào, xe lu",
