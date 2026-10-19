@@ -4,23 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Menu,
-  X,
-  Phone,
-  ChevronRight,
-  ChevronDown,
-  Home,
-  Building2,
-  HardHat,
-  Newspaper,
-  Users,
-  PhoneCall,
-  MapPin,
-  Mail,
-  Clock,
-  Sparkles,
-} from "lucide-react";
+import { Menu, X, Phone, ChevronDown } from "lucide-react";
 
 interface HeaderProps {
   hotline?: string;
@@ -33,8 +17,6 @@ interface HeaderProps {
 interface NavItem {
   name: string;
   href: string;
-  icon?: React.ComponentType<{ className?: string }>;
-  badge?: string;
   children?: { name: string; href: string }[];
 }
 
@@ -51,8 +33,8 @@ export default function Header({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [openMobileSubmenus, setOpenMobileSubmenus] = useState<Record<string, boolean>>({
-    "Giới thiệu": false,
-    "DỰ ÁN": true,
+    "Giới thiệu": true,
+    "DỰ ÁN": false,
   });
 
   const toggleMobileSubmenu = (name: string) => {
@@ -91,12 +73,10 @@ export default function Header({
   }, []);
 
   const navLinks: NavItem[] = [
-    { name: "Trang chủ", href: "/", icon: Home },
+    { name: "Trang chủ", href: "/" },
     {
       name: "Giới thiệu",
       href: "/gioi-thieu",
-      icon: Building2,
-      badge: "2 Mục",
       children: [
         { name: "Tổng quan doanh nghiệp", href: "/gioi-thieu" },
         { name: "Lĩnh vực hoạt động", href: "/linh-vuc-hoat-dong" },
@@ -105,8 +85,6 @@ export default function Header({
     {
       name: "DỰ ÁN",
       href: "/cong-trinh",
-      icon: HardHat,
-      badge: "5 Hạng mục",
       children: [
         { name: "Dân dụng & Cao tầng", href: "/cong-trinh?category=dan-dung-cao-tang" },
         { name: "Công nghiệp & Nhà xưởng", href: "/cong-trinh?category=cong-nghiep-nha-xuong" },
@@ -115,9 +93,9 @@ export default function Header({
         { name: "Trang trí nội thất", href: "/cong-trinh?category=trang-tri-noi-that" },
       ],
     },
-    { name: "Tin tức", href: "/tin-tuc", icon: Newspaper },
-    { name: "Tuyển dụng", href: "/tuyen-dung", icon: Users },
-    { name: "Liên hệ", href: "/lien-he", icon: PhoneCall },
+    { name: "Tin tức", href: "/tin-tuc" },
+    { name: "Tuyển dụng", href: "/tuyen-dung" },
+    { name: "Liên hệ", href: "/lien-he" },
   ];
 
   // Header should be solid on subpages or when scrolled
@@ -374,24 +352,19 @@ export default function Header({
                 </a>
               </div>
 
-              {/* Mobile Hamburger Button */}
+              {/* Mobile Hamburger Button (No text, no border radius) */}
               <div className="flex items-center gap-2 lg:hidden ml-auto">
                 <button
                   type="button"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all duration-300 font-bold text-xs uppercase tracking-wider shadow-sm active:scale-95 ${
+                  className={`p-2 border transition-colors ${
                     isSolid
-                      ? "bg-slate-100 text-slate-800 hover:bg-[#ed3237] hover:text-white border border-slate-200/80"
-                      : "bg-white/15 text-white backdrop-blur-md hover:bg-white/30 border border-white/25"
+                      ? "text-slate-800 border-slate-300 hover:border-[#ed3237] hover:text-[#ed3237] bg-white"
+                      : "text-white border-white/30 hover:border-white bg-black/20"
                   }`}
                   aria-label="Toggle Navigation"
                 >
-                  {mobileMenuOpen ? (
-                    <X className="w-4 h-4 text-[#ed3237]" />
-                  ) : (
-                    <Menu className="w-4 h-4" />
-                  )}
-                  <span>{mobileMenuOpen ? "Đóng" : "Menu"}</span>
+                  {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </button>
               </div>
             </div>
@@ -399,20 +372,20 @@ export default function Header({
         </div>
       </header>
 
-      {/* Mobile Drawer Navigation (App-grade Luxury Corporate Style) */}
+      {/* Mobile Drawer Navigation (Sharp Borders, Zero Border Radius, No Icons) */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-[100] lg:hidden">
           {/* Backdrop with smooth fade-in */}
           <div
-            className="fixed inset-0 bg-slate-950/70 backdrop-blur-md animate-backdrop-in"
+            className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm animate-backdrop-in"
             onClick={() => setMobileMenuOpen(false)}
             aria-hidden="true"
           />
 
-          {/* Drawer container with slide-in animation from right */}
-          <div className="fixed top-0 right-0 bottom-0 w-[88%] max-w-[360px] bg-white flex flex-col justify-between shadow-[-16px_0_40px_rgba(0,0,0,0.3)] z-10 rounded-l-3xl border-l border-slate-200/70 overflow-hidden animate-drawer-in">
-            {/* 1. Header with Logo & Modern Close button */}
-            <div className="px-5 py-4 bg-gradient-to-b from-slate-50 to-white border-b border-slate-100 flex items-center justify-between">
+          {/* Drawer container: Sharp straight edges, NO border-radius, clean border-l */}
+          <div className="fixed top-0 right-0 bottom-0 w-[84%] max-w-[340px] bg-white flex flex-col justify-between shadow-2xl z-10 border-l border-slate-200 animate-drawer-in">
+            {/* 1. Header with Logo & Sharp Close Button */}
+            <div className="px-4 py-3.5 bg-white border-b border-slate-200 flex items-center justify-between">
               <Link
                 href="/"
                 onClick={() => setMobileMenuOpen(false)}
@@ -430,25 +403,16 @@ export default function Header({
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-9 h-9 rounded-full bg-slate-100 hover:bg-[#ed3237] text-slate-600 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm active:scale-95"
+                className="w-8 h-8 border border-slate-200 text-slate-600 hover:text-white hover:bg-[#ed3237] hover:border-[#ed3237] flex items-center justify-center transition-colors"
                 aria-label="Đóng menu"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* 2. Scrollable Navigation List */}
-            <div className="flex-1 overflow-y-auto px-4 py-3.5 space-y-1.5 no-scrollbar">
-              <div className="px-2 pb-1.5 flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                <span>Danh mục điều hướng</span>
-                <span className="flex items-center gap-1 text-[#ed3237]">
-                  <Sparkles className="w-3 h-3" />
-                  <span>Thành Phú JSC</span>
-                </span>
-              </div>
-
+            {/* 2. Scrollable Navigation List: Clean Sharp Borders, No Border Radius, No Icons */}
+            <div className="flex-1 overflow-y-auto no-scrollbar">
               {navLinks.map((item) => {
-                const IconComponent = item.icon;
                 if (item.children) {
                   const isDropdownActive =
                     (item.href !== "/" && pathname.startsWith(item.href)) ||
@@ -463,49 +427,26 @@ export default function Header({
                   const isMobileSubOpen = Boolean(openMobileSubmenus[item.name]);
 
                   return (
-                    <div key={item.name} className="flex flex-col">
+                    <div key={item.name} className="flex flex-col border-b border-slate-100">
                       <button
                         type="button"
                         onClick={() => toggleMobileSubmenu(item.name)}
-                        className={`group flex items-center justify-between p-2 rounded-2xl text-[13px] font-bold tracking-wide transition-all ${
+                        className={`w-full flex items-center justify-between px-4 py-3 text-xs uppercase font-bold tracking-wider transition-colors ${
                           isDropdownActive
-                            ? "bg-red-50/80 text-[#ed3237] shadow-sm shadow-red-100"
-                            : "text-slate-800 hover:bg-slate-50 hover:text-[#ed3237]"
+                            ? "bg-red-50 text-[#ed3237] border-l-4 border-l-[#ed3237]"
+                            : "bg-white hover:bg-slate-50 text-slate-800 border-l-4 border-l-transparent"
                         }`}
                       >
-                        <div className="flex items-center gap-3">
-                          <div
-                            className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                              isDropdownActive
-                                ? "bg-[#ed3237] text-white shadow-md shadow-[#ed3237]/30"
-                                : "bg-slate-100 text-slate-600 group-hover:bg-red-100 group-hover:text-[#ed3237]"
-                            }`}
-                          >
-                            {IconComponent ? <IconComponent className="w-4 h-4" /> : <HardHat className="w-4 h-4" />}
-                          </div>
-                          <span className="uppercase text-xs tracking-wider">{item.name}</span>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          {item.badge && (
-                            <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-full bg-slate-100 text-slate-600">
-                              {item.badge}
-                            </span>
-                          )}
-                          <div
-                            className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
-                              isMobileSubOpen
-                                ? "bg-red-100 text-[#ed3237] rotate-180"
-                                : "bg-slate-100 text-slate-400"
-                            }`}
-                          >
-                            <ChevronDown className="w-3.5 h-3.5" />
-                          </div>
-                        </div>
+                        <span className="truncate">{item.name}</span>
+                        <ChevronDown
+                          className={`w-4 h-4 transition-transform duration-200 ${
+                            isMobileSubOpen ? "rotate-180 text-[#ed3237]" : "text-slate-400"
+                          }`}
+                        />
                       </button>
 
                       {isMobileSubOpen && (
-                        <div className="ml-5 pl-3 border-l-2 border-red-500/30 my-1 py-1 space-y-1 bg-slate-50/60 rounded-r-xl pr-2">
+                        <div className="bg-slate-50 border-t border-slate-100 divide-y divide-slate-100">
                           {item.children.map((sub) => {
                             const isSubActive = pathname === sub.href;
 
@@ -514,17 +455,15 @@ export default function Header({
                                 key={sub.name}
                                 href={sub.href}
                                 onClick={() => setMobileMenuOpen(false)}
-                                className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${
+                                className={`flex items-center justify-between pl-7 pr-4 py-2.5 text-xs transition-colors ${
                                   isSubActive
-                                    ? "text-[#ed3237] bg-white font-bold shadow-sm"
-                                    : "text-slate-600 hover:text-[#ed3237] hover:bg-white/80"
+                                    ? "bg-white text-[#ed3237] font-bold border-l-2 border-l-[#ed3237]"
+                                    : "text-slate-600 hover:text-[#ed3237] hover:bg-white"
                                 }`}
                               >
                                 <span className="line-clamp-1">{sub.name}</span>
-                                {isSubActive ? (
-                                  <span className="w-2 h-2 rounded-full bg-[#ed3237] shrink-0" />
-                                ) : (
-                                  <ChevronRight className="w-3 h-3 text-slate-300 shrink-0" />
+                                {isSubActive && (
+                                  <span className="w-1.5 h-1.5 bg-[#ed3237] shrink-0" />
                                 )}
                               </Link>
                             );
@@ -545,95 +484,32 @@ export default function Header({
                     key={item.name}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`group flex items-center justify-between p-2 rounded-2xl text-[13px] font-bold tracking-wide transition-all ${
+                    className={`flex items-center justify-between px-4 py-3 text-xs uppercase font-bold tracking-wider border-b border-slate-100 transition-colors ${
                       isActive
-                        ? "bg-red-50/80 text-[#ed3237] shadow-sm shadow-red-100"
-                        : "text-slate-800 hover:bg-slate-50 hover:text-[#ed3237]"
+                        ? "bg-red-50 text-[#ed3237] border-l-4 border-l-[#ed3237]"
+                        : "bg-white hover:bg-slate-50 text-slate-800 border-l-4 border-l-transparent"
                     }`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                          isActive
-                            ? "bg-[#ed3237] text-white shadow-md shadow-[#ed3237]/30"
-                            : "bg-slate-100 text-slate-600 group-hover:bg-red-100 group-hover:text-[#ed3237]"
-                        }`}
-                      >
-                        {IconComponent ? <IconComponent className="w-4 h-4" /> : <Home className="w-4 h-4" />}
-                      </div>
-                      <span className="uppercase text-xs tracking-wider">{item.name}</span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      {item.badge && (
-                        <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-full bg-red-100 text-[#ed3237]">
-                          {item.badge}
-                        </span>
-                      )}
-                      <ChevronRight
-                        className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 ${
-                          isActive ? "text-[#ed3237]" : "text-slate-300"
-                        }`}
-                      />
-                    </div>
+                    <span className="truncate">{item.name}</span>
+                    <span className={`text-xs ${isActive ? "text-[#ed3237]" : "text-slate-300"}`}>→</span>
                   </Link>
                 );
               })}
             </div>
 
-            {/* 3. Bottom Action Hub: Floating VIP Hotline Card */}
-            <div className="p-3 bg-slate-50 border-t border-slate-100">
-              <div className="bg-gradient-to-br from-[#18202c] to-[#0f172a] rounded-2xl p-3.5 text-white shadow-xl border border-white/10 space-y-3">
-                <div className="flex items-center justify-between text-[11px]">
-                  <div className="flex items-center gap-1.5">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                    </span>
-                    <span className="font-semibold text-emerald-400 uppercase tracking-wider text-[10px]">
-                      Hỗ Trợ 24/7
-                    </span>
-                  </div>
-                  <span className="text-slate-400 text-[10px] font-medium flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-[#f59e0b]" />
-                    <span>08:00 - 17:30</span>
-                  </span>
-                </div>
+            {/* 3. Bottom Action Section: Sharp Borders, No Border Radius */}
+            <div className="p-4 bg-slate-50 border-t border-slate-200 space-y-3">
+              <a
+                href={`tel:${hotline.replace(/\s+/g, "")}`}
+                className="flex items-center justify-center gap-2 w-full py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-[#ed3237] hover:bg-[#d0282d] border border-[#ed3237] transition-colors"
+              >
+                <Phone className="w-3.5 h-3.5 fill-current animate-phone-ring" />
+                <span>Hotline: {hotline}</span>
+              </a>
 
-                {/* Direct Call Button */}
-                <a
-                  href={`tel:${hotline.replace(/\s+/g, "")}`}
-                  className="flex items-center justify-center gap-2 w-full py-2.5 text-xs font-black uppercase tracking-wider text-white bg-gradient-to-r from-[#ed3237] to-[#d0282d] hover:brightness-110 rounded-xl shadow-md shadow-[#ed3237]/35 active:scale-98 transition-all"
-                >
-                  <Phone className="w-3.5 h-3.5 fill-current animate-phone-ring" />
-                  <span>Gọi Hotline: {hotline}</span>
-                </a>
-
-                {/* Quick Dual Actions: Email & Address */}
-                <div className="grid grid-cols-2 gap-2 pt-1 border-t border-white/10 text-[11px]">
-                  <a
-                    href={`mailto:${email}`}
-                    className="flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 hover:text-white transition-colors"
-                  >
-                    <Mail className="w-3.5 h-3.5 text-[#f59e0b]" />
-                    <span className="truncate">Gửi Email</span>
-                  </a>
-                  <a
-                    href="https://maps.google.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 hover:text-white transition-colors"
-                  >
-                    <MapPin className="w-3.5 h-3.5 text-[#ed3237]" />
-                    <span className="truncate">Chỉ đường</span>
-                  </a>
-                </div>
-
-                {/* Company Address */}
-                <p className="text-[10px] text-slate-400 text-center truncate pt-0.5">
-                  {address}
-                </p>
-              </div>
+              <p className="text-[11px] text-slate-500 text-center truncate pt-0.5">
+                {address}
+              </p>
             </div>
           </div>
         </div>
