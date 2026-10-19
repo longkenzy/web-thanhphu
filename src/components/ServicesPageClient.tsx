@@ -67,7 +67,7 @@ export default function ServicesPageClient({ settings }: ServicesPageClientProps
       shortDesc: "Thi công đường giao thông, cầu đường bộ, san lấp mặt bằng, mạng lưới cấp thoát nước ngầm và hạ tầng kỹ thuật đô thị, KCN.",
       fullDesc:
         "Với kinh nghiệm triển khai nhiều dự án hạ tầng trọng điểm và sở hữu đoàn cơ giới hùng hậu, Thành Phú trực tiếp thi công các công trình giao thông đường bộ, cầu giao thông và hạ tầng kỹ thuật đồng bộ cho các khu công nghiệp, khu đô thị. Chúng tôi thi công mạng lưới cấp thoát nước mưa, thoát nước thải, cống hộp bê tông ly tâm và trạm xử lý nước đạt chuẩn bảo vệ môi trường.",
-      image: "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?auto=format&fit=crop&w=1200&q=80",
+      image: "/xay-dung-giao-thong-ha-tang.png",
       iconName: "route",
       techHighlights: [
         "Thi công xây dựng các công trình giao thông cầu và đường bộ, nút giao thông kết nối",

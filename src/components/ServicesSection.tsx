@@ -200,7 +200,7 @@ export default function ServicesSection() {
       icon: Route,
       title: "Giao Thông, Hạ Tầng & Cấp Thoát Nước",
       desc: "Xây dựng công trình giao thông (Cầu - Đường bộ), các công trình hạ tầng kỹ thuật, cấp thoát nước.",
-      image: "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?auto=format&fit=crop&w=800&q=80",
+      image: "/xay-dung-giao-thong-ha-tang.png",
       bullets: [
         "Công trình cầu & đường bộ",
         "Hạ tầng kỹ thuật khu đô thị, KCN",
