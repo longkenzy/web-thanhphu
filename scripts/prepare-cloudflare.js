@@ -122,14 +122,14 @@ export default {
         if (text.includes("=== CLOUDFLARE PAGES 500 ERROR DETAILS ===") || text.length > 50) {
           return res;
         }
-        return new Response("=== CLOUDFLARE PAGES 500 ERROR DETAILS ===\n\n" + (errorLogs.join("\n\n") || ("Response body: " + text + "\nStatus: " + res.status)), {
+        return new Response("=== CLOUDFLARE PAGES 500 ERROR DETAILS ===\\n\\n" + (errorLogs.join("\\n\\n") || ("Response body: " + text + "\\nStatus: " + res.status)), {
           status: res.status,
           headers: { "content-type": "text/plain; charset=utf-8" },
         });
       }
       return res;
     } catch (fatal) {
-      return new Response("=== CLOUDFLARE PAGES UNCAUGHT EXCEPTION ===\n" + (fatal?.stack || fatal?.message || String(fatal)) + "\n\n=== LOGS ===\n" + errorLogs.join("\n\n"), {
+      return new Response("=== CLOUDFLARE PAGES UNCAUGHT EXCEPTION ===\\n" + (fatal?.stack || fatal?.message || String(fatal)) + "\\n\\n=== LOGS ===\\n" + errorLogs.join("\\n\\n"), {
         status: 500,
         headers: { "content-type": "text/plain; charset=utf-8" },
       });
