@@ -14,10 +14,6 @@ import {
   Home,
   ChevronRight,
   Navigation,
-  Briefcase,
-  Wrench,
-  Users,
-  FileDown,
   Sparkles,
   Building2,
 } from "lucide-react";
@@ -277,24 +273,6 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                 </div>
               </div>
             </div>
-
-            {/* Quick Action: Profile Năng Lực & Dự Án */}
-            <div className="bg-white border border-slate-200 rounded-[4px] p-4 flex items-center justify-between gap-3 text-xs shadow-2xs">
-              <div className="flex items-center gap-2.5">
-                <FileDown className="w-4 h-4 text-[#ed3237] shrink-0" />
-                <div>
-                  <div className="font-bold text-slate-800">Hồ Sơ Năng Lực Doanh Nghiệp</div>
-                  <div className="text-[11px] text-slate-500">Xem danh mục các công trình &amp; máy móc thiết bị</div>
-                </div>
-              </div>
-              <Link
-                href="/cong-trinh"
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-[3px] bg-slate-900 hover:bg-[#ed3237] text-white font-bold text-[11px] shadow-2xs transition-colors shrink-0"
-              >
-                <span>Xem dự án</span>
-                <ChevronRight className="w-3 h-3 text-white/80" />
-              </Link>
-            </div>
           </div>
 
           {/* CỘT PHẢI (7/12): Bản Đồ Google Maps Tương Tác Song Song (Side-by-side Map) */}
@@ -349,76 +327,6 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
                 >
                   Xem hướng dẫn lộ trình &rarr;
                 </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* 3 Compact Department Strips (Kênh Liên Hệ Chuyên Trách Phía Dưới) */}
-        <div>
-          <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
-            KÊNH LIÊN HỆ THEO PHÒNG BAN CHUYÊN TRÁCH
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* 1. Khối Dự án & Đấu thầu */}
-            <div className="bg-white rounded-[4px] border border-slate-200 p-4 shadow-xs flex items-start gap-3 hover:border-slate-300 transition-colors">
-              <div className="w-9 h-9 rounded-[3px] bg-blue-50 text-[#3e4095] flex items-center justify-center shrink-0 mt-0.5">
-                <Briefcase className="w-4 h-4" />
-              </div>
-              <div className="min-w-0">
-                <h3 className="text-xs font-bold uppercase text-slate-900 tracking-wide">
-                  Khối Dự Án &amp; Đấu Thầu
-                </h3>
-                <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
-                  Tiếp nhận hồ sơ mời thầu, dự toán kỹ thuật, liên danh &amp; phương án thi công.
-                </p>
-                <div className="text-[11px] font-semibold text-[#3e4095] mt-2 flex items-center gap-1">
-                  <Mail className="w-3 h-3 text-[#ed3237]" />
-                  <span className="truncate">{email}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* 2. Vật tư & Cơ giới */}
-            <div className="bg-white rounded-[4px] border border-slate-200 p-4 shadow-xs flex items-start gap-3 hover:border-slate-300 transition-colors">
-              <div className="w-9 h-9 rounded-[3px] bg-red-50 text-[#ed3237] flex items-center justify-center shrink-0 mt-0.5">
-                <Wrench className="w-4 h-4" />
-              </div>
-              <div className="min-w-0">
-                <h3 className="text-xs font-bold uppercase text-slate-900 tracking-wide">
-                  Vật Tư &amp; Thiết Bị Cơ Giới
-                </h3>
-                <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
-                  Điều phối máy móc chuyên dụng, thiết bị thi công nền móng, kết cấu &amp; nhà xưởng.
-                </p>
-                <div className="text-[11px] font-semibold text-slate-700 mt-2 flex items-center gap-1">
-                  <Phone className="w-3 h-3 text-[#ed3237]" />
-                  <span>Hotline: {hotline}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* 3. Tuyển dụng & Nhân sự */}
-            <div className="bg-white rounded-[4px] border border-slate-200 p-4 shadow-xs flex items-start gap-3 hover:border-slate-300 transition-colors">
-              <div className="w-9 h-9 rounded-[3px] bg-amber-50 text-[#f59e0b] flex items-center justify-center shrink-0 mt-0.5">
-                <Users className="w-4 h-4" />
-              </div>
-              <div className="min-w-0">
-                <h3 className="text-xs font-bold uppercase text-slate-900 tracking-wide">
-                  Tuyển Dụng &amp; Nhân Sự
-                </h3>
-                <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
-                  Tiếp nhận CV kỹ sư công trình, trắc đạc, chỉ huy trưởng &amp; cán bộ kỹ thuật.
-                </p>
-                <div className="mt-2">
-                  <Link
-                    href="/tuyen-dung"
-                    className="text-[11px] font-bold text-[#ed3237] hover:underline inline-flex items-center gap-1"
-                  >
-                    <span>Xem các vị trí đang tuyển</span>
-                    <ChevronRight className="w-3 h-3" />
-                  </Link>
-                </div>
               </div>
             </div>
           </div>
