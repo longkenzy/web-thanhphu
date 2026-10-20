@@ -12,6 +12,7 @@ import {
   Search,
   SlidersHorizontal,
   ChevronRight,
+  ChevronLeft,
   CheckCircle2,
   Layers,
   ArrowRight,
@@ -237,6 +238,8 @@ function Project3DItem({
   );
 }
 
+const ITEMS_PER_PAGE = 6;
+
 export default function ProjectsPageClient({
   initialProjects,
   settings,
@@ -246,10 +249,13 @@ export default function ProjectsPageClient({
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(categoryParam || "all");
   const [sortBy, setSortBy] = useState<"default" | "featured" | "newest">("default");
+  const [currentPage, setCurrentPage] = useState(1);
+  const listTopRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (categoryParam) {
       setSelectedCategory(categoryParam);
+      setCurrentPage(1);
     }
   }, [categoryParam]);
 
@@ -309,10 +315,52 @@ export default function ProjectsPageClient({
     return result;
   }, [initialProjects, selectedCategory, searchQuery, sortBy]);
 
+  // Phân trang
+  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
+
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(1);
+    }
+  }, [currentPage, totalPages]);
+
+  const paginatedProjects = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredProjects.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredProjects, currentPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    if (listTopRef.current) {
+      listTopRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  const getPageNumbers = () => {
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    const pages: (number | string)[] = [1];
+    if (currentPage > 3) {
+      pages.push("...");
+    }
+    const start = Math.max(2, currentPage - 1);
+    const end = Math.min(totalPages - 1, currentPage + 1);
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    if (currentPage < totalPages - 2) {
+      pages.push("...");
+    }
+    pages.push(totalPages);
+    return pages;
+  };
+
   const handleResetFilters = () => {
     setSearchQuery("");
     setSelectedCategory("all");
     setSortBy("default");
+    setCurrentPage(1);
   };
 
   return (
@@ -351,14 +399,20 @@ export default function ProjectsPageClient({
                   <input
                     type="text"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setCurrentPage(1);
+                    }}
                     placeholder="Tên, địa điểm, chủ đầu tư..."
                     className="w-full pl-8 pr-7 py-2 rounded-[3px] bg-slate-50 hover:bg-slate-100/70 focus:bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#ed3237] focus:ring-1 focus:ring-[#ed3237]/20 transition-all shadow-2xs"
                   />
                   {searchQuery && (
                     <button
                       type="button"
-                      onClick={() => setSearchQuery("")}
+                      onClick={() => {
+                        setSearchQuery("");
+                        setCurrentPage(1);
+                      }}
                       className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-700 px-1 cursor-pointer"
                       title="Xóa tìm kiếm"
                     >
@@ -388,7 +442,10 @@ export default function ProjectsPageClient({
                       <button
                         key={cat.id}
                         type="button"
-                        onClick={() => setSelectedCategory(cat.id)}
+                        onClick={() => {
+                          setSelectedCategory(cat.id);
+                          setCurrentPage(1);
+                        }}
                         className={`w-full text-left px-3 py-2 rounded-[3px] text-xs font-bold transition-all duration-200 flex items-center justify-between group cursor-pointer ${
                           isActive
                             ? "bg-[#ed3237] text-white shadow-xs"
@@ -427,7 +484,10 @@ export default function ProjectsPageClient({
                 <div className="relative">
                   <select
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as any)}
+                    onChange={(e) => {
+                      setSortBy(e.target.value as any);
+                      setCurrentPage(1);
+                    }}
                     className="w-full pl-3 pr-8 py-2 rounded-[3px] bg-slate-50 hover:bg-slate-100/70 border border-slate-200 text-xs font-semibold text-slate-700 focus:outline-none focus:border-[#ed3237] cursor-pointer appearance-none shadow-2xs"
                   >
                     <option value="default">Mặc định</option>
@@ -454,18 +514,38 @@ export default function ProjectsPageClient({
 
           {/* RIGHT CONTENT: PROJECTS GRID */}
           <main className="lg:col-span-9 space-y-5">
+            {/* Scroll anchor when changing pages */}
+            <div ref={listTopRef} className="scroll-mt-28" />
+
             {/* Top Bar above grid: Result Summary */}
             <div className="bg-white rounded-[3px] border border-slate-200 px-4 py-3 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-600">
               <div className="flex items-center gap-2 flex-wrap">
                 <span>
-                  Hiển thị <strong className="text-slate-900 font-bold">{filteredProjects.length}</strong> / {initialProjects.length} công trình
+                  Hiển thị{" "}
+                  <strong className="text-slate-900 font-bold">
+                    {filteredProjects.length === 0
+                      ? 0
+                      : `${(currentPage - 1) * ITEMS_PER_PAGE + 1} - ${Math.min(
+                          currentPage * ITEMS_PER_PAGE,
+                          filteredProjects.length
+                        )}`}
+                  </strong>{" "}
+                  / {filteredProjects.length} công trình
+                  {totalPages > 1 && (
+                    <span className="text-slate-400 font-normal ml-1">
+                      (Trang {currentPage}/{totalPages})
+                    </span>
+                  )}
                 </span>
                 {selectedCategory !== "all" && (
                   <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[2px] bg-red-50 text-[#ed3237] font-semibold border border-red-200 text-[11px]">
                     {categories.find((c) => c.id === selectedCategory)?.label}
                     <button
                       type="button"
-                      onClick={() => setSelectedCategory("all")}
+                      onClick={() => {
+                        setSelectedCategory("all");
+                        setCurrentPage(1);
+                      }}
                       className="hover:text-red-800 ml-0.5 cursor-pointer"
                     >
                       ✕
@@ -477,7 +557,10 @@ export default function ProjectsPageClient({
                     &ldquo;{searchQuery}&rdquo;
                     <button
                       type="button"
-                      onClick={() => setSearchQuery("")}
+                      onClick={() => {
+                        setSearchQuery("");
+                        setCurrentPage(1);
+                      }}
                       className="hover:text-slate-900 ml-0.5 cursor-pointer"
                     >
                       ✕
@@ -500,19 +583,87 @@ export default function ProjectsPageClient({
 
             {/* Projects Grid */}
             {filteredProjects.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
-                {filteredProjects.map((project, idx) => (
-                  <div
-                    key={project.id}
-                    className={`reveal-scale delay-${((idx % 3) + 1) * 100}`}
-                    suppressHydrationWarning
-                  >
-                    <Project3DItem
-                      project={project}
-                    />
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
+                  {paginatedProjects.map((project, idx) => (
+                    <div
+                      key={project.id}
+                      className={`reveal-scale delay-${((idx % 3) + 1) * 100}`}
+                      suppressHydrationWarning
+                    >
+                      <Project3DItem
+                        project={project}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Pagination Controls */}
+                {totalPages > 1 && (
+                  <div className="pt-6 pb-2 flex items-center justify-center gap-1.5 sm:gap-2 select-none">
+                    <button
+                      type="button"
+                      disabled={currentPage === 1}
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      className={`px-3 py-2 rounded-[3px] border text-xs font-semibold flex items-center gap-1 transition-all ${
+                        currentPage === 1
+                          ? "border-slate-200 text-slate-300 cursor-not-allowed bg-slate-50/50"
+                          : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50 cursor-pointer shadow-2xs hover:border-[#ed3237]/40"
+                      }`}
+                      aria-label="Trang trước"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                      <span className="hidden sm:inline">Trước</span>
+                    </button>
+
+                    {getPageNumbers().map((page, idx) => {
+                      if (typeof page === "string") {
+                        return (
+                          <span
+                            key={`ellipsis-${idx}`}
+                            className="w-8 sm:w-9 h-8 sm:h-9 flex items-center justify-center text-xs text-slate-400"
+                          >
+                            ...
+                          </span>
+                        );
+                      }
+
+                      const isCurrent = page === currentPage;
+                      return (
+                        <button
+                          key={page}
+                          type="button"
+                          onClick={() => handlePageChange(page)}
+                          className={`w-8 sm:w-9 h-8 sm:h-9 rounded-[3px] text-xs font-bold transition-all cursor-pointer ${
+                            isCurrent
+                              ? "bg-[#ed3237] text-white shadow-sm shadow-[#ed3237]/30"
+                              : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-2xs hover:border-[#ed3237]/40"
+                          }`}
+                          aria-label={`Trang ${page}`}
+                          aria-current={isCurrent ? "page" : undefined}
+                        >
+                          {page}
+                        </button>
+                      );
+                    })}
+
+                    <button
+                      type="button"
+                      disabled={currentPage === totalPages}
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      className={`px-3 py-2 rounded-[3px] border text-xs font-semibold flex items-center gap-1 transition-all ${
+                        currentPage === totalPages
+                          ? "border-slate-200 text-slate-300 cursor-not-allowed bg-slate-50/50"
+                          : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50 cursor-pointer shadow-2xs hover:border-[#ed3237]/40"
+                      }`}
+                      aria-label="Trang sau"
+                    >
+                      <span className="hidden sm:inline">Sau</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             ) : (
               /* Empty State */
               <div className="text-center py-16 px-4 bg-white rounded-[3px] border border-slate-200 space-y-4 shadow-2xs">
