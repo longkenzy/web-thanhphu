@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProjectDetailView from "@/components/ProjectDetailView";
 import { stripHtml, decodeHtmlEntities } from "@/lib/textUtils";
+import { sortNewsByDateDesc } from "@/lib/dateUtils";
 
 export const revalidate = 0;
 
@@ -68,10 +69,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ProjectDetailPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const [project, allProjects, settings] = await Promise.all([
+  const [project, allProjects, settings, allNews] = await Promise.all([
     db.getProjectBySlug(slug),
     db.getProjects(),
     db.getSettings(),
+    db.getNews(),
   ]);
 
   if (!project || project.published === false) {
@@ -83,6 +85,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     .filter((p) => p.published !== false && p.id !== project.id && p.slug !== project.slug)
     .sort((a, b) => (a.category === project.category ? -1 : 1))
     .slice(0, 4);
+
+  // Filter latest news (published only), sorted by newest date
+  const latestNews = sortNewsByDateDesc(
+    (allNews || []).filter((n) => n.published !== false)
+  ).slice(0, 4);
 
   const pageUrl = `https://trunghaico.vn/cong-trinh/${project.slug}`;
 
@@ -165,6 +172,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         project={project}
         relatedProjects={relatedProjects}
         settings={settings}
+        latestNews={latestNews}
       />
       <Footer settings={settings} />
     </>

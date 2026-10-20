@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Award, Compass, HardHat, TrendingUp } from "lucide-react";
+import { Award, Building2, HardHat, TrendingUp } from "lucide-react";
 
 // Interactive 3D Stat Card Component with Mouse-Tracking Tilt & Parallax Layers
 function Stat3DItem({
@@ -132,15 +132,15 @@ export default function StatsCounter() {
   const stats = [
     {
       icon: Award,
-      value: "12+",
+      value: "16+",
       label: "Năm Kinh Nghiệm",
       desc: "Xây dựng hạ tầng giao thông trọng điểm",
     },
     {
-      icon: Compass,
-      value: "30+",
-      label: "Km Hầm & Cầu Đường",
-      desc: "Chinh phục địa hình hiểm trở bậc nhất",
+      icon: Building2,
+      value: "200+",
+      label: "Dự Án",
+      desc: "Công trình hạ tầng và dân dụng trọng điểm",
     },
     {
       icon: HardHat,
