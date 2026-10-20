@@ -20,7 +20,7 @@ export const initialCompanySettings: CompanySettings = {
   phone: "(028) 3553 0675",
   hotline: "(028) 3553 0675",
   email: "thanhphuhcns@gmail.com",
-  facebook: "https://facebook.com/trunghaico.vn",
+  facebook: "https://www.facebook.com/xaylapthanhphu",
   youtube: "https://youtube.com/@trunghaico",
   profilePdfUrl: "#",
   slideInterval: 5,

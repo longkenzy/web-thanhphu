@@ -1599,7 +1599,7 @@ export default function AdminPage() {
                             thumbnail: "https://images.unsplash.com/photo-1541888946425-d0fbb1861564?auto=format&fit=crop&w=1200&q=80",
                             gallery: [],
                             description: "",
-                            highlights: ["An toàn tuyệt đối 100%", "Tiến độ thi công đúng hạn"],
+                            highlights: [],
                             featured: true,
                           });
                           setIsEditingProject(true);
@@ -1853,7 +1853,7 @@ export default function AdminPage() {
                               thumbnail: "https://images.unsplash.com/photo-1541888946425-d0fbb1861564?auto=format&fit=crop&w=1200&q=80",
                               gallery: [],
                               description: "",
-                              highlights: ["An toàn tuyệt đối 100%", "Tiến độ thi công đúng hạn"],
+                              highlights: [],
                               featured: true,
                               published: true,
                             });

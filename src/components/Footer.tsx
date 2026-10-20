@@ -21,9 +21,9 @@ export default function Footer({ settings }: FooterProps) {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#ed3237]/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-8 xl:gap-10 pb-12 border-b border-slate-700/70">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-6 xl:gap-8 pb-12 border-b border-slate-700/70">
           {/* Cột 1: Thông tin doanh nghiệp */}
-          <div className="space-y-4">
+          <div className="space-y-4 lg:col-span-3 xl:col-span-4">
             <Link href="/" className="inline-block group">
               <div className="relative h-12 w-48 sm:h-14 sm:w-56 transition-transform duration-300 group-hover:scale-105">
                 <Image
@@ -48,7 +48,7 @@ export default function Footer({ settings }: FooterProps) {
           </div>
 
           {/* Cột 2: Liên kết nhanh */}
-          <div className="space-y-4">
+          <div className="space-y-4 lg:col-span-2">
             <h4 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#ed3237]" />
               <span>Liên Kết Nhanh</span>
@@ -100,7 +100,7 @@ export default function Footer({ settings }: FooterProps) {
           </div>
 
           {/* Cột 3: Hạng mục công trình */}
-          <div className="space-y-4">
+          <div className="space-y-4 lg:col-span-2">
             <h4 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#ed3237]" />
               <span>Hạng Mục Công Trình</span>
@@ -154,8 +154,8 @@ export default function Footer({ settings }: FooterProps) {
             </ul>
           </div>
 
-          {/* Cột 4: Liên hệ trụ sở */}
-          <div className="space-y-4">
+          {/* Cột 4: Liên hệ trụ sở & Fanpage */}
+          <div className="space-y-4 lg:col-span-5 xl:col-span-4">
             <h4 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#ed3237]" />
               <span>Liên Hệ Trụ Sở</span>
@@ -194,6 +194,40 @@ export default function Footer({ settings }: FooterProps) {
                 >
                   {settings.email || "thanhphuhcns@gmail.com"}
                 </a>
+              </div>
+            </div>
+
+            {/* Frame Facebook Fanpage */}
+            <div className="pt-2 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5 fill-[#1877F2]" viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                  </svg>
+                  <span>Fanpage Facebook</span>
+                </span>
+                <a
+                  href="https://www.facebook.com/xaylapthanhphu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] text-[#ed3237] hover:underline font-semibold"
+                >
+                  Xem trang ↗
+                </a>
+              </div>
+              <div className="w-full max-w-[340px] overflow-hidden rounded-[3px] border border-slate-700 bg-white shadow-sm">
+                <iframe
+                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fxaylapthanhphu&tabs=&width=340&height=130&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId"
+                  width="340"
+                  height="130"
+                  style={{ border: "none", overflow: "hidden", height: "130px", minWidth: "180px" }}
+                  scrolling="no"
+                  frameBorder="0"
+                  allowFullScreen={true}
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  title="Facebook Fanpage - Công ty CP Đầu tư Xây lắp Thành Phú"
+                  className="w-full block"
+                />
               </div>
             </div>
           </div>
